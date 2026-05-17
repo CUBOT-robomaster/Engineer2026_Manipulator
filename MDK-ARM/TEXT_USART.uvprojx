@@ -443,26 +443,6 @@
               <FilePath>..\CubotMiddleware\interaction\interaction_image.h</FilePath>
             </File>
             <File>
-              <FileName>A1.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Joint\A1.c</FilePath>
-            </File>
-            <File>
-              <FileName>A1.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Joint\A1.h</FilePath>
-            </File>
-            <File>
-              <FileName>A1_stm32.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Joint\A1_stm32.c</FilePath>
-            </File>
-            <File>
-              <FileName>A1_stm32.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Joint\A1_stm32.h</FilePath>
-            </File>
-            <File>
               <FileName>AIM_PDO.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Joint\AIM_PDO.c</FilePath>

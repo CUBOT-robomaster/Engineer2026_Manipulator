@@ -164,73 +164,6 @@ void referee_draw_basic_1(uint8_t robot_id)
 	HAL_UART_Transmit_DMA(&huart3,Data_Pack,120);
 }
 
-
-//void referee_draw_basic(uint8_t robot_id,int cnt)
-//{
-//	/*UI界面字符标识*/
-//	//char *speed="SPEED";
-//	char *vision="VISION";
-//	char *inver="INVER";
-//	if(cnt % 180 == 0)
-//	referee_draw_basic_1(robot_id);
-//	if(cnt % 180 == 30)
-//		referee_draw_string(robot_id, vision, 11,ADD, GREEN, 2, 50, 740,20,3);
-//	if(cnt % 180 == 60)
-//		referee_draw_string(robot_id, inver, 12,ADD, GREEN, 2, 50, 700,20,3);
-//	if(cnt % 180 == 90)
-//		referee_draw_patterning_1_basic(robot_id);
-//	if(cnt % 180 == 120)
-//		referee_draw_patterning_2_basic(robot_id);
-//	
-//	
-//	
-//}
-
-//void referee_draw_patterning(uint8_t robot_id,int cnt)
-//{
-//	if(cnt % 60 == 0)
-//		referee_draw_patterning_1(robot_id);
-//	if(cnt % 60 == 30)
-//		referee_draw_patterning_2(robot_id);
-//}
-
-
-
-//void referee_draw_patterning_1(uint8_t robot_id)
-//	{
-//	int16_t lengh_cap;
-
-//	
-//	uint16_t crc16_temp;
-//	UI.ext_client_custom_graphic_patterning_third.frame_header.SOF = 0xA5;
-//	UI.ext_client_custom_graphic_patterning_third.frame_header.data_length =  111;
-//	UI.ext_client_custom_graphic_patterning_third.frame_header.seq = 3;
-//	UI.ext_client_custom_graphic_patterning_third.frame_header.CRC8 = Get_CRC8_Check((unsigned char*)&UI.ext_client_custom_graphic_patterning_third.frame_header,4,0xFF); 
-//	UI.ext_client_custom_graphic_patterning_third.cmd_id = 0x0301;
-//	UI.ext_client_custom_graphic_patterning_third.ext_student_interactive_header_data.data_cmd_id = 0x0104;
-//	UI.ext_client_custom_graphic_patterning_third.ext_student_interactive_header_data.sender_ID = robot_id;
-//	UI.ext_client_custom_graphic_patterning_third.ext_student_interactive_header_data.receiver_ID = referee_get_receiver_ID(robot_id);
-
-//	/*vision*/
-//	if(Vision_t.online == 0)
-//		draw_graph(&UI.ext_client_custom_graphic_patterning_third.grapic_data_struct[1],71,MODIFY,RECTANGLE,3,WHITE,0,0,2,250,720,0,265,735);
-//	else
-//		draw_graph(&UI.ext_client_custom_graphic_patterning_third.grapic_data_struct[1],71,MODIFY,RECTANGLE,3,GREEN,0,0,20,250,720,0,265,735);
-//	
-//	/*arm*/
-//	int16_t arm_x = (int16_t)(-arm_sin_f32(Manipulator.yaw_deg.angle_target*AtR)*170);
-//	int16_t arm_y = (int16_t)(arm_cos_f32(Manipulator.yaw_deg.angle_target*AtR)*170);
-//	draw_graph(&UI.ext_client_custom_graphic_patterning_third.grapic_data_struct[2],73,MODIFY,LINE,3,ORANGE,0,0,3,920,180,0,920+arm_x,180+arm_y);
-
-//	crc16_temp = Get_CRC16_Check((unsigned char*)&UI.ext_client_custom_graphic_patterning_third, 118, 0xFFFF);
-//	UI.ext_client_custom_graphic_patterning_third.CRC16[0] = crc16_temp & 0xFF;
-//	UI.ext_client_custom_graphic_patterning_third.CRC16[1] = crc16_temp >> 8;
-//	
-//	memcpy(Data_Pack,(unsigned char*)&UI.ext_client_custom_graphic_patterning_third,sizeof(UI.ext_client_custom_graphic_patterning_third));
-//	
-//	HAL_UART_Transmit_DMA(&huart3,Data_Pack,120);
-//}
-
 void referee_draw_patterning_1_basic(uint8_t robot_id)
 {
 	uint16_t crc16_temp;
@@ -258,38 +191,6 @@ void referee_draw_patterning_1_basic(uint8_t robot_id)
 	
 	HAL_UART_Transmit_DMA(&huart3,Data_Pack,120);
 }
-
-//void referee_draw_patterning_2(uint8_t robot_id)
-//	{
-//	
-//	
-//	uint16_t crc16_temp;
-//	UI.ext_client_custom_graphic_patterning_forth.frame_header.SOF = 0xA5;
-//	UI.ext_client_custom_graphic_patterning_forth.frame_header.data_length =  111;
-//	UI.ext_client_custom_graphic_patterning_forth.frame_header.seq = 3;
-//	UI.ext_client_custom_graphic_patterning_forth.frame_header.CRC8 = Get_CRC8_Check((unsigned char*)&UI.ext_client_custom_graphic_patterning_forth.frame_header,4,0xFF); 
-//	UI.ext_client_custom_graphic_patterning_forth.cmd_id = 0x0301;
-//	UI.ext_client_custom_graphic_patterning_forth.ext_student_interactive_header_data.data_cmd_id = 0x0104;
-//	UI.ext_client_custom_graphic_patterning_forth.ext_student_interactive_header_data.sender_ID = robot_id;
-//	UI.ext_client_custom_graphic_patterning_forth.ext_student_interactive_header_data.receiver_ID = referee_get_receiver_ID(robot_id);
-//	
-//	/*此处可以填写七个图形*/	
-//	draw_graph(&UI.ext_client_custom_graphic_patterning_forth.grapic_data_struct[0],80,MODIFY,FLOAT,2,GREEN,15,0,2,1380,820,(int)(Joint_deg.deg_yaw*1000)&0x3FF,((int)(Joint_deg.deg_yaw*1000)>>10)&0x7FF,((int)(Joint_deg.deg_yaw*1000)>>21)&0x7FF);
-//	draw_graph(&UI.ext_client_custom_graphic_patterning_forth.grapic_data_struct[1],81,MODIFY,FLOAT,2,GREEN,15,0,2,1380,800,(int)(Joint_deg.deg_pitch1*1000)&0x3FF,((int)(Joint_deg.deg_pitch1*1000)>>10)&0x7FF,((int)(Joint_deg.deg_pitch1*1000)>>21)&0x7FF);
-//	draw_graph(&UI.ext_client_custom_graphic_patterning_forth.grapic_data_struct[2],82,MODIFY,FLOAT,2,GREEN,15,0,2,1380,780,(int)(Joint_deg.deg_pitch2*1000)&0x3FF,((int)(Joint_deg.deg_pitch2*1000)>>10)&0x7FF,((int)(Joint_deg.deg_pitch2*1000)>>21)&0x7FF);
-//	draw_graph(&UI.ext_client_custom_graphic_patterning_forth.grapic_data_struct[3],83,MODIFY,FLOAT,2,GREEN,15,0,2,1380,760,(int)(Joint_deg.deg_roll1*1000)&0x3FF,((int)(Joint_deg.deg_roll1*1000)>>10)&0x7FF,((int)(Joint_deg.deg_roll1*1000)>>21)&0x7FF);
-//	draw_graph(&UI.ext_client_custom_graphic_patterning_forth.grapic_data_struct[4],84,MODIFY,FLOAT,2,GREEN,15,0,2,1380,740,(int)(Joint_deg.deg_pitch3*1000)&0x3FF,((int)(Joint_deg.deg_pitch3*1000)>>10)&0x7FF,((int)(Joint_deg.deg_pitch3*1000)>>21)&0x7FF);
-//	draw_graph(&UI.ext_client_custom_graphic_patterning_forth.grapic_data_struct[5],85,MODIFY,FLOAT,2,GREEN,15,0,2,1380,720,(int)(Joint_deg.deg_roll2*1000)&0x3FF,((int)(Joint_deg.deg_roll2*1000)>>10)&0x7FF,((int)(Joint_deg.deg_roll2*1000)>>21)&0x7FF);
-//	draw_graph(&UI.ext_client_custom_graphic_patterning_forth.grapic_data_struct[6],86,MODIFY,INT,3,GREEN,20,0,2,250,690,(int)inver_start,0,0);
-
-//	crc16_temp = Get_CRC16_Check((unsigned char*)&UI.ext_client_custom_graphic_patterning_forth, 118, 0xFFFF);
-//	UI.ext_client_custom_graphic_patterning_forth.CRC16[0] = crc16_temp & 0xFF;
-//	UI.ext_client_custom_graphic_patterning_forth.CRC16[1] = crc16_temp >> 8;
-//	
-//	memcpy(Data_Pack,(unsigned char*)&UI.ext_client_custom_graphic_patterning_forth,sizeof(UI.ext_client_custom_graphic_patterning_forth));
-//	
-//	HAL_UART_Transmit_DMA(&huart3,Data_Pack,120);
-//}
 
 void referee_draw_patterning_2_basic(uint8_t robot_id)
 {

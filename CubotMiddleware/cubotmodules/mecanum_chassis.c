@@ -37,7 +37,7 @@ void Mecanum_data_Send(UART_HandleTypeDef* huart_x, unsigned char* pBuffer){
 	mecanum_Send.V_flag = rc_Ctrl.rc.s2;
 	mecanum_Send.rc_isOnline = rc_Ctrl.isOnline;
 	
-	mecanum_Send.control_flags[0] = (vT13.key_R_flag << 3) | (vT13.key_Z_flag << 2) | (vT13.key_X_flag << 1) | (vT13.key_C_flag);
+	mecanum_Send.control_flags[0] = (vT13.key_ctrl_flag << 5) | (vT13.key_shift_flag << 4) | (vT13.key_R_flag << 3) | (vT13.key_Z_flag << 2) | (vT13.key_X_flag << 1) | (vT13.key_C_flag);
 	mecanum_Send.control_flags[1] = ((Manipulator_Left.controller_mapping_flag % 2) << 1) | (Manipulator_Right.controller_mapping_flag % 2);
 	mecanum_Send.control_flags[2] = 0;
 	mecanum_Send.land_flag = Auto_flags.pre_lift_flag;

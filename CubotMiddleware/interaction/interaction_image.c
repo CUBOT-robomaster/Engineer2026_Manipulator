@@ -20,13 +20,7 @@ UART_RxBuffer uart2_buffer={
 	.Size = USART2_RXBUF_SIZE
 };
 uint8_t ref_image_packge[10][40];  //最多一次收50个包
-/**
-  * @brief  图传接收数据,测试,在定时中断才处理数据
-	*/
-void imagetrans_recv_datas_copy(uint8_t *pdata,uint8_t * pBuffer)//只复制
-{
-	memcpy(pBuffer,pdata,USART2_RXBUF_SIZE);
-}
+
 void controller_recv_datas_modify(uint8_t *pdata,custom_robot_data_t* custom)
 {  
 	/*自定义控制器（工程）*/
@@ -91,7 +85,7 @@ uint8_t image_command(uint8_t *data, uint16_t len)
 {
    
     static uint32_t Verify_CRC8_OK;
-    static uint32_t Verify_CRC16_OK;
+     static uint32_t Verify_CRC16_OK;
     uint16_t i = 0;
     uint16_t pack_size = 0;
 

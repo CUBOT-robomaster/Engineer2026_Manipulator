@@ -8,7 +8,7 @@ finger_gesture_flags Finger_flags;
 void Auto_Control(Manipulator_t* manipulator_right, Manipulator_t* manipulator_left, auto_control_flags* auto_flags, Hiwonder_Servo* hiwo_data, custom_robot_data_t* custom){
 	land_reset_control(manipulator_right, manipulator_left, auto_flags);
 	servo_back_control(manipulator_right, manipulator_left, hiwo_data, auto_flags);
-	point_of_view_control(hiwo_data, auto_flags);
+	// point_of_view_control(hiwo_data, auto_flags);
 	scope_mode_control(hiwo_data, auto_flags);
 	clamp_jaw_control(manipulator_right, manipulator_left, auto_flags, custom);
 	Controller_mode_start(manipulator_right, manipulator_left, auto_flags, custom);

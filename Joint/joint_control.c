@@ -231,11 +231,11 @@ Manipulator_t Manipulator_Left = {
 	.joint6_deg.step_out_point = -0.16,
 
 	.clamp_jaw.STS_3215[0].servo_id = 0,			//position减小张开
-	.clamp_jaw.STS_3215[0].position = SERVO_LEFT_ZERO_OPEN_ID_ZERO,	//1425开，1625关
+	.clamp_jaw.STS_3215[0].position = SERVO_LEFT_ZERO_OPEN_ID_ZERO,
 	.clamp_jaw.STS_3215[0].velocity = 2000,
 
 	.clamp_jaw.STS_3215[1].servo_id = 2,			//position增大张开
-	.clamp_jaw.STS_3215[1].position = SERVO_LEFT_ONE_OPEN_ID_TWO,	//1500开，1300关
+	.clamp_jaw.STS_3215[1].position = SERVO_LEFT_ONE_OPEN_ID_TWO,
 	.clamp_jaw.STS_3215[1].velocity = 2000,
 };
 

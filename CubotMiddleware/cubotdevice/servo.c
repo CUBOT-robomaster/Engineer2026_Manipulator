@@ -43,14 +43,14 @@ void Feetech_STS_control(Feetch_Data* FT_data){
 	buf[buf_count++] = 0x03;																	//指令类型
 	buf[buf_count++] = 0x2A;																	//写入首地址
 	
-	buf[buf_count++] = (uint8_t)(FT_data -> position);				//位置低字节
-	buf[buf_count++] = (uint8_t)(FT_data -> position >> 8);			//位置高字节
+	buf[buf_count++] = (uint8_t)(FT_data -> position);											//位置低字节
+	buf[buf_count++] = (uint8_t)(FT_data -> position >> 8);										//位置高字节
 	
 	buf[buf_count++] = 0x00;																	//时间低字节
 	buf[buf_count++] = 0x00;																	//时间高字节（当前控制模式下无实际意义，给0即可）
 	
-	buf[buf_count++] = (uint8_t)(FT_data -> velocity);				//速度低字节
-	buf[buf_count++] = (uint8_t)(FT_data -> velocity >> 8);			//速度高字节
+	buf[buf_count++] = (uint8_t)(FT_data -> velocity);											//速度低字节
+	buf[buf_count++] = (uint8_t)(FT_data -> velocity >> 8);										//速度高字节
 	
 	for(int i = 2; i < 12; i++){
 		check += buf[i];
@@ -58,10 +58,10 @@ void Feetech_STS_control(Feetch_Data* FT_data){
 	if(check > 0xFF){
 		check &= 0xFF;
 	}
-	check = ~(check);																					//校验和计算
+	check = ~(check);																			//校验和计算
 	
-	buf[buf_count++] = (uint8_t)check;												//校验和
-	HAL_UART_Transmit_DMA(&huart5, buf, 13);									//发送指令
+	buf[buf_count++] = (uint8_t)check;															//校验和
+	HAL_UART_Transmit_DMA(&huart5, buf, 13);													//发送指令
 }
 
 void clamp_jaw_data_send(Feetech_servo* FT_servo_right, Feetech_servo* FT_servo_left){
@@ -124,7 +124,7 @@ void hiwonder_servo_control(int32_t clock, Hiwonder_Servo* hiwonder_servo_data){
 	}
 	if(clock % 120 == 40){
 		/* pitch轴舵机 */
-		servo_move(hiwonder_servo_data -> pitch_servo.servo_id, hiwonder_servo_data -> pitch_servo.move_time, hiwonder_servo_data -> pitch_servo.position);		//475平视，275最低
+		servo_move(hiwonder_servo_data -> pitch_servo.servo_id, hiwonder_servo_data -> pitch_servo.move_time, hiwonder_servo_data -> pitch_servo.position);				//475平视，275最低
 	}
 	if(clock % 120 == 80){
 		/* roll轴舵机 */

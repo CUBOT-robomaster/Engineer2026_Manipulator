@@ -5,7 +5,6 @@
 #include <motor.h>
 #include "driver_usart.h"
 #include "usart.h"
-#include <swerve_chassis.h>
 #include "mecanum_chassis.h"
 #include <control_logic.h>
 #include <attitude.h>

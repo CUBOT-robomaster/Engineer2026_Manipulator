@@ -13,7 +13,6 @@
 #include "dr16.h"
 #include "air.h"
 #include "stdlib.h"
-#include "interboard.h"
 #include "auto.h"
 #include "vt13.h"
 

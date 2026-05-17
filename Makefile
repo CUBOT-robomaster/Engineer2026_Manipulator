@@ -85,7 +85,7 @@ SRCS_C := \
   CubotMiddleware/dr16/dr16.c \
   CubotMiddleware/cubotdevice/motor/motor.c \
   CubotMiddleware/cubotdevice/check/check.c \
-  CubotMiddleware/cubotdevice/servo.c CubotMiddleware/cubotdevice/brain.c \
+  CubotMiddleware/cubotdevice/servo.c \
   CubotMiddleware/cubotdevice/mit.c CubotMiddleware/cubotdevice/vt13.c \
   CubotMiddleware/cubotdevice/filter.c \
   CubotMiddleware/interaction/interaction.c \
@@ -100,7 +100,7 @@ SRCS_C := \
   CubotMiddleware/cubotmodules/lifting.c CubotMiddleware/cubotmodules/ore.c \
   CubotMiddleware/Algorithms/pid.c CubotMiddleware/Algorithms/kalman.c \
   CubotMiddleware/Algorithms/Custom_controller.c \
-  Joint/A1.c Joint/A1_stm32.c Joint/AIM_PDO.c Joint/AIM_SDO.c \
+  Joint/AIM_PDO.c Joint/AIM_SDO.c \
   Joint/joint_control.c Joint/velocity_pl.c Joint/controllerl.c \
   User/control_logic.c User/hardware_config.c \
   Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_cortex.c \

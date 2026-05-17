@@ -4,7 +4,6 @@
 #include "stdio.h"
 #include "modbus.h"
 #include "protract.h"
-#include "ore.h"
 #include "interaction.h"
 #include "interaction_image.h"
 #include "AIM_PDO.h"

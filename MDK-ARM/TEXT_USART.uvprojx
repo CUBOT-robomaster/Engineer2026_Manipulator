@@ -523,16 +523,6 @@
               <FilePath>..\CubotMiddleware\referee\referee.h</FilePath>
             </File>
             <File>
-              <FileName>interboard.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\CubotMiddleware\interaction\interboard.c</FilePath>
-            </File>
-            <File>
-              <FileName>interboard.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\CubotMiddleware\interaction\interboard.h</FilePath>
-            </File>
-            <File>
               <FileName>auto.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\CubotMiddleware\interaction\auto.c</FilePath>
@@ -2138,16 +2128,6 @@
               <FileName>attitude.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\CubotMiddleware\cubotmodules\attitude.c</FilePath>
-            </File>
-            <File>
-              <FileName>lifting.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\CubotMiddleware\cubotmodules\lifting.c</FilePath>
-            </File>
-            <File>
-              <FileName>ore.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\CubotMiddleware\cubotmodules\ore.c</FilePath>
             </File>
             <File>
               <FileName>Custom_controller.c</FileName>

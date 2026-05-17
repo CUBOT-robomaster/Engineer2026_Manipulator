@@ -7,7 +7,6 @@
 #include "hardware_config.h"
 #include "math.h"
 #include "mit.h"
-#include <ore.h>
 #include "control_logic.h"
 #define abs(x) ((x)>0? (x):(-(x)))
 

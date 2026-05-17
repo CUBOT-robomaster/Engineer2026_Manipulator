@@ -2,7 +2,6 @@
 #include "string.h"
 #include "usart.h"
 #include "referee.h"
-#include "interboard.h"
 #include "dr16.h"
 #include "vt13.h"
 //#include "vision_community.h"

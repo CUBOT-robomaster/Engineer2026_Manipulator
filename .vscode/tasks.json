@@ -1,0 +1,25 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "STM32 Flash Download",
+            "type": "shell",
+            "command": "D:/STM32CubeCLT_1.21.0/GNU-tools-for-STM32/bin/openocd.exe",
+            "args": [
+                "-s", "D:/STM32CubeCLT_1.21.0/GNU-tools-for-STM32/bin/openocd/scripts",
+                "-f", "interface/cmsis-dap.cfg",
+                "-f", "target/stm32h7x.cfg",
+                "-c", "init",
+                "-c", "halt",
+                "-c", "program ./build/TEXT_USART.elf verify",
+                "-c", "reset run",
+                "-c", "exit"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": []
+        }
+    ]
+}

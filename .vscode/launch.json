@@ -1,0 +1,38 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "STM32 H750 Debug (DAP-Link)",
+            "cwd": "${workspaceFolder}",
+            "executable": "./build/TEXT_USART.elf",
+            "request": "launch",
+            "type": "cortex-debug",
+            "runToEntryPoint": "main",
+            // 核心修改部分开始
+            "servertype": "openocd", 
+            "device": "STM32H750VBTx",
+            "interface": "swd",
+            // 针对 DAP-Link 的 OpenOCD 配置
+            "configFiles": [
+                "D:/STM32CubeCLT_1.21.0/GNU-tools-for-STM32/bin/openocd/scripts/interface/cmsis-dap.cfg",
+                "D:/STM32CubeCLT_1.21.0/GNU-tools-for-STM32/bin/openocd/scripts/target/stm32h7x.cfg"
+            ],
+            // 核心修改部分结束
+            "toolchainPrefix": "arm-none-eabi",
+            "gdbPath": "D:/STM32CubeCLT_1.21.0/GNU-tools-for-STM32/bin/arm-none-eabi-gdb.exe",
+            "serverpath": "D:/STM32CubeCLT_1.21.0/GNU-tools-for-STM32/bin/openocd.exe",
+            "searchDir": [
+                "D:/STM32CubeCLT_1.21.0/GNU-tools-for-STM32/bin/openocd/scripts"
+            ],
+            "svdFile": "./STM32H750.svd" ,
+            "liveWatch": {
+                "enabled": true,
+                "samplingInterval": 250,
+                "expressions": [
+                    "Manipulator_Right", 
+                    "Manipulator_Left"
+                ] 
+            }
+        }
+    ]
+}

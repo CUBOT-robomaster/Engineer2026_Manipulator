@@ -1,7 +1,0 @@
---c99 -c --cpu Cortex-M7.fp.dp -g -O1 -Otime --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32H7xx_HAL_Driver/Inc -I ../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32H7xx/Include -I ../Drivers/CMSIS/Include -I ../CubotMiddleware/dr16 -I ../User -I ../CubotMiddleware/drivers -I ../CubotMiddleware/cubotdevice/motor -I ../CubotMiddleware/Algorithms -I ../CubotMiddleware/Support -I ../CubotMiddleware/cubotdevice/check -I ../CubotMiddleware/cubotdevice -I ../CubotMiddleware/cubotmodules -I ../CubotMiddleware/interaction -I ../CubotMiddleware/referee -I ../Joint
--I.\RTE\_TEXT_USART
--ID:\Users\Administrator\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include
--ID:\Users\Administrator\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\DSP\Include
--ID:\Users\Administrator\AppData\Local\Arm\Packs\Keil\STM32H7xx_DFP\2.3.1\Drivers\CMSIS\Device\ST\STM32H7xx\Include
--D__UVISION_VERSION="529" -D_RTE_ -DSTM32H750xx -DUSE_HAL_DRIVER -DSTM32H750xx -DARM_MATH_CM7 -D__CC_ARM -DARM_MATH_MATRIX_CHECK -DARM_MATH_ROUNDING -D__TARGET_FPU_VFP
--o text_usart\stm32h7xx_hal_gpio.o --omf_browse text_usart\stm32h7xx_hal_gpio.crf --depend text_usart\stm32h7xx_hal_gpio.d "../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_gpio.c"

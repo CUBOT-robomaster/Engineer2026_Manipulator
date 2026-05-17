@@ -26,7 +26,6 @@
 #include "driver_usart.h"
 #include <dr16.h>
 #include "hardware_config.h"
-#include <brain.h>
 #include "interaction_image.h"
 /* USER CODE END Includes */
 

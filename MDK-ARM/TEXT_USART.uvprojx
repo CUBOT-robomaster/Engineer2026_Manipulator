@@ -413,11 +413,6 @@
               <FilePath>..\CubotMiddleware\cubotdevice\servo.c</FilePath>
             </File>
             <File>
-              <FileName>brain.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\CubotMiddleware\cubotdevice\brain.c</FilePath>
-            </File>
-            <File>
               <FileName>interaction.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\CubotMiddleware\interaction\interaction.c</FilePath>

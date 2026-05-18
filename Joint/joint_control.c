@@ -536,7 +536,7 @@ void joint_Ctrl(Manipulator_t* manipulator_right, Manipulator_t* manipulator_lef
 		
 		/* 右臂自定义控制器映射 */
 		if(manipulator_right -> controller_mapping_flag % 2 == 1){
-			manipulator_right -> joint0_deg.angle = manipulator_right -> joint0_deg.zero_point * RtA + (-1.5) * (manipulator_right -> joint0_deg.cc_recv - manipulator_right -> joint0_deg.cc_init);
+			manipulator_right -> joint0_deg.angle = manipulator_right -> joint0_deg.zero_point * RtA + (-3.0) * (manipulator_right -> joint0_deg.cc_recv - manipulator_right -> joint0_deg.cc_init);
 			manipulator_right -> joint1_deg.rad = (manipulator_right -> joint1_deg.zero_point + (2.1) * (manipulator_right -> joint1_deg.cc_recv - manipulator_right -> joint1_deg.cc_init) * AtR);
 			manipulator_right -> joint2_deg.rad = (manipulator_right -> joint2_deg.zero_point + (-1.75) * (manipulator_right -> joint2_deg.cc_recv - manipulator_right -> joint2_deg.cc_init) * AtR);
 			manipulator_right -> joint3_deg.rad = (manipulator_right -> joint3_deg.zero_point + (-1.4) * (manipulator_right -> joint3_deg.cc_recv - manipulator_right -> joint3_deg.cc_init) * AtR);
@@ -559,7 +559,7 @@ void joint_Ctrl(Manipulator_t* manipulator_right, Manipulator_t* manipulator_lef
 		
 		/* 左臂自定义控制器映射 */
 		if(manipulator_left -> controller_mapping_flag % 2 == 1){
-			manipulator_left -> joint0_deg.angle = manipulator_left -> joint0_deg.zero_point * RtA + (-2.0) * (manipulator_left -> joint0_deg.cc_recv - manipulator_left -> joint0_deg.cc_init);
+			manipulator_left -> joint0_deg.angle = manipulator_left -> joint0_deg.zero_point * RtA + (-3.0) * (manipulator_left -> joint0_deg.cc_recv - manipulator_left -> joint0_deg.cc_init);
 			manipulator_left -> joint1_deg.rad = (manipulator_left -> joint1_deg.zero_point + (2.1) * (manipulator_left -> joint1_deg.cc_recv - manipulator_left -> joint1_deg.cc_init) * AtR);
 			manipulator_left -> joint2_deg.rad = (manipulator_left -> joint2_deg.zero_point + (-1.75) * (manipulator_left -> joint2_deg.cc_recv - manipulator_left -> joint2_deg.cc_init) * AtR);
 			manipulator_left -> joint3_deg.rad = (manipulator_left -> joint3_deg.zero_point + (1.4) * (manipulator_left -> joint3_deg.cc_recv - manipulator_left -> joint3_deg.cc_init) * AtR);

@@ -158,11 +158,11 @@ Manipulator_t Manipulator_Left = {
 	.joint0_deg.min_velocity = 0.06 * JOINT_VELOCITY_SENSITIVITY,
 	.joint0_deg.Accel = 0.0032 * JOINT_VELOCITY_SENSITIVITY,
 	.joint0_deg.sensitivity = 1.0,
-	.joint0_deg.zero_point = 4.12,			//弧度制，对应角度制为213
+	.joint0_deg.zero_point = 3.70,			//弧度制，对应角度制为213
 	.joint0_deg.limit_min = 96,				//角度制
 	.joint0_deg.limit_max = 296,
-	.joint0_deg.land_point = 4.9,			//弧度制，对应角度制为258
-	.joint0_deg.step_out_point = 4.58,		//弧度制
+	.joint0_deg.land_point = 4.48,			//弧度制，对应角度制为258
+	.joint0_deg.step_out_point = 4.16,		//弧度制
 
 	.joint1_deg.velocity = 0,
 	.joint1_deg.max_velocity = 0.32 * JOINT_VELOCITY_SENSITIVITY,

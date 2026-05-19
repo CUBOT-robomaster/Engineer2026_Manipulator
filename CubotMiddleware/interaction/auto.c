@@ -13,7 +13,7 @@ void Auto_Control(Manipulator_t* manipulator_right, Manipulator_t* manipulator_l
 	clamp_jaw_control(manipulator_right, manipulator_left, auto_flags, custom);
 	lifting_control(auto_flags);
 	Controller_mode_start(manipulator_right, manipulator_left, auto_flags, custom);
-	finger_data_test(manipulator_right, manipulator_left, custom, &Finger_flags);
+	// finger_data_test(manipulator_right, manipulator_left, custom, &Finger_flags);
 	motor_start_control(manipulator_right, manipulator_left, auto_flags);
 }
 

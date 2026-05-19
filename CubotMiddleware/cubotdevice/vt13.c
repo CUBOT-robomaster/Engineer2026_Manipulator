@@ -354,8 +354,39 @@ void PC_keybroad_filter_vt13(VT13* RC_Ctl)
 	
 void KeyBoard_DataUnpack_vt13(VT13 *rc_ctrl)
 {
-	if(rc_ctrl->rc.mode_sw!=0)
-	{
+	if(rc_ctrl->rc.mode_sw!=0){
+		if(rc_ctrl->rc.ch0-1024>300){//将遥控器杆位映射到WASD上
+			rc_ctrl->key_D=1;
+		}
+		else if((rc_ctrl->rc.ch0-1024<=300)&&(rc_ctrl->rc.ch0-1024>0)){
+			rc_ctrl->key_D=0;
+		}
+		
+
+		if(rc_ctrl->rc.ch0-1024<-300){
+			rc_ctrl->key_A=1;
+		}
+		else if((rc_ctrl->rc.ch0-1024>=-300)&&(rc_ctrl->rc.ch0-1024<0)){
+			rc_ctrl->key_A=0;
+		}
+		
+
+		if(rc_ctrl->rc.ch1-1024>300){
+			rc_ctrl->key_W=1;
+		}
+		else if((rc_ctrl->rc.ch1-1024<=300)&&(rc_ctrl->rc.ch1-1024>0)){
+			rc_ctrl->key_W=0;
+		}
+		
+
+		if(rc_ctrl->rc.ch1-1024<-300){
+			rc_ctrl->key_S=1;
+		}
+		else if((rc_ctrl->rc.ch0-1024>=-300)&&(rc_ctrl->rc.ch0-1024<0)){
+			rc_ctrl->key_S=0;
+		}
+		
+
 	 if((rc_ctrl->key_W - rc_ctrl->key_S)==0)
 	 {
 	    if(rc_ctrl->Chassis_Y_Integ>=0)

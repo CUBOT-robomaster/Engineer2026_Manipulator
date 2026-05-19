@@ -68,7 +68,7 @@ void VT13Init( VT13 * RC_Ctl)
 		RC_Ctl->rc.sw=1024;
 		RC_Ctl->mouse.x=0;
 		RC_Ctl->mouse.y=0;
-		RC_Ctl->mouse.z=0;		
+		RC_Ctl->mouse.z=0;
 		RC_Ctl->key_Q_flag=0;
 		RC_Ctl->key_E_flag=0;   
 		RC_Ctl->key_R_flag=0;

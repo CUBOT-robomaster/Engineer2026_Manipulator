@@ -55,6 +55,7 @@ void vt13_recv_datas_modify(uint8_t *pdata,VT13* vt13 )
 		
 			PC_keybroad_filter_vt13(&vT13);
 			KeyBoard_DataUnpack_vt13(&vT13);
+			check_robot_state.usart_state.Check_receiver = 0;
 	}
 }
 
@@ -267,7 +268,7 @@ void PC_keybroad_filter_vt13(VT13* RC_Ctl)
 	if(RC_Ctl->key_Z==1) 
 	{
 		key_Z_cnt++;
-		if(key_Z_cnt==Key_Filter_Num_vT13)	
+		if(key_Z_cnt==Key_Filter_Num_vT13)
 		{
 			RC_Ctl->key_Z_flag=1;
 		}			

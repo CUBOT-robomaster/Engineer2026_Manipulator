@@ -67,6 +67,7 @@ void servo_back_control(Manipulator_t *manipulator_right, Manipulator_t *manipul
 void point_of_view_control(Hiwonder_Servo* hiwo_data, auto_control_flags* auto_flags);
 void scope_mode_control(Hiwonder_Servo* hiwo_data, auto_control_flags* auto_flags);
 void clamp_jaw_control(Manipulator_t* manipulator_right, Manipulator_t* manipulator_left, auto_control_flags* auto_flags, custom_robot_data_t* custom);
+void lifting_control(auto_control_flags* auto_flags);
 void Controller_mode_start(Manipulator_t* manipulator_right, Manipulator_t* manipulator_left, auto_control_flags* auto_flags, custom_robot_data_t* custom);
 void Controller_mode_exit(Manipulator_t* manipulator_right, Manipulator_t* manipulator_left, auto_control_flags* auto_flags);
 void motor_start_control(Manipulator_t* manipulator_right, Manipulator_t* manipulator_left, auto_control_flags* auto_flags);

@@ -250,7 +250,7 @@ void lifting_control(auto_control_flags* auto_flags){
 	if((rc_Ctrl.key_ctrl_flag == 0 && vT13.key_ctrl_flag == 0) && (rc_Ctrl.key_shift_flag == 1 || vT13.key_shift_flag == 1) && (rc_Ctrl.key_Q_flag == 1 || vT13.key_Q_flag == 1)){
 		auto_flags -> pre_lift_flag = 1;
 	}
-	else if((rc_Ctrl.key_ctrl_flag == 0 && vT13.key_ctrl_flag == 0) && (rc_Ctrl.key_shift_flag == 1 && vT13.key_shift_flag == 1) && (rc_Ctrl.key_E_flag == 1 || vT13.key_E_flag == 1)){
+	else if((rc_Ctrl.key_ctrl_flag == 0 && vT13.key_ctrl_flag == 0) && (rc_Ctrl.key_shift_flag == 1 || vT13.key_shift_flag == 1) && (rc_Ctrl.key_E_flag == 1 || vT13.key_E_flag == 1)){
 		auto_flags -> pre_lift_flag = -1;
 	}
 	else{

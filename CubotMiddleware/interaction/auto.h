@@ -45,6 +45,8 @@ typedef struct{
 
 	uint8_t 	motor_start_mode_flag;			//电机使能标志位
 	uint16_t 	motor_start_mode_count;			//电机使能模式计时
+
+	uint8_t		lifting_auto_flag;				//抬升自动标志位，此时无法手动控制抬升
 }auto_control_flags;
 
 /* 测试用变量 */

@@ -41,6 +41,7 @@ void land_reset_control(Manipulator_t* manipulator_right, Manipulator_t* manipul
 	else if(auto_flags -> land_flag == 1){
 		if(auto_flags -> land_count < 1500){//Ì§ÉýÉÏÉý
 			auto_flags -> pre_lift_flag = 1;
+			auto_flags -> lifting_auto_flag = 1;
 		}
 		else if(auto_flags -> land_count > 1500 && auto_flags -> land_count < 3000 && auto_flags -> lift_complish_flag == 1){//Ì§ÉýÒÑÉýÆðÊ±£¬»úÐµ±Û¸´Î»
 			/* ÓÒ±Û¸´Î» */
@@ -57,6 +58,7 @@ void land_reset_control(Manipulator_t* manipulator_right, Manipulator_t* manipul
 		if(auto_flags -> land_count == 6000){
 			auto_flags -> land_flag = 0;
 			auto_flags -> pre_lift_flag = 0;
+			auto_flags -> lifting_auto_flag = 0;
 		}
 	}
 }
@@ -247,15 +249,15 @@ void clamp_jaw_control(Manipulator_t* manipulator_right, Manipulator_t* manipula
 }
 
 void lifting_control(auto_control_flags* auto_flags){
-	if((rc_Ctrl.key_ctrl_flag == 0 && vT13.key_ctrl_flag == 0) && (rc_Ctrl.key_shift_flag == 1 || vT13.key_shift_flag == 1) && (rc_Ctrl.key_Q_flag == 1 || vT13.key_Q_flag == 1)){
-		auto_flags -> pre_lift_flag = 1;
-	}
-	else if((rc_Ctrl.key_ctrl_flag == 0 && vT13.key_ctrl_flag == 0) && (rc_Ctrl.key_shift_flag == 1 || vT13.key_shift_flag == 1) && (rc_Ctrl.key_E_flag == 1 || vT13.key_E_flag == 1)){
-		auto_flags -> pre_lift_flag = 2;
-	}
-	else{
-		auto_flags -> pre_lift_flag = 0;
-	}
+		if((rc_Ctrl.key_ctrl_flag == 0 && vT13.key_ctrl_flag == 0) && (rc_Ctrl.key_shift_flag == 1 || vT13.key_shift_flag == 1) && (rc_Ctrl.key_Q_flag == 1 || vT13.key_Q_flag == 1)){
+			auto_flags -> pre_lift_flag = 1;
+		}
+		else if((rc_Ctrl.key_ctrl_flag == 0 && vT13.key_ctrl_flag == 0) && (rc_Ctrl.key_shift_flag == 1 || vT13.key_shift_flag == 1) && (rc_Ctrl.key_E_flag == 1 || vT13.key_E_flag == 1)){
+			auto_flags -> pre_lift_flag = 2;
+		}
+		else if(auto_flags -> lifting_auto_flag == 0){
+			auto_flags -> pre_lift_flag = 0;
+		}
 }
 
 void Controller_mode_start(Manipulator_t* manipulator_right, Manipulator_t* manipulator_left, auto_control_flags* auto_flags, custom_robot_data_t* custom){
@@ -271,6 +273,7 @@ void Controller_mode_start(Manipulator_t* manipulator_right, Manipulator_t* mani
 		/* Ì§Éý»ú¹¹Ì§Éý */
 		if(auto_flags -> pre_mapping_count <= 3000){
 			auto_flags -> pre_lift_flag = 1;
+			auto_flags -> lifting_auto_flag = 1;
 		}
 		/*  */
 		if(auto_flags -> pre_mapping_count > 3000 && auto_flags -> pre_mapping_count <= 6000){
@@ -279,6 +282,8 @@ void Controller_mode_start(Manipulator_t* manipulator_right, Manipulator_t* mani
 			
 			/* ×ó±Û¸´Î»ÖÁÁãµã */
 			zero_point_reset(manipulator_left);
+			auto_flags -> pre_lift_flag = 0;
+			auto_flags -> lifting_auto_flag = 0;
 		}
 
 		if(auto_flags -> pre_mapping_count >= 10000 && auto_flags -> mapping_exit_flag == 0){
@@ -387,7 +392,7 @@ void step_out_point_reset(Manipulator_t *manipulator){
 
 void motor_start_control(Manipulator_t* manipulator_right, Manipulator_t* manipulator_left, auto_control_flags* auto_flags){
 	if(auto_flags -> motor_start_mode_flag == 0){
-		if(rc_Ctrl.rc.sw <= 524){
+		if(rc_Ctrl.rc.sw <= 524 || vT13.rc.sw <= 524){
 			auto_flags -> motor_start_mode_flag = 1;
 			auto_flags -> motor_start_mode_count = 0;
 		}

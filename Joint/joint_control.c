@@ -604,33 +604,47 @@ void joint_Ctrl(Manipulator_t* manipulator_right, Manipulator_t* manipulator_lef
 //最终输出
 	if(tim14.ClockTime > 4000){
 		if(rc_Ctrl.isOnline == 1){
-			if(tim14.ClockTime % 7 == 0){
+			if(tim14.ClockTime % 14 == 0){
 				ctrl_motor1(&can1,&manipulator_right->Dm_4340_joint1,manipulator_right->joint1_deg.rad,0,175,2.0,1.0);
+			}
+			if(tim14.ClockTime % 14 == 1){
 				ctrl_motor1(&can2,&manipulator_left->Dm_4340_joint1,manipulator_left->joint1_deg.rad,0,175,2.0,1.0);
 			}
-			if(tim14.ClockTime % 7 == 1){
+			if(tim14.ClockTime % 14 == 2){
 				ctrl_motor1(&can1,&manipulator_right->Dm_4340_joint2,manipulator_right->joint2_deg.rad,0,85,0.6,0);
+			}
+			if(tim14.ClockTime % 14 == 3){
 				ctrl_motor1(&can2,&manipulator_left->Dm_4340_joint2,manipulator_left->joint2_deg.rad,0,30,0.6,0);
 			}
-			if(tim14.ClockTime % 7 == 2){
+			if(tim14.ClockTime % 14 == 4){
 				ctrl_motor1(&can1,&manipulator_right->Dm_8006_joint3,manipulator_right->joint3_deg.rad,0,85,1.6,0);
+			}
+			if(tim14.ClockTime % 14 == 5){
 				ctrl_motor1(&can2,&manipulator_left->Dm_8006_joint3,manipulator_left->joint3_deg.rad,0,85,1.6,0);
 			}
-			if(tim14.ClockTime % 7 == 3){
-				ctrl_motor1(&can1,&manipulator_right->Dm_4310_joint4,manipulator_right->joint4_deg.rad,0,30,0.6,0);
+			if(tim14.ClockTime % 14 == 6){
+				ctrl_motor1(&can1,&manipulator_right->Dm_4310_joint4,manipulator_right->joint4_deg.rad,0,30,0.6,0);		
+			}
+			if(tim14.ClockTime % 14 == 7){
 				ctrl_motor1(&can2,&manipulator_left->Dm_4310_joint4,manipulator_left->joint4_deg.rad,0,30,0.6,0);
 			}
-			if(tim14.ClockTime % 7 == 4){
+			if(tim14.ClockTime % 14 == 8){
 				ctrl_motor1(&can1,&manipulator_right->Dm_4310_joint5,manipulator_right->joint5_deg.rad,0,30,0.6,0);
+			}
+			if(tim14.ClockTime % 14 == 9){
 				ctrl_motor1(&can2,&manipulator_left->Dm_4310_joint5,manipulator_left->joint5_deg.rad,0,30,0.6,0);
 			}
-			if(tim14.ClockTime % 7 == 5){
+			if(tim14.ClockTime % 14 == 10){
 				ctrl_motor1(&can1,&manipulator_right->Dm_4310_joint6,manipulator_right->joint6_deg.rad,0,30,0.6,0);
+			}
+			if(tim14.ClockTime % 14 == 11){
 				ctrl_motor1(&can2,&manipulator_left->Dm_4310_joint6,manipulator_left->joint6_deg.rad,0,30,0.6,0);
 			}
-			if(tim14.ClockTime % 7 == 6){
+			if(tim14.ClockTime % 14 == 12){
 				RPDO2_pos(&can1,500);
 				RPDO1_pos(&can1,manipulator_right->joint0_deg.angle);		//位置模式(绝对位置+立即执行)+位置模式+目标位置
+			}
+			if(tim14.ClockTime % 14 == 13){
 				RPDO2_pos(&can2,500);
 				RPDO1_pos(&can2,manipulator_left->joint0_deg.angle);		//位置模式(绝对位置+立即执行)+位置模式+目标位置
 			}

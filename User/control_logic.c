@@ -68,7 +68,7 @@ void TIM14_Task(void){
 		Usart8DmaPrintf("%f,%f,%f,%f\n",Manipulator_Right.Dm_8006_joint3.T,Manipulator_Right.joint3_deg.cc_recv,Custom.image_recv.Coordinate.joint6_left,Custom.image_recv.Coordinate.joint3_left);
 		
 		/* 上下板通信 */
-		if(tim14.ClockTime % 7 == 0){
+		if(tim14.ClockTime % 14 == 0){
 			Mecanum_data_Send(&huart4, Usart4_TxBuffer);
 			mecanum_recv_count ++;
 		}

@@ -341,6 +341,7 @@ void Controller_mode_exit(Manipulator_t* manipulator_right, Manipulator_t* manip
 		/* ¸´Î»ÖÁµÇµº×ËÌ¬ */
 		if(auto_flags -> mapping_exit_count == Mapping_Exit_Filter_Limit_Time){
 			auto_flags -> land_flag = 1;
+			auto_flags -> lifting_auto_flag = 1;
 			auto_flags -> land_count = 1501;
 		}
 		if(auto_flags -> mapping_exit_count == 7000){

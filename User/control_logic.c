@@ -20,12 +20,13 @@ uint16_t controller_count = 0;
 void robot_offline_protection(){
 	RobotOnlineState(&check_robot_state);
 	check_robot_state.usart_state.GPIO_data = HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_1);
-	if(check_robot_state.usart_state.Check_receiver > 50 || check_robot_state.usart_state.GPIO_data == 0 || Auto_flags.motor_start_mode_flag == 1 || vT13.rc.mode_sw == 0){
+	if(check_robot_state.usart_state.Check_receiver > 50 || check_robot_state.usart_state.vt13_check_count > 50 || check_robot_state.usart_state.GPIO_data == 0 || Auto_flags.motor_start_mode_flag == 1 || vT13.rc.mode_sw == 0){
 		rc_Ctrl.isOnline = 0;//“£øÿ¿Îœﬂ
 	}
 	else if(check_robot_state.usart_state.GPIO_data == 1 && Auto_flags.motor_start_mode_flag == 0){
 		rc_Ctrl.isOnline = 1;
 	}
+	check_robot_state.usart_state.vt13_check_count ++;
 	controller_count ++;
 	if(controller_count < 450){
 		Custom.image_recv.Coordinate.isonline = 1;
@@ -62,7 +63,7 @@ void TIM14_Task(void){
 		}
 	}
 	if(tim14.ClockTime > 4000){
-		Auto_Control(&Manipulator_Right, &Manipulator_Left, &Auto_flags, &hiwonder_Servo, &Custom);
+		Auto_Control(&Manipulator_Right, &Manipulator_Left, &Auto_flags, &hiwonder_Servo, &Custom, tim14.ClockTime);
 		joint_Ctrl(&Manipulator_Right, &Manipulator_Left);
 		hiwonder_servo_control(tim14.ClockTime, &hiwonder_Servo);
 		Usart8DmaPrintf("%f,%f,%f,%f\n",Manipulator_Right.Dm_8006_joint3.T,Manipulator_Right.joint3_deg.cc_recv,Custom.image_recv.Coordinate.joint6_left,Custom.image_recv.Coordinate.joint3_left);

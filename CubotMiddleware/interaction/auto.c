@@ -5,16 +5,34 @@ auto_control_flags Auto_flags;
 finger_gesture_flags Finger_flags;
 
 /* 操作手控制集成函数 */
-void Auto_Control(Manipulator_t* manipulator_right, Manipulator_t* manipulator_left, auto_control_flags* auto_flags, Hiwonder_Servo* hiwo_data, custom_robot_data_t* custom){
-	land_reset_control(manipulator_right, manipulator_left, auto_flags);
-	servo_back_control(manipulator_right, manipulator_left, hiwo_data, auto_flags);
-	point_of_view_control(hiwo_data, auto_flags);
-	scope_mode_control(hiwo_data, auto_flags);
-	clamp_jaw_control(manipulator_right, manipulator_left, auto_flags, custom);
-	lifting_control(auto_flags);
-	Controller_mode_start(manipulator_right, manipulator_left, auto_flags, custom);
-	// finger_data_test(manipulator_right, manipulator_left, custom, &Finger_flags);
-	motor_start_control(manipulator_right, manipulator_left, auto_flags);
+void Auto_Control(Manipulator_t* manipulator_right, Manipulator_t* manipulator_left, auto_control_flags* auto_flags, Hiwonder_Servo* hiwo_data, custom_robot_data_t* custom, int32_t clock){
+	if(clock % 10 == 0){
+		land_reset_control(manipulator_right, manipulator_left, auto_flags);
+	}
+	if(clock % 10 == 1){
+		servo_back_control(manipulator_right, manipulator_left, hiwo_data, auto_flags);
+	}	
+	if(clock % 10 == 2){
+		point_of_view_control(hiwo_data, auto_flags);
+	}
+	if(clock % 10 == 3){
+		scope_mode_control(hiwo_data, auto_flags);
+	}
+	if(clock % 10 == 4){
+		clamp_jaw_control(manipulator_right, manipulator_left, auto_flags, custom);
+	}
+	if(clock % 10 == 5){
+		lifting_control(auto_flags);
+	}
+	if(clock % 10 == 6){
+		Controller_mode_start(manipulator_right, manipulator_left, auto_flags, custom);
+	}
+	if(clock % 10 == 7){
+		Controller_mode_exit(manipulator_right, manipulator_left, auto_flags);
+	}
+	if(clock % 10 == 8){
+		motor_start_control(manipulator_right, manipulator_left, auto_flags);
+	}
 }
 
 /* 检查手势数据 */

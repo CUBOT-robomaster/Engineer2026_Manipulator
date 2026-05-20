@@ -13,6 +13,7 @@ typedef struct
 	  uint16_t Check_referee;
 	  uint16_t Check_custom;
 	  uint8_t GPIO_data;
+	  uint16_t vt13_check_count;
 	}usart_state;	
 }Check_Robot_State;
 

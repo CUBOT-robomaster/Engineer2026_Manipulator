@@ -63,7 +63,7 @@ void zero_point_reset(Manipulator_t* manipulator);
 void land_point_reset(Manipulator_t* manipulator);
 void step_out_point_reset(Manipulator_t* manipulator);
 void finger_data_test(Manipulator_t* manipulator_right, Manipulator_t* manipulator_left, custom_robot_data_t* custom, finger_gesture_flags* finger_flags);
-void Auto_Control(Manipulator_t* manipulator_right, Manipulator_t* manipulator_left, auto_control_flags* auto_flags, Hiwonder_Servo* hiwo_data, custom_robot_data_t* custom);
+void Auto_Control(Manipulator_t* manipulator_right, Manipulator_t* manipulator_left, auto_control_flags* auto_flags, Hiwonder_Servo* hiwo_data, custom_robot_data_t* custom, int32_t clock);
 void land_reset_control(Manipulator_t* manipulator_right, Manipulator_t* manipulator_left, auto_control_flags* auto_flags);
 void servo_back_control(Manipulator_t *manipulator_right, Manipulator_t *manipulator_left, Hiwonder_Servo* hiwo_data, auto_control_flags* auto_flags);
 void point_of_view_control(Hiwonder_Servo* hiwo_data, auto_control_flags* auto_flags);

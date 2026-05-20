@@ -143,7 +143,7 @@ uint8_t imagetrans_callback(uint8_t * recBuffer, uint16_t len)
 {
 	controller_recv_datas_modify(recBuffer,&Custom);	
 	vt13_recv_datas_modify(recBuffer,&vT13);
-//	imagetrans_recv_datas_copy(Usart2_RxBuffer,recv_Buffer);//测试,在定时中断才处理数据
+	check_robot_state.usart_state.vt13_check_count = 0;
 	return 0;
 }
 

@@ -79,6 +79,12 @@ void VT13Init( VT13 * RC_Ctl)
 		RC_Ctl->key_C_flag=0;
 		RC_Ctl->key_V_flag=0;
 		RC_Ctl->key_B_flag=0;
+		RC_Ctl->Chassis_X_Integ=0;
+		RC_Ctl->Chassis_Y_Integ=0;
+		RC_Ctl->key_A=0;
+		RC_Ctl->key_D=0;
+		RC_Ctl->key_W=0;
+		RC_Ctl->key_S=0;
 }
 	
 void PC_keybroad_filter_vt13(VT13* RC_Ctl)
@@ -385,6 +391,13 @@ void KeyBoard_DataUnpack_vt13(VT13 *rc_ctrl)
 		else if((rc_ctrl->rc.ch0-1024>=-300)&&(rc_ctrl->rc.ch0-1024<0)){
 			rc_ctrl->key_S=0;
 		}
+	}
+	else{
+		rc_ctrl->key_S=0;
+		rc_ctrl->key_W=0;
+		rc_ctrl->key_A=0;
+		rc_ctrl->key_D=0;
+	}
 		
 
 	 if((rc_ctrl->key_W - rc_ctrl->key_S)==0)
@@ -439,6 +452,5 @@ void KeyBoard_DataUnpack_vt13(VT13 *rc_ctrl)
 			   rc_ctrl->Chassis_X_Integ=-100;
 			}
 	 }
- }
-		
+ 	
 }

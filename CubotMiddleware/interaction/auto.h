@@ -10,7 +10,7 @@
 #include "controllerl.h"
 #include "mit.h"
 #define servo_back_time_limit 200				//舵机转头最大时间
-#define Mapping_Filter_Limit_Time 150			//映射模式按鍵消抖时间
+#define Mapping_Filter_Limit_Time 20			//映射模式按鍵消抖时间
 #define Mapping_Exit_Filter_Limit_Time 20		//退出映射模式按键消抖时间
 #define Clamp_Jaw_Close_Filter_Limit_Time 20	//夹爪闭合按键消抖时间
 #define servo_pitch_sensitivity 5.0f			//舵机pitch轴灵敏度

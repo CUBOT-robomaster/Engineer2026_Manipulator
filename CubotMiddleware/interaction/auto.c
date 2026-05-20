@@ -401,7 +401,11 @@ void motor_start_control(Manipulator_t* manipulator_right, Manipulator_t* manipu
 		if(auto_flags -> motor_start_mode_count < 1000){
 			
 		}
-		if(auto_flags -> motor_start_mode_count >= 1000 && auto_flags -> motor_start_mode_count < 3000){
+		if(auto_flags -> motor_start_mode_count >= 1000 && auto_flags -> motor_start_mode_count < 2000){
+			DM_Error_clean(manipulator_right, tim14.ClockTime, &can1);
+			DM_Error_clean(manipulator_left, tim14.ClockTime, &can2);
+		}
+		if(auto_flags -> motor_start_mode_count >= 2000 && auto_flags -> motor_start_mode_count < 3000){
 			DM_Restart(manipulator_right, tim14.ClockTime, &can1);
 			DM_Restart(manipulator_left, tim14.ClockTime, &can2);	
 		}

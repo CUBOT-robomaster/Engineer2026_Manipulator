@@ -22,6 +22,7 @@ CAN_TxBuffer txbuf_MODE2;
 CAN_TxBuffermit txbuf_MODE3;
 CAN_TxBuffer txbuf_start;
 CAN_TxBuffer txbuf_lock;
+CAN_TxBuffer txbuf_clean;
 
 
 void DM_init(Manipulator_t* manipulator){
@@ -83,6 +84,28 @@ void DM_Restart(Manipulator_t* manipulator, int32_t clock, CAN_Object* hcan){
 	}
 	DM_init(manipulator);//使能达妙电机并初始化
 }
+
+void DM_Error_clean(Manipulator_t *manipulator, int32_t clock, CAN_Object *hcan){
+	if(clock % 6 == 0){
+		Error_clean(hcan, &manipulator -> Dm_4340_joint1);
+	}
+	if(clock % 6 == 1){
+		Error_clean(hcan, &manipulator -> Dm_4340_joint2);
+	}
+	if(clock % 6 == 2){
+		Error_clean(hcan, &manipulator -> Dm_8006_joint3);
+	}
+	if(clock % 6 == 3){
+		Error_clean(hcan, &manipulator -> Dm_4310_joint4);
+	}
+	if(clock % 6 == 4){
+		Error_clean(hcan, &manipulator -> Dm_4310_joint5);
+	}
+	if(clock % 6 == 5){
+		Error_clean(hcan, &manipulator -> Dm_4310_joint6);
+	}
+}
+
 int float_to_uint(float x, float x_min, float x_max, int bits)
 	{
     /// Converts a float to an unsigned int, given range and number of bits ///
@@ -171,6 +194,20 @@ void lock_motor(CAN_Object* hcan,DM_motor *Dm_motor)
 	
 	CAN_Send(hcan, &txbuf_lock);
 }		
+
+void Error_clean(CAN_Object* hcan,DM_motor *Dm_motor){
+	txbuf_clean.Identifier = Dm_motor->CAN_ID;
+	txbuf_clean.Data[0] = 0xFF;
+	txbuf_clean.Data[1] = 0xFF;
+	txbuf_clean.Data[2] = 0xFF;
+	txbuf_clean.Data[3] = 0xFF;
+	txbuf_clean.Data[4] = 0xFF;
+	txbuf_clean.Data[5] = 0xFF;
+	txbuf_clean.Data[6] = 0xFF;
+	txbuf_clean.Data[7] = 0xFB;
+	
+	CAN_Send(hcan, &txbuf_clean);
+}
 
 void DM_data(DM_motor *Dm_motor,unsigned char* pBuffer)
 {

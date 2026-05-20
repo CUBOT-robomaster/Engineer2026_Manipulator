@@ -194,7 +194,8 @@ void PC_keybroad_filter_vt13(VT13* RC_Ctl)
 	}   
 	else
 	{
-		key_R_cnt=0;	
+		RC_Ctl->key_R_flag=0;
+		key_R_cnt=0;
 	}			
 	
 	//key_F

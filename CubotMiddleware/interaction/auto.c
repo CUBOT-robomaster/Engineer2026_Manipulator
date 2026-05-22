@@ -88,17 +88,17 @@ void servo_back_control(Manipulator_t *manipulator_right, Manipulator_t *manipul
 	else if(auto_flags -> servo_back_flag == 1){
 		if(auto_flags -> servo_back_count <= 1000){
 			/* 舵机平视 */
-			// hiwo_data -> pitch_servo.position = SERVO_UP_POSITION;
+			hiwo_data -> pitch_servo.position = SERVO_UP_POSITION;
 			step_out_point_reset(manipulator_right);
 			step_out_point_reset(manipulator_left);
 		}
 		else if(auto_flags -> servo_back_count > 1000 && auto_flags -> servo_back_count <= 3000){
 			/* 舵机头朝后 */
-			// hiwo_data -> yaw_servo.position = SERVO_BACK_POSITION;
+			hiwo_data -> yaw_servo.position = SERVO_BACK_POSITION;
 		}
 		else if(auto_flags -> servo_back_count > 3000 && auto_flags -> servo_back_count <= 4000){
 			/* 舵机低头 */
-			// hiwo_data -> pitch_servo.position = SERVO_MIDDLE_POSITION;
+			hiwo_data -> pitch_servo.position = SERVO_MIDDLE_POSITION;
 		}
 		else if(auto_flags -> servo_back_count == 5000){
 			auto_flags -> servo_back_flag = 0;
@@ -109,13 +109,13 @@ void servo_back_control(Manipulator_t *manipulator_right, Manipulator_t *manipul
 	else if(auto_flags -> servo_back_flag == -1){
 		if(auto_flags -> servo_back_count <= 1000){
 			/* 舵机平视 */
-			// hiwo_data -> pitch_servo.position = SERVO_UP_POSITION;
+			hiwo_data -> pitch_servo.position = SERVO_UP_POSITION;
 			land_point_reset(manipulator_right);
 			land_point_reset(manipulator_left);
 		}
 		else if(auto_flags -> servo_back_count > 1000 && auto_flags -> servo_back_count <= 3000){
 			/* 舵机头朝前 */
-			// hiwo_data -> yaw_servo.position = SERVO_FRONT_POSITION;
+			hiwo_data -> yaw_servo.position = SERVO_FRONT_POSITION;
 		}
 		else if(auto_flags -> servo_back_count == 4000){
 			auto_flags -> servo_back_flag = 0;

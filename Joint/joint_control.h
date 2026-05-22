@@ -4,7 +4,7 @@
 #include "pid.h"
 #include "servo.h"
 #include "interaction_image.h"
-#define JOINT_VELOCITY_SENSITIVITY 1.2f
+#define JOINT_VELOCITY_SENSITIVITY 0.75f
 
 extern float test_angle;
 

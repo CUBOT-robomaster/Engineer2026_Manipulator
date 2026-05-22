@@ -58,7 +58,7 @@ Manipulator_t Manipulator_Right = {
 	.joint0_deg.zero_point = 0.462,			//弧度制,对应角度值为26.4
 	.joint0_deg.limit_min = -68,			//角度制
 	.joint0_deg.limit_max = 114,
-	.joint0_deg.land_point = -0.21,			//弧度制，对应角度制为-12
+	.joint0_deg.land_point = 0.1,			//弧度制，对应角度制为-12
 	.joint0_deg.step_out_point = -0.04,		//弧度制
 
 	.joint1_deg.velocity = 0,
@@ -91,7 +91,7 @@ Manipulator_t Manipulator_Right = {
 	.joint3_deg.Accel = 0.00024 * JOINT_VELOCITY_SENSITIVITY,
 	.joint3_deg.Accel_sensitivity = 1.0,
 	.joint3_deg.sensitivity = 1.4,
-	.joint3_deg.zero_point = -1.63,
+	.joint3_deg.zero_point = -1.13,
 	.joint3_deg.limit_min = -2.6,
 	.joint3_deg.limit_max = 0.5,
 	.joint3_deg.land_point = -1.28,
@@ -166,11 +166,11 @@ Manipulator_t Manipulator_Left = {
 	.joint0_deg.Accel = 0.0032 * JOINT_VELOCITY_SENSITIVITY,
 	.joint0_deg.Accel_sensitivity = 1.0,
 	.joint0_deg.sensitivity = 1.0,
-	.joint0_deg.zero_point = 3.94,			//弧度制，对应角度制为213
+	.joint0_deg.zero_point = 4.34,			//弧度制，对应角度制为213
 	.joint0_deg.limit_min = 96,				//角度制
 	.joint0_deg.limit_max = 296,
-	.joint0_deg.land_point = 4.48,			//弧度制，对应角度制为258
-	.joint0_deg.step_out_point = 4.16,		//弧度制
+	.joint0_deg.land_point = 4.7,			//弧度制，对应角度制为258
+	.joint0_deg.step_out_point = 4.56,		//弧度制
 
 	.joint1_deg.velocity = 0,
 	.joint1_deg.max_velocity = 0.32 * JOINT_VELOCITY_SENSITIVITY,
@@ -202,11 +202,11 @@ Manipulator_t Manipulator_Left = {
 	.joint3_deg.Accel = 0.00024 * JOINT_VELOCITY_SENSITIVITY,
 	.joint3_deg.Accel_sensitivity = 1.0,
 	.joint3_deg.sensitivity = 1.0,
-	.joint3_deg.zero_point = -1.3,
+	.joint3_deg.zero_point = -2.15,
 	.joint3_deg.limit_min = -1.6,
 	.joint3_deg.limit_max = 1.8,
-	.joint3_deg.land_point = -1.1,
-	.joint3_deg.step_out_point = -1.58,
+	.joint3_deg.land_point = -2.1,
+	.joint3_deg.step_out_point = -2.46,
 
 	.joint4_deg.velocity = 0,
 	.joint4_deg.max_velocity = 0.32 * JOINT_VELOCITY_SENSITIVITY,
@@ -214,11 +214,11 @@ Manipulator_t Manipulator_Left = {
 	.joint4_deg.Accel = 0.006 * JOINT_VELOCITY_SENSITIVITY,
 	.joint4_deg.Accel_sensitivity = 1.0,
 	.joint4_deg.sensitivity = 1.0,
-	.joint4_deg.zero_point = -0.03,
+	.joint4_deg.zero_point = 0,
 	.joint4_deg.limit_min = -3.43,
 	.joint4_deg.limit_max = 3.37,
-	.joint4_deg.land_point = -0.18,
-	.joint4_deg.step_out_point = -0.18,
+	.joint4_deg.land_point = 0,
+	.joint4_deg.step_out_point = 0,
 
 	.joint5_deg.velocity = 0,
 	.joint5_deg.max_velocity = 0.32 * JOINT_VELOCITY_SENSITIVITY,
@@ -226,11 +226,11 @@ Manipulator_t Manipulator_Left = {
 	.joint5_deg.Accel = 0.006 * JOINT_VELOCITY_SENSITIVITY,
 	.joint5_deg.Accel_sensitivity = 1.0,
 	.joint5_deg.sensitivity = 1.0,
-	.joint5_deg.zero_point = -0.06,
+	.joint5_deg.zero_point = 0,
 	.joint5_deg.limit_min = -1.8,
 	.joint5_deg.limit_max = 1.5,
-	.joint5_deg.land_point = -0.06,
-	.joint5_deg.step_out_point = -0.06,
+	.joint5_deg.land_point = 0,
+	.joint5_deg.step_out_point = 0,
 
 	.joint6_deg.velocity = 0,
 	.joint6_deg.max_velocity = 0.32 * JOINT_VELOCITY_SENSITIVITY,
@@ -238,11 +238,11 @@ Manipulator_t Manipulator_Left = {
 	.joint6_deg.Accel = 0.006 * JOINT_VELOCITY_SENSITIVITY,
 	.joint6_deg.Accel_sensitivity = 1.0,
 	.joint6_deg.sensitivity = 1.0,
-	.joint6_deg.zero_point = 1.04,
+	.joint6_deg.zero_point = 0,
 	.joint6_deg.limit_min = -3.56,
 	.joint6_deg.limit_max = 3.24,
-	.joint6_deg.land_point = 1.04,
-	.joint6_deg.step_out_point = 1.04,
+	.joint6_deg.land_point = 0,
+	.joint6_deg.step_out_point = 0,
 
 	.clamp_jaw.STS_3215[0].servo_id = 0,			//position减小张开
 	.clamp_jaw.STS_3215[0].position = SERVO_LEFT_ZERO_OPEN_ID_ZERO,
@@ -578,7 +578,7 @@ void joint_Ctrl(Manipulator_t* manipulator_right, Manipulator_t* manipulator_lef
 			manipulator_left -> joint2_deg.rad = (manipulator_left -> joint2_deg.zero_point + (-1.75) * (manipulator_left -> joint2_deg.cc_recv - manipulator_left -> joint2_deg.cc_init) * AtR);
 			manipulator_left -> joint3_deg.rad = (manipulator_left -> joint3_deg.zero_point + (1.4) * (manipulator_left -> joint3_deg.cc_recv - manipulator_left -> joint3_deg.cc_init) * AtR);
 			manipulator_left -> joint4_deg.rad = (manipulator_left -> joint4_deg.zero_point + (-1) * (manipulator_left -> joint4_deg.cc_recv - manipulator_left -> joint4_deg.cc_init) * AtR);
-			manipulator_left -> joint5_deg.rad = (manipulator_left -> joint5_deg.zero_point + (2.5) * (manipulator_left -> joint5_deg.cc_recv - manipulator_left -> joint5_deg.cc_init) * AtR);
+			manipulator_left -> joint5_deg.rad = (manipulator_left -> joint5_deg.zero_point + (-2.5) * (manipulator_left -> joint5_deg.cc_recv - manipulator_left -> joint5_deg.cc_init) * AtR);
 			/* joint6数据为1是正转，数据为-1时逆转，数据为0时不动 */
 			if(Custom.image_recv.Coordinate.left_middle_switch == 0){
 				joint6_Ctrl_left(manipulator_left);
@@ -620,33 +620,33 @@ void joint_Ctrl(Manipulator_t* manipulator_right, Manipulator_t* manipulator_lef
 		if(rc_Ctrl.isOnline == 1){
 			if(tim14.ClockTime % 7 == 0){
 				ctrl_motor1(&can1,&manipulator_right->Dm_4340_joint1,manipulator_right->joint1_deg.rad,0,175,2.0,1.0);
-				// ctrl_motor1(&can2,&manipulator_left->Dm_4340_joint1,manipulator_left->joint1_deg.rad,0,175,2.0,1.0);
+				ctrl_motor1(&can2,&manipulator_left->Dm_4340_joint1,manipulator_left->joint1_deg.rad,0,175,2.0,1.0);
 			}
 			if(tim14.ClockTime % 7 == 1){
 				ctrl_motor1(&can1,&manipulator_right->Dm_4340_joint2,manipulator_right->joint2_deg.rad,0,85,0.6,0);
-				// ctrl_motor1(&can2,&manipulator_left->Dm_4340_joint2,manipulator_left->joint2_deg.rad,0,30,0.6,0);
+				ctrl_motor1(&can2,&manipulator_left->Dm_4340_joint2,manipulator_left->joint2_deg.rad,0,30,0.6,0);
 			}
 			if(tim14.ClockTime % 7 == 2){
 				ctrl_motor1(&can1,&manipulator_right->Dm_8006_joint3,manipulator_right->joint3_deg.rad,0,85,1.6,0);
-				// ctrl_motor1(&can2,&manipulator_left->Dm_8006_joint3,manipulator_left->joint3_deg.rad,0,85,1.6,0);
+				ctrl_motor1(&can2,&manipulator_left->Dm_8006_joint3,manipulator_left->joint3_deg.rad,0,85,1.6,0);
 			}
 			if(tim14.ClockTime % 7 == 3){
 				ctrl_motor1(&can1,&manipulator_right->Dm_4310_joint4,manipulator_right->joint4_deg.rad,0,30,0.6,0);	
-				// ctrl_motor1(&can2,&manipulator_left->Dm_4310_joint4,manipulator_left->joint4_deg.rad,0,30,0.6,0);
+				ctrl_motor1(&can2,&manipulator_left->Dm_4310_joint4,manipulator_left->joint4_deg.rad,0,30,0.6,0);
 			}
 			if(tim14.ClockTime % 7 == 4){
 				ctrl_motor1(&can1,&manipulator_right->Dm_4310_joint5,manipulator_right->joint5_deg.rad,0,30,0.6,0);
-				// ctrl_motor1(&can2,&manipulator_left->Dm_4310_joint5,manipulator_left->joint5_deg.rad,0,30,0.6,0);
+				ctrl_motor1(&can2,&manipulator_left->Dm_4310_joint5,manipulator_left->joint5_deg.rad,0,30,0.6,0);
 			}	
 			if(tim14.ClockTime % 7 == 5){
 				ctrl_motor1(&can1,&manipulator_right->Dm_4310_joint6,manipulator_right->joint6_deg.rad,0,30,0.6,0);
-				// ctrl_motor1(&can2,&manipulator_left->Dm_4310_joint6,manipulator_left->joint6_deg.rad,0,30,0.6,0);
+				ctrl_motor1(&can2,&manipulator_left->Dm_4310_joint6,manipulator_left->joint6_deg.rad,0,30,0.6,0);
 			}
 			if(tim14.ClockTime % 7 == 6){
 				RPDO2_pos(&can1,500);
 				RPDO1_pos(&can1,manipulator_right->joint0_deg.angle);		//位置模式(绝对位置+立即执行)+位置模式+目标位置
-				// RPDO2_pos(&can2,500);
-				// RPDO1_pos(&can2,manipulator_left->joint0_deg.angle);		//位置模式(绝对位置+立即执行)+位置模式+目标位置
+				RPDO2_pos(&can2,500);
+				RPDO1_pos(&can2,manipulator_left->joint0_deg.angle);		//位置模式(绝对位置+立即执行)+位置模式+目标位置
 			}
 			clamp_jaw_data_send(&manipulator_right -> clamp_jaw, &manipulator_left -> clamp_jaw);
 		}

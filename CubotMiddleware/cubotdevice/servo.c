@@ -12,16 +12,16 @@
 
 Hiwonder_Servo hiwonder_Servo = {
 	.yaw_servo.servo_id = 0,
-	.yaw_servo.position = 500,
-	.yaw_servo.move_time = 150,
+	.yaw_servo.position = SERVO_FRONT_POSITION,
+	.yaw_servo.move_time = 120,
 	
 	.pitch_servo.servo_id = 1,
 	.pitch_servo.position = SERVO_UP_POSITION,
 	.pitch_servo.move_time = 60,
 	
-	.roll_servo.servo_id = 2,
-	.roll_servo.position = SERVO_ROLL_DOWN_POSITION,
-	.roll_servo.move_time = 150,
+	// .roll_servo.servo_id = 2,
+	// .roll_servo.position = SERVO_ROLL_DOWN_POSITION,
+	// .roll_servo.move_time = 150,
 };
 
 uint8_t buf[13];
@@ -118,17 +118,17 @@ int16_t servo_angle_limit(int16_t angle, int16_t limit_min, int16_t limit_max){
 }
 
 void hiwonder_servo_control(int32_t clock, Hiwonder_Servo* hiwonder_servo_data){
-	if(clock % 180 == 0){
+	if(clock % 120 == 0){
 		/* yaw轴舵机 */
-//		servo_move(hiwonder_servo_data -> yaw_servo.servo_id, hiwonder_servo_data -> yaw_servo.move_time, hiwonder_servo_data -> yaw_servo.position);					//950正前方，175正后方
+		servo_move(hiwonder_servo_data -> yaw_servo.servo_id, hiwonder_servo_data -> yaw_servo.move_time, hiwonder_servo_data -> yaw_servo.position);					//950正前方，175正后方
 	}
-	if(clock % 180 == 60){
+	if(clock % 120 == 60){
 		/* pitch轴舵机 */
 		servo_move(hiwonder_servo_data -> pitch_servo.servo_id, hiwonder_servo_data -> pitch_servo.move_time, hiwonder_servo_data -> pitch_servo.position);				//475平视，275最低
 	}
-	if(clock % 180 == 120){
-		/* roll轴舵机 */
-		servo_move(hiwonder_servo_data -> roll_servo.servo_id, hiwonder_servo_data -> roll_servo.move_time, hiwonder_servo_data -> roll_servo.position);
-	}
+//	if(clock % 180 == 120){
+//		/* roll轴舵机 */
+//		servo_move(hiwonder_servo_data -> roll_servo.servo_id, hiwonder_servo_data -> roll_servo.move_time, hiwonder_servo_data -> roll_servo.position);
+//	}
 }
 /* ID254为广播所有舵机 */

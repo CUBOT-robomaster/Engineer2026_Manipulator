@@ -23,7 +23,7 @@ void robot_offline_protection(){
 	if(check_robot_state.usart_state.GPIO_data == 0 || Auto_flags.motor_start_mode_flag == 1 || vT13.rc.mode_sw == 0){
 		rc_Ctrl.isOnline = 0;//遥控离线
 	}
-	else if(check_robot_state.usart_state.GPIO_data == 1 && Auto_flags.motor_start_mode_flag == 0){
+	else if((check_robot_state.usart_state.GPIO_data == 1 && Auto_flags.motor_start_mode_flag == 0) && ((check_robot_state.usart_state.vt13_check_count <= 50) || (vT13.rc.mode_sw != 0))){
 		rc_Ctrl.isOnline = 1;
 	}
 	check_robot_state.usart_state.vt13_check_count ++;
@@ -59,7 +59,7 @@ void TIM14_Task(void){
 		Customer_init_image_left(&Manipulator_Left, &Custom);
 		if(tim14.ClockTime % 120 == 0){
 			/* yaw轴舵机初始化 */
-//			servo_move(hiwonder_Servo.yaw_servo.servo_id, hiwonder_Servo.yaw_servo.move_time, hiwonder_Servo.yaw_servo.position);			//950正前方，175正后方
+			servo_move(hiwonder_Servo.yaw_servo.servo_id, hiwonder_Servo.yaw_servo.move_time, hiwonder_Servo.yaw_servo.position);			//950正前方，175正后方
 		}
 	}
 	if(tim14.ClockTime > 4000){

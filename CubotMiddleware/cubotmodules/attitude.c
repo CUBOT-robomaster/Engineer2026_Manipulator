@@ -8,7 +8,7 @@
 #include "math.h"
 #include "mit.h"
 #include "control_logic.h"
-#define abs(x) ((x)>0? (x):(-(x)))
+#define abs(x) ((x)>0? (x):(-(x) ))
 
 uint16_t timer=0;
 int16_t error3508;

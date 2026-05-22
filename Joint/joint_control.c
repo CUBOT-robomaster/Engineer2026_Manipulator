@@ -28,7 +28,7 @@ float test_angle3 = 0;
 float open_angle_right = 0;
 float open_angle_left = 0;
 
-float sensitivity = 1.5;
+float sensitivity = 0.75;
 
 /* 初始化电机数据 */
 Manipulator_t Manipulator_Right = {
@@ -53,6 +53,7 @@ Manipulator_t Manipulator_Right = {
 	.joint0_deg.max_velocity = 0.012 * JOINT_VELOCITY_SENSITIVITY,
 	.joint0_deg.min_velocity = 0.06 * JOINT_VELOCITY_SENSITIVITY,
 	.joint0_deg.Accel = 0.0032 * JOINT_VELOCITY_SENSITIVITY,
+	.joint0_deg.Accel_sensitivity = 1.0,
 	.joint0_deg.sensitivity = 2.5,
 	.joint0_deg.zero_point = 0.462,			//弧度制,对应角度值为26.4
 	.joint0_deg.limit_min = -68,			//角度制
@@ -64,6 +65,7 @@ Manipulator_t Manipulator_Right = {
 	.joint1_deg.max_velocity = 0.32 * JOINT_VELOCITY_SENSITIVITY,
 	.joint1_deg.min_velocity = 0.12 * JOINT_VELOCITY_SENSITIVITY,
 	.joint1_deg.Accel = 0.006 * JOINT_VELOCITY_SENSITIVITY,
+	.joint1_deg.Accel_sensitivity = 1.0,
 	.joint1_deg.sensitivity = 1.8,
 	.joint1_deg.zero_point = -2.8,
 	.joint1_deg.limit_min = -3,
@@ -75,6 +77,7 @@ Manipulator_t Manipulator_Right = {
 	.joint2_deg.max_velocity = 0.32 * JOINT_VELOCITY_SENSITIVITY,
 	.joint2_deg.min_velocity = 0.12 * JOINT_VELOCITY_SENSITIVITY,
 	.joint2_deg.Accel = 0.006 * JOINT_VELOCITY_SENSITIVITY,
+	.joint2_deg.Accel_sensitivity = 1.0,
 	.joint2_deg.sensitivity = 1.75,
 	.joint2_deg.zero_point = -0.5,
 	.joint2_deg.limit_min = -1.5,
@@ -86,45 +89,49 @@ Manipulator_t Manipulator_Right = {
 	.joint3_deg.max_velocity = 0.18 * JOINT_VELOCITY_SENSITIVITY,
 	.joint3_deg.min_velocity = 0.06 * JOINT_VELOCITY_SENSITIVITY,
 	.joint3_deg.Accel = 0.00024 * JOINT_VELOCITY_SENSITIVITY,
+	.joint3_deg.Accel_sensitivity = 1.0,
 	.joint3_deg.sensitivity = 1.4,
-	.joint3_deg.zero_point = -1.55,
+	.joint3_deg.zero_point = -1.63,
 	.joint3_deg.limit_min = -2.6,
 	.joint3_deg.limit_max = 0.5,
-	.joint3_deg.land_point = -2,
-	.joint3_deg.step_out_point = -2.57,
+	.joint3_deg.land_point = -1.28,
+	.joint3_deg.step_out_point = -1.85,
 
 	.joint4_deg.velocity = 0,
 	.joint4_deg.max_velocity = 0.32 * JOINT_VELOCITY_SENSITIVITY,
 	.joint4_deg.min_velocity = 0.12 * JOINT_VELOCITY_SENSITIVITY,
 	.joint4_deg.Accel = 0.006 * JOINT_VELOCITY_SENSITIVITY,
+	.joint4_deg.Accel_sensitivity = 1.0,
 	.joint4_deg.sensitivity = 1.0,
-	.joint4_deg.zero_point = -0.03,
+	.joint4_deg.zero_point = 0,
 	.joint4_deg.limit_min = -3,
 	.joint4_deg.limit_max = 3,
-	.joint4_deg.land_point = 0.17,
-	.joint4_deg.step_out_point = 0.17,
+	.joint4_deg.land_point = 0,
+	.joint4_deg.step_out_point = 0,
 
 	.joint5_deg.velocity = 0,
 	.joint5_deg.max_velocity = 0.32 * JOINT_VELOCITY_SENSITIVITY,
 	.joint5_deg.min_velocity = 0.12 * JOINT_VELOCITY_SENSITIVITY,
 	.joint5_deg.Accel = 0.006 * JOINT_VELOCITY_SENSITIVITY,
+	.joint5_deg.Accel_sensitivity = 1.0,
 	.joint5_deg.sensitivity = 1.6,
-	.joint5_deg.zero_point = -0.43,
+	.joint5_deg.zero_point = 0,
 	.joint5_deg.limit_min = -1.36,
 	.joint5_deg.limit_max = 1.84,
-	.joint5_deg.land_point = -0.43,
-	.joint5_deg.step_out_point = -0.43,
+	.joint5_deg.land_point = 0,
+	.joint5_deg.step_out_point = 0,
 
 	.joint6_deg.velocity = 0,
 	.joint6_deg.max_velocity = 0.32 * JOINT_VELOCITY_SENSITIVITY,
 	.joint6_deg.min_velocity = 0.12 * JOINT_VELOCITY_SENSITIVITY,
 	.joint6_deg.Accel = 0.006 * JOINT_VELOCITY_SENSITIVITY,
 	.joint6_deg.sensitivity = 1.0,
-	.joint6_deg.zero_point = -0.04,
+	.joint6_deg.Accel_sensitivity = 1.0,
+	.joint6_deg.zero_point = 0,
 	.joint6_deg.limit_min = -3,
 	.joint6_deg.limit_max = 3,
-	.joint6_deg.land_point = -0.04,
-	.joint6_deg.step_out_point = -0.04,
+	.joint6_deg.land_point = 0,
+	.joint6_deg.step_out_point = 0,
 
 	.clamp_jaw.STS_3215[0].servo_id = 1,									//position增大张开
 	.clamp_jaw.STS_3215[0].position = SERVO_RIGHT_ZERO_OPEN_ID_ONE,			//1550开,1350关
@@ -140,8 +147,8 @@ Manipulator_t Manipulator_Left = {
 	.Dm_4340_joint1.CAN_ID = 0x01,
 	.Dm_4340_joint2.CAN_ID = 0x02,
 	.Dm_8006_joint3.CAN_ID = 0x03,
-	.Dm_4310_joint4.CAN_ID = 0x05,
-	.Dm_4310_joint5.CAN_ID = 0x04,
+	.Dm_4310_joint4.CAN_ID = 0x04,
+	.Dm_4310_joint5.CAN_ID = 0x05,
 	.Dm_4310_joint6.CAN_ID = 0x06,
 
 	/* 初始化目标角度 */
@@ -157,6 +164,7 @@ Manipulator_t Manipulator_Left = {
 	.joint0_deg.max_velocity = 0.12 * JOINT_VELOCITY_SENSITIVITY,
 	.joint0_deg.min_velocity = 0.06 * JOINT_VELOCITY_SENSITIVITY,
 	.joint0_deg.Accel = 0.0032 * JOINT_VELOCITY_SENSITIVITY,
+	.joint0_deg.Accel_sensitivity = 1.0,
 	.joint0_deg.sensitivity = 1.0,
 	.joint0_deg.zero_point = 3.94,			//弧度制，对应角度制为213
 	.joint0_deg.limit_min = 96,				//角度制
@@ -168,6 +176,7 @@ Manipulator_t Manipulator_Left = {
 	.joint1_deg.max_velocity = 0.32 * JOINT_VELOCITY_SENSITIVITY,
 	.joint1_deg.min_velocity = 0.12 * JOINT_VELOCITY_SENSITIVITY,
 	.joint1_deg.Accel = 0.006 * JOINT_VELOCITY_SENSITIVITY,
+	.joint1_deg.Accel_sensitivity = 1.0,
 	.joint1_deg.sensitivity = 1.0,
 	.joint1_deg.zero_point = 0.9,
 	.joint1_deg.limit_min = -0.9,
@@ -179,6 +188,7 @@ Manipulator_t Manipulator_Left = {
 	.joint2_deg.max_velocity = 0.32 * JOINT_VELOCITY_SENSITIVITY,
 	.joint2_deg.min_velocity = 0.12 * JOINT_VELOCITY_SENSITIVITY,
 	.joint2_deg.Accel = 0.006 * JOINT_VELOCITY_SENSITIVITY,
+	.joint2_deg.Accel_sensitivity = 1.0,
 	.joint2_deg.sensitivity = 1.0,
 	.joint2_deg.zero_point = 1.40,
 	.joint2_deg.limit_min = -1.9,
@@ -190,8 +200,9 @@ Manipulator_t Manipulator_Left = {
 	.joint3_deg.max_velocity = 0.18 * JOINT_VELOCITY_SENSITIVITY,
 	.joint3_deg.min_velocity = 0.06 * JOINT_VELOCITY_SENSITIVITY,
 	.joint3_deg.Accel = 0.00024 * JOINT_VELOCITY_SENSITIVITY,
+	.joint3_deg.Accel_sensitivity = 1.0,
 	.joint3_deg.sensitivity = 1.0,
-	.joint3_deg.zero_point = -0.5,
+	.joint3_deg.zero_point = -1.3,
 	.joint3_deg.limit_min = -1.6,
 	.joint3_deg.limit_max = 1.8,
 	.joint3_deg.land_point = -1.1,
@@ -201,6 +212,7 @@ Manipulator_t Manipulator_Left = {
 	.joint4_deg.max_velocity = 0.32 * JOINT_VELOCITY_SENSITIVITY,
 	.joint4_deg.min_velocity = 0.12 * JOINT_VELOCITY_SENSITIVITY,
 	.joint4_deg.Accel = 0.006 * JOINT_VELOCITY_SENSITIVITY,
+	.joint4_deg.Accel_sensitivity = 1.0,
 	.joint4_deg.sensitivity = 1.0,
 	.joint4_deg.zero_point = -0.03,
 	.joint4_deg.limit_min = -3.43,
@@ -212,6 +224,7 @@ Manipulator_t Manipulator_Left = {
 	.joint5_deg.max_velocity = 0.32 * JOINT_VELOCITY_SENSITIVITY,
 	.joint5_deg.min_velocity = 0.12 * JOINT_VELOCITY_SENSITIVITY,
 	.joint5_deg.Accel = 0.006 * JOINT_VELOCITY_SENSITIVITY,
+	.joint5_deg.Accel_sensitivity = 1.0,
 	.joint5_deg.sensitivity = 1.0,
 	.joint5_deg.zero_point = -0.06,
 	.joint5_deg.limit_min = -1.8,
@@ -223,6 +236,7 @@ Manipulator_t Manipulator_Left = {
 	.joint6_deg.max_velocity = 0.32 * JOINT_VELOCITY_SENSITIVITY,
 	.joint6_deg.min_velocity = 0.12 * JOINT_VELOCITY_SENSITIVITY,
 	.joint6_deg.Accel = 0.006 * JOINT_VELOCITY_SENSITIVITY,
+	.joint6_deg.Accel_sensitivity = 1.0,
 	.joint6_deg.sensitivity = 1.0,
 	.joint6_deg.zero_point = 1.04,
 	.joint6_deg.limit_min = -3.56,
@@ -604,49 +618,35 @@ void joint_Ctrl(Manipulator_t* manipulator_right, Manipulator_t* manipulator_lef
 //最终输出
 	if(tim14.ClockTime > 4000){
 		if(rc_Ctrl.isOnline == 1){
-			if(tim14.ClockTime % 14 == 0){
+			if(tim14.ClockTime % 7 == 0){
 				ctrl_motor1(&can1,&manipulator_right->Dm_4340_joint1,manipulator_right->joint1_deg.rad,0,175,2.0,1.0);
+				// ctrl_motor1(&can2,&manipulator_left->Dm_4340_joint1,manipulator_left->joint1_deg.rad,0,175,2.0,1.0);
 			}
-			if(tim14.ClockTime % 14 == 1){
-				ctrl_motor1(&can2,&manipulator_left->Dm_4340_joint1,manipulator_left->joint1_deg.rad,0,175,2.0,1.0);
-			}
-			if(tim14.ClockTime % 14 == 2){
+			if(tim14.ClockTime % 7 == 1){
 				ctrl_motor1(&can1,&manipulator_right->Dm_4340_joint2,manipulator_right->joint2_deg.rad,0,85,0.6,0);
+				// ctrl_motor1(&can2,&manipulator_left->Dm_4340_joint2,manipulator_left->joint2_deg.rad,0,30,0.6,0);
 			}
-			if(tim14.ClockTime % 14 == 3){
-				ctrl_motor1(&can2,&manipulator_left->Dm_4340_joint2,manipulator_left->joint2_deg.rad,0,30,0.6,0);
-			}
-			if(tim14.ClockTime % 14 == 4){
+			if(tim14.ClockTime % 7 == 2){
 				ctrl_motor1(&can1,&manipulator_right->Dm_8006_joint3,manipulator_right->joint3_deg.rad,0,85,1.6,0);
+				// ctrl_motor1(&can2,&manipulator_left->Dm_8006_joint3,manipulator_left->joint3_deg.rad,0,85,1.6,0);
 			}
-			if(tim14.ClockTime % 14 == 5){
-				ctrl_motor1(&can2,&manipulator_left->Dm_8006_joint3,manipulator_left->joint3_deg.rad,0,85,1.6,0);
+			if(tim14.ClockTime % 7 == 3){
+				ctrl_motor1(&can1,&manipulator_right->Dm_4310_joint4,manipulator_right->joint4_deg.rad,0,30,0.6,0);	
+				// ctrl_motor1(&can2,&manipulator_left->Dm_4310_joint4,manipulator_left->joint4_deg.rad,0,30,0.6,0);
 			}
-			if(tim14.ClockTime % 14 == 6){
-				ctrl_motor1(&can1,&manipulator_right->Dm_4310_joint4,manipulator_right->joint4_deg.rad,0,30,0.6,0);		
-			}
-			if(tim14.ClockTime % 14 == 7){
-				ctrl_motor1(&can2,&manipulator_left->Dm_4310_joint4,manipulator_left->joint4_deg.rad,0,30,0.6,0);
-			}
-			if(tim14.ClockTime % 14 == 8){
+			if(tim14.ClockTime % 7 == 4){
 				ctrl_motor1(&can1,&manipulator_right->Dm_4310_joint5,manipulator_right->joint5_deg.rad,0,30,0.6,0);
-			}
-			if(tim14.ClockTime % 14 == 9){
-				ctrl_motor1(&can2,&manipulator_left->Dm_4310_joint5,manipulator_left->joint5_deg.rad,0,30,0.6,0);
-			}
-			if(tim14.ClockTime % 14 == 10){
+				// ctrl_motor1(&can2,&manipulator_left->Dm_4310_joint5,manipulator_left->joint5_deg.rad,0,30,0.6,0);
+			}	
+			if(tim14.ClockTime % 7 == 5){
 				ctrl_motor1(&can1,&manipulator_right->Dm_4310_joint6,manipulator_right->joint6_deg.rad,0,30,0.6,0);
+				// ctrl_motor1(&can2,&manipulator_left->Dm_4310_joint6,manipulator_left->joint6_deg.rad,0,30,0.6,0);
 			}
-			if(tim14.ClockTime % 14 == 11){
-				ctrl_motor1(&can2,&manipulator_left->Dm_4310_joint6,manipulator_left->joint6_deg.rad,0,30,0.6,0);
-			}
-			if(tim14.ClockTime % 14 == 12){
+			if(tim14.ClockTime % 7 == 6){
 				RPDO2_pos(&can1,500);
 				RPDO1_pos(&can1,manipulator_right->joint0_deg.angle);		//位置模式(绝对位置+立即执行)+位置模式+目标位置
-			}
-			if(tim14.ClockTime % 14 == 13){
-				RPDO2_pos(&can2,500);
-				RPDO1_pos(&can2,manipulator_left->joint0_deg.angle);		//位置模式(绝对位置+立即执行)+位置模式+目标位置
+				// RPDO2_pos(&can2,500);
+				// RPDO1_pos(&can2,manipulator_left->joint0_deg.angle);		//位置模式(绝对位置+立即执行)+位置模式+目标位置
 			}
 			clamp_jaw_data_send(&manipulator_right -> clamp_jaw, &manipulator_left -> clamp_jaw);
 		}

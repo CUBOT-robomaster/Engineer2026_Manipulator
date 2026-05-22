@@ -43,6 +43,8 @@ void land_reset_control(Manipulator_t* manipulator_right, Manipulator_t* manipul
 			auto_flags -> lifting_auto_flag = 1;
 		}
 		else if(auto_flags -> land_count > 1500 && auto_flags -> land_count < 3000){//抬升已升起时，机械臂复位
+			joint_sensitivity_set(manipulator_right, 2.0);
+			joint_sensitivity_set(manipulator_left, 2.0);
 			/* 右臂复位 */
 			land_point_reset(manipulator_right);
 			
@@ -51,6 +53,8 @@ void land_reset_control(Manipulator_t* manipulator_right, Manipulator_t* manipul
 		}
 		else if(auto_flags -> land_count > 3000 && auto_flags -> land_count < 4500){//抬升下降
 			auto_flags -> pre_lift_flag = 2;
+			joint_sensitivity_set(manipulator_right, 1.0);
+			joint_sensitivity_set(manipulator_left, 1.0);
 		}
 
 		auto_flags -> land_count ++;
@@ -84,17 +88,17 @@ void servo_back_control(Manipulator_t *manipulator_right, Manipulator_t *manipul
 	else if(auto_flags -> servo_back_flag == 1){
 		if(auto_flags -> servo_back_count <= 1000){
 			/* 舵机平视 */
-			hiwo_data -> pitch_servo.position = SERVO_UP_POSITION;
+			// hiwo_data -> pitch_servo.position = SERVO_UP_POSITION;
 			step_out_point_reset(manipulator_right);
 			step_out_point_reset(manipulator_left);
 		}
 		else if(auto_flags -> servo_back_count > 1000 && auto_flags -> servo_back_count <= 3000){
 			/* 舵机头朝后 */
-			hiwo_data -> yaw_servo.position = SERVO_BACK_POSITION;
+			// hiwo_data -> yaw_servo.position = SERVO_BACK_POSITION;
 		}
 		else if(auto_flags -> servo_back_count > 3000 && auto_flags -> servo_back_count <= 4000){
 			/* 舵机低头 */
-			hiwo_data -> pitch_servo.position = SERVO_MIDDLE_POSITION;
+			// hiwo_data -> pitch_servo.position = SERVO_MIDDLE_POSITION;
 		}
 		else if(auto_flags -> servo_back_count == 5000){
 			auto_flags -> servo_back_flag = 0;
@@ -105,13 +109,13 @@ void servo_back_control(Manipulator_t *manipulator_right, Manipulator_t *manipul
 	else if(auto_flags -> servo_back_flag == -1){
 		if(auto_flags -> servo_back_count <= 1000){
 			/* 舵机平视 */
-			hiwo_data -> pitch_servo.position = SERVO_UP_POSITION;
+			// hiwo_data -> pitch_servo.position = SERVO_UP_POSITION;
 			land_point_reset(manipulator_right);
 			land_point_reset(manipulator_left);
 		}
 		else if(auto_flags -> servo_back_count > 1000 && auto_flags -> servo_back_count <= 3000){
 			/* 舵机头朝前 */
-			hiwo_data -> yaw_servo.position = SERVO_FRONT_POSITION;
+			// hiwo_data -> yaw_servo.position = SERVO_FRONT_POSITION;
 		}
 		else if(auto_flags -> servo_back_count == 4000){
 			auto_flags -> servo_back_flag = 0;
@@ -344,7 +348,7 @@ void Controller_mode_exit(Manipulator_t* manipulator_right, Manipulator_t* manip
 			auto_flags -> lifting_auto_flag = 1;
 			auto_flags -> land_count = 1501;
 		}
-		if(auto_flags -> mapping_exit_count == 7000){
+		if(auto_flags -> mapping_exit_count == 6000){
 			auto_flags -> pre_mapping_flag = 0;
 			auto_flags -> mapping_exit_flag = 0;
 		}
@@ -390,7 +394,17 @@ void step_out_point_reset(Manipulator_t *manipulator){
 	manipulator -> joint6_deg.angle_target = manipulator -> joint6_deg.step_out_point * RtA - manipulator -> joint6_deg.angle_init;
 }
 
-void motor_start_control(Manipulator_t* manipulator_right, Manipulator_t* manipulator_left, auto_control_flags* auto_flags){
+void joint_sensitivity_set(Manipulator_t *manipulator, float target_sensitivity){
+	manipulator -> joint0_deg.Accel_sensitivity = target_sensitivity;
+	manipulator -> joint1_deg.Accel_sensitivity = target_sensitivity;
+	manipulator -> joint2_deg.Accel_sensitivity = target_sensitivity;
+	manipulator -> joint3_deg.Accel_sensitivity = target_sensitivity;
+	manipulator -> joint4_deg.Accel_sensitivity = target_sensitivity;
+	manipulator -> joint5_deg.Accel_sensitivity = target_sensitivity;
+	manipulator -> joint6_deg.Accel_sensitivity = target_sensitivity;
+}
+
+void motor_start_control(Manipulator_t *manipulator_right, Manipulator_t* manipulator_left, auto_control_flags* auto_flags){
 	if(auto_flags -> motor_start_mode_flag == 0){
 		if(rc_Ctrl.rc.sw <= 524 || vT13.rc.sw <= 524){
 			auto_flags -> motor_start_mode_flag = 1;

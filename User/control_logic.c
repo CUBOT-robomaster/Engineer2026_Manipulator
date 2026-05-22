@@ -59,7 +59,7 @@ void TIM14_Task(void){
 		Customer_init_image_left(&Manipulator_Left, &Custom);
 		if(tim14.ClockTime % 120 == 0){
 			/* yaw轴舵机初始化 */
-			servo_move(hiwonder_Servo.yaw_servo.servo_id, hiwonder_Servo.yaw_servo.move_time, hiwonder_Servo.yaw_servo.position);			//950正前方，175正后方
+//			servo_move(hiwonder_Servo.yaw_servo.servo_id, hiwonder_Servo.yaw_servo.move_time, hiwonder_Servo.yaw_servo.position);			//950正前方，175正后方
 		}
 	}
 	if(tim14.ClockTime > 4000){

@@ -77,10 +77,7 @@ struct LowPassFilter_Info joint6_angle_left={
 float LPFilter(float sampling, struct LowPassFilter_Info *LPF){
 	/* Ò»½×µÍÍ¨ÂË²¨Æ÷£ºp(n) = c¡¤q(n) + (1 - c)¡¤p(n - 1) */
 	LPF -> sampling = sampling;
-	LPF -> output = LPF -> filter_coefficient * LPF -> sampling + (1 - LPF -> filter_coefficient) * LPF -> last_output;
-	if(fabs(LPF -> output - LPF -> last_output) > 10.0f){
-		LPF -> output = LPF -> last_output;
-	}  
+	LPF -> output = LPF -> filter_coefficient * LPF -> sampling + (1 - LPF -> filter_coefficient) * LPF -> last_output; 
 	LPF -> last_output = LPF -> output;
 	
 	return LPF -> output ;

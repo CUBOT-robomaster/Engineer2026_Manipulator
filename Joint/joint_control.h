@@ -50,20 +50,21 @@ typedef struct
 	float angle_add;
 	float angle_init;
 	float angle_target;
-	float velocity;			//速度
-	float cc_init;			//自定义控制器初始化角度
-	float cc_recv;			//自定义控制器当前角度
-	float max_velocity;		//最小速度
-	float min_velocity;		//最小速度
-	float sensitivity;		//控制各关节运动的灵敏度
-	float zero_point;		//准备开启或关闭自定义控制器模式时进行复位的电机位置
-	float limit_min;		//限幅最小值
-	float limit_max;		//限幅最大值
-	float land_point;		//登岛复位位置
-	float step_out_point;	//步进复位位置
-	uint8_t init_flag;		//角度初始化标志位
+	float velocity;				//速度
+	float cc_init;				//自定义控制器初始化角度
+	float cc_recv;				//自定义控制器当前角度
+	float max_velocity;			//最小速度
+	float min_velocity;			//最小速度
+	float sensitivity;			//控制各关节运动的灵敏度
+	float zero_point;			//准备开启或关闭自定义控制器模式时进行复位的电机位置
+	float limit_min;			//限幅最小值
+	float limit_max;			//限幅最大值
+	float land_point;			//登岛复位位置
+	float step_out_point;		//步进复位位置
+	uint8_t init_flag;			//角度初始化标志位
 
-	float Accel;//加速度
+	float Accel;				//加速度
+	float Accel_sensitivity;	//加速度灵敏度
     
 }joint_angle_t;
 

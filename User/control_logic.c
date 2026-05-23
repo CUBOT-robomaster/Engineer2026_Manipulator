@@ -20,10 +20,13 @@ uint16_t controller_count = 0;
 void robot_offline_protection(){
 	RobotOnlineState(&check_robot_state);
 	check_robot_state.usart_state.GPIO_data = HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_1);
-	if(check_robot_state.usart_state.GPIO_data == 0 || Auto_flags.motor_start_mode_flag == 1 || vT13.rc.mode_sw == 0){
+	if(check_robot_state.usart_state.GPIO_data == 0 || Auto_flags.motor_start_mode_flag == 1 || (vT13.rc.mode_sw == 0 && check_robot_state.usart_state.Check_receiver > 50)){
 		rc_Ctrl.isOnline = 0;//“£øÿ¿Îœﬂ
+		Auto_flags.pre_mapping_flag = 0;
+		Manipulator_Right.controller_mapping_flag = 0;
+		Manipulator_Left.controller_mapping_flag = 0;
 	}
-	else if((check_robot_state.usart_state.GPIO_data == 1 && Auto_flags.motor_start_mode_flag == 0) && ((check_robot_state.usart_state.vt13_check_count <= 50) || (vT13.rc.mode_sw != 0))){
+	else if((check_robot_state.usart_state.GPIO_data == 1 && Auto_flags.motor_start_mode_flag == 0) && ((check_robot_state.usart_state.Check_receiver <= 50) || (vT13.rc.mode_sw != 0))){
 		rc_Ctrl.isOnline = 1;
 	}
 	check_robot_state.usart_state.vt13_check_count ++;

@@ -9,7 +9,7 @@ void Auto_Control(Manipulator_t* manipulator_right, Manipulator_t* manipulator_l
 	land_reset_control(manipulator_right, manipulator_left, auto_flags);
 	servo_back_control(manipulator_right, manipulator_left, hiwo_data, auto_flags);
 	point_of_view_control(hiwo_data, auto_flags);
-	scope_mode_control(hiwo_data, auto_flags);
+	// scope_mode_control(hiwo_data, auto_flags);
 	clamp_jaw_control(manipulator_right, manipulator_left, auto_flags, custom);
 	lifting_control(auto_flags);
 	Controller_mode_start(manipulator_right, manipulator_left, auto_flags, custom);
@@ -30,10 +30,22 @@ void finger_data_test(Manipulator_t* manipulator_right, Manipulator_t* manipulat
 void land_reset_control(Manipulator_t* manipulator_right, Manipulator_t* manipulator_left, auto_control_flags* auto_flags){
 	// auto_flags -> lift_complish_flag = mecanum_Recv.lift_complish_flag;
 	/* 标志位为0，则检测对应键位，按下则将登岛位置归零 */
-	if(auto_flags -> land_flag == 0){
-		if(vT13.key_V_flag == 1 || rc_Ctrl.key_V_flag == 1){
-			auto_flags -> land_flag = 1;
-			auto_flags -> land_count = 0;
+	if(auto_flags -> land_flag == 0 && auto_flags -> pre_mapping_flag == 0){
+		if(vT13.key_ctrl_flag == 0 && vT13.key_shift_flag == 0 && vT13.key_B_flag == 1){
+			if(auto_flags -> pre_mapping_flag == 0){
+				auto_flags -> land_flag = 1;
+				auto_flags -> land_count = 0;
+			}
+			/* 如果在准备映射模式则自动退出映射模式 */
+			else if(auto_flags -> pre_mapping_flag == 1){
+				auto_flags -> pre_mapping_flag = 0;					//退出准备映射模式
+				auto_flags -> land_flag = 1;						//进入登岛模式
+				auto_flags -> lifting_auto_flag = 1;
+				auto_flags -> land_count = 1501;
+				manipulator_right -> controller_mapping_flag = 0;
+				manipulator_left -> controller_mapping_flag = 0;
+			}
+			
 		}
 	}
 	/* 标志位为1，进行复位，复位期间不再检测键位 */
@@ -190,7 +202,7 @@ void clamp_jaw_control(Manipulator_t* manipulator_right, Manipulator_t* manipula
 	// }
 	// /* 键位Ctrl+E控制右臂夹爪 */
 	// else if(manipulator_right -> controller_mapping_flag % 2 == 0){
-		if((rc_Ctrl.key_ctrl_flag == 1 || vT13.key_ctrl_flag == 1) && (rc_Ctrl.key_E_flag == 1 || vT13.key_E_flag == 1) && (rc_Ctrl.key_shift_flag == 0 && vT13.key_shift_flag == 0)){
+		if((rc_Ctrl.key_ctrl_flag == 1 || vT13.key_ctrl_flag == 1) && (rc_Ctrl.key_G_flag == 1 || vT13.key_G_flag == 1) && (rc_Ctrl.key_shift_flag == 0 && vT13.key_shift_flag == 0)){
 			auto_flags -> right_clamp_jaw_key_count ++;
 			if(auto_flags -> right_clamp_jaw_key_count == Clamp_Jaw_Close_Filter_Limit_Time){
 				auto_flags -> right_clamp_jaw_key_flag ++;
@@ -213,7 +225,7 @@ void clamp_jaw_control(Manipulator_t* manipulator_right, Manipulator_t* manipula
 	// }
 	// /* 键位Ctrl+Q控制左臂夹爪 */
 	// else if(manipulator_left -> controller_mapping_flag % 2 == 0){
-		if((rc_Ctrl.key_ctrl_flag == 1 || vT13.key_ctrl_flag == 1) && (rc_Ctrl.key_Q_flag == 1 || vT13.key_Q_flag == 1) && (rc_Ctrl.key_shift_flag == 0 && vT13.key_shift_flag == 0)){
+		if((rc_Ctrl.key_ctrl_flag == 1 || vT13.key_ctrl_flag == 1) && (rc_Ctrl.key_F_flag == 1 || vT13.key_F_flag == 1) && (rc_Ctrl.key_shift_flag == 0 && vT13.key_shift_flag == 0)){
 			auto_flags -> left_clamp_jaw_key_count ++;
 			if(auto_flags -> left_clamp_jaw_key_count == Clamp_Jaw_Close_Filter_Limit_Time){
 				auto_flags -> left_clamp_jaw_key_flag ++;
@@ -252,10 +264,12 @@ void clamp_jaw_control(Manipulator_t* manipulator_right, Manipulator_t* manipula
 }
 
 void lifting_control(auto_control_flags* auto_flags){
-		if((rc_Ctrl.key_ctrl_flag == 0 && vT13.key_ctrl_flag == 0) && (rc_Ctrl.key_shift_flag == 1 || vT13.key_shift_flag == 1) && (rc_Ctrl.key_Q_flag == 1 || vT13.key_Q_flag == 1)){
+		// if((rc_Ctrl.key_ctrl_flag == 0 && vT13.key_ctrl_flag == 0) && (rc_Ctrl.key_shift_flag == 1 || vT13.key_shift_flag == 1) && (rc_Ctrl.key_Q_flag == 1 || vT13.key_Q_flag == 1)){
+		if(vT13.rc.ch2 >= 1224){
 			auto_flags -> pre_lift_flag = 1;
 		}
-		else if((rc_Ctrl.key_ctrl_flag == 0 && vT13.key_ctrl_flag == 0) && (rc_Ctrl.key_shift_flag == 1 || vT13.key_shift_flag == 1) && (rc_Ctrl.key_E_flag == 1 || vT13.key_E_flag == 1)){
+		// else if((rc_Ctrl.key_ctrl_flag == 0 && vT13.key_ctrl_flag == 0) && (rc_Ctrl.key_shift_flag == 1 || vT13.key_shift_flag == 1) && (rc_Ctrl.key_E_flag == 1 || vT13.key_E_flag == 1)){
+		else if(vT13.rc.ch2 <= 824){
 			auto_flags -> pre_lift_flag = 2;
 		}
 		else if(auto_flags -> lifting_auto_flag == 0){
@@ -266,7 +280,7 @@ void lifting_control(auto_control_flags* auto_flags){
 void Controller_mode_start(Manipulator_t* manipulator_right, Manipulator_t* manipulator_left, auto_control_flags* auto_flags, custom_robot_data_t* custom){
 	if(auto_flags -> pre_mapping_flag == 0){
 		/* 检测准备映射模式按键Ctrl+B */
-		if((vT13.key_ctrl_flag == 1 || rc_Ctrl.key_ctrl_flag == 1) && (vT13.key_B_flag == 1 || rc_Ctrl.key_B_flag == 1)){
+		if((vT13.key_ctrl_flag == 1 || rc_Ctrl.key_ctrl_flag == 1) && vT13.key_shift_flag == 0 && (vT13.key_B_flag == 1 || rc_Ctrl.key_B_flag == 1)){
 			auto_flags -> pre_mapping_flag = 1;
 			auto_flags -> pre_mapping_count = 0;
 			auto_flags -> mapping_exit_count = 0;
@@ -289,9 +303,10 @@ void Controller_mode_start(Manipulator_t* manipulator_right, Manipulator_t* mani
 			auto_flags -> lifting_auto_flag = 0;
 		}
 
-		if(auto_flags -> pre_mapping_count >= 10000 && auto_flags -> mapping_exit_flag == 0){
+		if(auto_flags -> pre_mapping_count >= 3000 && auto_flags -> mapping_exit_flag == 0){
 			/* 检测映射模式手势 */
-			if(custom -> image_recv.Coordinate.right_thumb_switch == 1 && custom -> image_recv.Coordinate.right_index_switch == 1 && custom -> image_recv.Coordinate.right_middle_switch == 1){
+			// if(custom -> image_recv.Coordinate.right_thumb_switch == 1 && custom -> image_recv.Coordinate.right_index_switch == 1 && custom -> image_recv.Coordinate.right_middle_switch == 1){
+			if(vT13.key_ctrl_flag == 0 && vT13.key_shift_flag == 1 && vT13.key_E_flag == 1){
 				manipulator_right -> controller_mapping_count ++;
 				if(manipulator_right -> controller_mapping_count == Mapping_Filter_Limit_Time){
 					if(manipulator_right -> controller_mapping_flag % 2 == 0){
@@ -309,7 +324,8 @@ void Controller_mode_start(Manipulator_t* manipulator_right, Manipulator_t* mani
 				manipulator_right -> controller_mapping_count = 0;
 			}
 
-			if(custom -> image_recv.Coordinate.left_thumb_switch == 1 && custom -> image_recv.Coordinate.left_index_switch == 1 && custom -> image_recv.Coordinate.left_middle_switch == 1){
+			// if(custom -> image_recv.Coordinate.left_thumb_switch == 1 && custom -> image_recv.Coordinate.left_index_switch == 1 && custom -> image_recv.Coordinate.left_middle_switch == 1){
+			if(vT13.key_ctrl_flag == 0 && vT13.key_shift_flag == 1 && vT13.key_Q_flag == 1){
 				manipulator_left -> controller_mapping_count ++;
 				if(manipulator_left -> controller_mapping_count == Mapping_Filter_Limit_Time){
 					if(manipulator_left -> controller_mapping_flag % 2 == 0){
@@ -327,32 +343,8 @@ void Controller_mode_start(Manipulator_t* manipulator_right, Manipulator_t* mani
 				manipulator_left -> controller_mapping_count = 0;
 			}	
 		}
-		Controller_mode_exit(manipulator_right, manipulator_left, auto_flags);
+		// Controller_mode_exit(manipulator_right, manipulator_left, auto_flags);
 		auto_flags -> pre_mapping_count ++;
-	}
-}
-
-void Controller_mode_exit(Manipulator_t* manipulator_right, Manipulator_t* manipulator_left, auto_control_flags* auto_flags){
-	if(auto_flags -> mapping_exit_flag == 0){
-		if((vT13.key_ctrl_flag == 1 || rc_Ctrl.key_ctrl_flag == 1) && (vT13.key_shift_flag == 1 || rc_Ctrl.key_shift_flag == 1) && (vT13.key_B_flag == 1 || rc_Ctrl.key_B_flag == 1)){
-			auto_flags -> mapping_exit_flag = 1;
-			auto_flags -> mapping_exit_count = 0;
-			manipulator_right -> controller_mapping_flag = 0;
-			manipulator_left -> controller_mapping_flag = 0;
-		}
-	}
-	else if(auto_flags -> mapping_exit_flag == 1){
-		/* 复位至登岛姿态 */
-		if(auto_flags -> mapping_exit_count == Mapping_Exit_Filter_Limit_Time){
-			auto_flags -> land_flag = 1;
-			auto_flags -> lifting_auto_flag = 1;
-			auto_flags -> land_count = 1501;
-		}
-		if(auto_flags -> mapping_exit_count == 6000){
-			auto_flags -> pre_mapping_flag = 0;
-			auto_flags -> mapping_exit_flag = 0;
-		}
-		auto_flags -> mapping_exit_count ++;
 	}
 }
 
@@ -428,4 +420,15 @@ void motor_start_control(Manipulator_t *manipulator_right, Manipulator_t* manipu
 		}
 		auto_flags -> motor_start_mode_count ++;
 	}
+}
+
+/* 自动存储能量单元函数 */
+void Auto_store_control(Manipulator_t *manipulator, auto_control_flags *auto_flags){
+	if(auto_flags -> auto_store_flag == 0){
+		if(0/* 键位 */){
+			auto_flags -> auto_store_flag = 0;
+			auto_flags -> auto_store_count = 0;
+		}
+	}
+	
 }

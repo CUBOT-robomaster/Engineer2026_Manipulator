@@ -29,19 +29,20 @@ UART_RxBuffer uart4_buffer={
 };
 
 void Mecanum_data_Send(UART_HandleTypeDef* huart_x, unsigned char* pBuffer){
-	mecanum_Send.X_Integ = (int32_t)(vT13.Chassis_X_Integ * 1000);
-	mecanum_Send.Y_Integ = (int32_t)(vT13.Chassis_Y_Integ * 1000);
-	mecanum_Send.vt13_mouse_x = (vT13.mouse.x) * 3 + (vT13.rc.ch3 - 1024) * 0.3;	//图传ch2是左拨杆上下
+	mecanum_Send.X_Integ = (int32_t)(rc_Ctrl.Chassis_X_Integ * 1000 + vT13.Chassis_X_Integ * 1000);
+	mecanum_Send.Y_Integ = (int32_t)(rc_Ctrl.Chassis_Y_Integ * 1000 + vT13.Chassis_Y_Integ * 1000);
+	mecanum_Send.vt13_mouse_x = (vT13.mouse.x) * 3 + (rc_Ctrl.rc.ch2 - 1024) * 0.3;	//图传ch2是左拨杆上下
 	mecanum_Send.rc_sw = rc_Ctrl.rc.sw;
 	mecanum_Send.rc_s1 = rc_Ctrl.rc.s1;
 	mecanum_Send.V_flag = rc_Ctrl.rc.s2;
 	mecanum_Send.rc_isOnline = rc_Ctrl.isOnline;
 	
 	mecanum_Send.control_flags[0] = (vT13.key_ctrl_flag << 5) | (vT13.key_shift_flag << 4) | (vT13.key_R_flag << 3) | (vT13.key_Z_flag << 2) | (vT13.key_X_flag << 1) | (vT13.key_C_flag);
-	mecanum_Send.control_flags[1] = ((Manipulator_Left.controller_mapping_flag % 2) << 1) | (Manipulator_Right.controller_mapping_flag % 2);
+	mecanum_Send.control_flags[1] = (vT13.key_V_flag << 4) | (vT13.key_F_flag << 3) | (vT13.key_G_flag << 2) | ((Manipulator_Left.controller_mapping_flag % 2) << 1) | (Manipulator_Right.controller_mapping_flag % 2);
 	mecanum_Send.control_flags[2] = 0;
 	mecanum_Send.land_flag = Auto_flags.pre_lift_flag;
 	mecanum_Send.data_check_num = (uint16_t)(tim14.ClockTime * 0.05);
+	mecanum_Send.dead_flag = !check_robot_state.usart_state.GPIO_data;
 	
 	memcpy(pBuffer,&mecanum_Send,Mecanum_Datas_Send_Length);
 	

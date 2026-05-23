@@ -47,6 +47,12 @@ typedef struct{
 	uint16_t 	motor_start_mode_count;			//电机使能模式计时
 
 	uint8_t		lifting_auto_flag;				//抬升自动标志位，此时无法手动控制抬升
+
+	int8_t		auto_store_flag;				//自动存储能量单元标志位
+	uint16_t	auto_store_count;				//自动存储能量单元计时
+
+	int8_t		auto_take_out_flag;				//自动取出能量单元标志位
+	uint16_t	auto_take_out_count;			//自动取出能量单元计时
 }auto_control_flags;
 
 /* 测试用变量 */
@@ -71,7 +77,6 @@ void scope_mode_control(Hiwonder_Servo* hiwo_data, auto_control_flags* auto_flag
 void clamp_jaw_control(Manipulator_t* manipulator_right, Manipulator_t* manipulator_left, auto_control_flags* auto_flags, custom_robot_data_t* custom);
 void lifting_control(auto_control_flags* auto_flags);
 void Controller_mode_start(Manipulator_t* manipulator_right, Manipulator_t* manipulator_left, auto_control_flags* auto_flags, custom_robot_data_t* custom);
-void Controller_mode_exit(Manipulator_t* manipulator_right, Manipulator_t* manipulator_left, auto_control_flags* auto_flags);
 void joint_sensitivity_set(Manipulator_t *manipulator, float target_sensitivity);
 void motor_start_control(Manipulator_t* manipulator_right, Manipulator_t* manipulator_left, auto_control_flags* auto_flags);
 extern auto_control_flags Auto_flags;

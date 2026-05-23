@@ -41,15 +41,15 @@ typedef struct{
 	uint8_t header_1;
 	int32_t X_Integ;					//float
 	int32_t Y_Integ;					//float
-	int16_t vt13_mouse_x;			//鼠标位移
+	int16_t vt13_mouse_x;				//鼠标位移
 	uint16_t rc_sw;
 	uint8_t rc_s1;
 	uint8_t V_flag;
 	uint8_t rc_isOnline;
-	uint8_t control_flags[3];	//八个标志位
-	uint8_t land_flag;				//抬升标志位
-	uint16_t data_check_num;	//检测数据是否更新，数值为计时器的0.1倍
-	
+	uint8_t control_flags[3];			//八个标志位
+	uint8_t land_flag;					//抬升标志位
+	uint16_t data_check_num;			//检测数据是否更新，数值为计时器的0.1倍
+	uint8_t dead_flag;					//死亡标志位
 }MecanumChassis_Send;//需要发送给底盘的数据
 
 typedef struct{

@@ -341,7 +341,8 @@ void Controller_mode_start(Manipulator_t* manipulator_right, Manipulator_t* mani
 			}
 			else{
 				manipulator_left -> controller_mapping_count = 0;
-			}	
+			}
+			Auto_move_key_check(manipulator_right, manipulator_left, auto_flags);	
 		}
 		// Controller_mode_exit(manipulator_right, manipulator_left, auto_flags);
 		auto_flags -> pre_mapping_count ++;
@@ -422,13 +423,57 @@ void motor_start_control(Manipulator_t *manipulator_right, Manipulator_t* manipu
 	}
 }
 
-/* 自动存储能量单元函数 */
-void Auto_store_control(Manipulator_t *manipulator, auto_control_flags *auto_flags){
-	if(auto_flags -> auto_store_flag == 0){
-		if(0/* 键位 */){
-			auto_flags -> auto_store_flag = 0;
-			auto_flags -> auto_store_count = 0;
+void Auto_move_key_check(Manipulator_t *manipulator_right, Manipulator_t* manipulator_left, auto_control_flags *auto_flags){
+	if(manipulator_right -> auto_store_flag == 0){
+		if(vT13.rc.ch1 > 1224){
+			manipulator_right -> auto_store_flag = 1;
+			manipulator_right -> auto_store_count = 0;
+			auto_flags -> lifting_auto_flag = 1;
+		}
+		else if(vT13.rc.ch1 < 824){
+			manipulator_right -> auto_take_out_flag = 1;
+			manipulator_right -> auto_take_out_count = 0;
+			auto_flags -> lifting_auto_flag = 1;
 		}
 	}
-	
+	Auto_store_control(manipulator_right, auto_flags);
+}
+
+/* 前面的区域，等以后再来探索吧 */
+--------------------------------------------------------------------------------------------------------------------------------------
+
+/* 自动存储能量单元函数 */
+void Auto_store_control(Manipulator_t *manipulator, auto_control_flags *auto_flags){
+	if(manipulator -> auto_store_flag == 1){
+		if(manipulator -> auto_store_count <= manipulator -> auto_store_key_time[0]){
+			auto_flags -> pre_lift_flag = 1;
+		}
+		else if((manipulator -> auto_store_count > manipulator -> auto_store_key_time[0]) && (manipulator -> auto_store_count <= manipulator -> auto_store_key_time[1])){
+			manipulator -> joint0_deg.angle_target = manipulator -> joint0_deg.auto_store_key_point[0] * RtA - manipulator -> joint0_deg.angle_init;
+			manipulator -> joint3_deg.angle_target = manipulator -> joint3_deg.auto_store_key_point[0] * RtA - manipulator -> joint3_deg.angle_init;
+			manipulator -> joint5_deg.angle_target = manipulator -> joint5_deg.auto_store_key_point[0] * RtA - manipulator -> joint5_deg.angle_init;
+		}
+		else if((manipulator -> auto_store_count > manipulator -> auto_store_key_time[1]) && (manipulator -> auto_store_count <= manipulator -> auto_store_key_time[2])){
+			
+			auto_flags -> pre_lift_flag = 3;
+		}
+		else if((manipulator -> auto_store_count > manipulator -> auto_store_key_time[2]) && (manipulator -> auto_store_count <= manipulator -> auto_store_key_time[3])){
+			manipulator -> joint0_deg.angle_target = manipulator -> joint0_deg.auto_store_key_point[1] * RtA - manipulator -> joint0_deg.angle_init;
+			manipulator -> joint1_deg.angle_target = manipulator -> joint1_deg.auto_store_key_point[1] * RtA - manipulator -> joint1_deg.angle_init;
+		}
+		else if((manipulator -> auto_store_count > manipulator -> auto_store_key_time[3]) && (manipulator -> auto_store_count <= manipulator -> auto_store_key_time[4])){
+			auto_flags -> pre_lift_flag = 1;
+		}
+		else if((manipulator -> auto_store_count == manipulator -> auto_store_key_time[4])){
+			zero_point_reset(manipulator);
+		}
+		else if((manipulator -> auto_store_count > manipulator -> auto_store_key_time[5]) && (manipulator -> auto_store_count <= manipulator -> auto_store_key_time[6])){
+			manipulator -> auto_store_flag = 0;
+			manipulator -> lifting_auto_flag = 0;
+		}
+
+
+		manipulator -> auto_store_count ++;
+	}
+
 }

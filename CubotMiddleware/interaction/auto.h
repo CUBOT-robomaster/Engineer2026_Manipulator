@@ -79,5 +79,9 @@ void lifting_control(auto_control_flags* auto_flags);
 void Controller_mode_start(Manipulator_t* manipulator_right, Manipulator_t* manipulator_left, auto_control_flags* auto_flags, custom_robot_data_t* custom);
 void joint_sensitivity_set(Manipulator_t *manipulator, float target_sensitivity);
 void motor_start_control(Manipulator_t* manipulator_right, Manipulator_t* manipulator_left, auto_control_flags* auto_flags);
+void Auto_move_key_check(Manipulator_t *manipulator_right, Manipulator_t* manipulator_left, auto_control_flags *auto_flags);
+void Auto_store_control(Manipulator_t *manipulator, auto_control_flags *auto_flags);
+void Auto_store_move(Manipulator_t *manipulator, uint8_t key_time);
+void Auto_take_out_move(Manipulator_t *manipulator, uint8_t key_time);
 extern auto_control_flags Auto_flags;
 #endif

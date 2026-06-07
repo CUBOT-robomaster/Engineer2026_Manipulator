@@ -48,6 +48,16 @@ Manipulator_t Manipulator_Right = {
 	.joint5_deg.angle_target = 0,
 	.joint6_deg.angle_target = 0,
 
+	/* 目标时间 */
+	.auto_store_key_time[0] = 1000,
+	.auto_store_key_time[1] = 2000,
+	.auto_store_key_time[2] = 3000,
+	.auto_store_key_time[3] = 4000,
+	.auto_store_key_time[4] = 5000,
+	.auto_store_key_time[5] = 6000,
+	.auto_store_key_time[6] = 7000,
+	.auto_store_key_time[7] = 8000,
+
 	/* 初始化运动量 */
 	.joint0_deg.velocity = 0,
 	.joint0_deg.max_velocity = 0.012 * JOINT_VELOCITY_SENSITIVITY,
@@ -60,6 +70,8 @@ Manipulator_t Manipulator_Right = {
 	.joint0_deg.limit_max = 114,
 	.joint0_deg.land_point = 0.1,			//弧度制，对应角度制为-12
 	.joint0_deg.step_out_point = -0.04,		//弧度制
+	.joint0_deg.auto_store_key_point[0] = 1.161,
+	.joint0_deg.auto_store_key_point[1] = 1.755,
 
 	.joint1_deg.velocity = 0,
 	.joint1_deg.max_velocity = 0.32 * JOINT_VELOCITY_SENSITIVITY,
@@ -72,6 +84,7 @@ Manipulator_t Manipulator_Right = {
 	.joint1_deg.limit_max = -1,
 	.joint1_deg.land_point = -2.7,
 	.joint1_deg.step_out_point = -2.7,
+	.joint1_deg.auto_store_key_point[1] = -2.69,
 
 	.joint2_deg.velocity = 0,
 	.joint2_deg.max_velocity = 0.32 * JOINT_VELOCITY_SENSITIVITY,
@@ -96,6 +109,7 @@ Manipulator_t Manipulator_Right = {
 	.joint3_deg.limit_max = 0.5,
 	.joint3_deg.land_point = -1.28,
 	.joint3_deg.step_out_point = -1.85,
+	.joint3_deg.auto_store_key_point[0] = -1.11,
 
 	.joint4_deg.velocity = 0,
 	.joint4_deg.max_velocity = 0.32 * JOINT_VELOCITY_SENSITIVITY,
@@ -120,6 +134,7 @@ Manipulator_t Manipulator_Right = {
 	.joint5_deg.limit_max = 1.84,
 	.joint5_deg.land_point = 0,
 	.joint5_deg.step_out_point = 0,
+	.joint5_deg.auto_store_key_point[0] = -0.44,
 
 	.joint6_deg.velocity = 0,
 	.joint6_deg.max_velocity = 0.32 * JOINT_VELOCITY_SENSITIVITY,
@@ -299,6 +314,7 @@ void Motor_8010_Init(Manipulator_t* manipulator_right, Manipulator_t* manipulato
 		manipulator_right -> joint0_deg.init_flag = 1;
 		manipulator_left -> joint0_deg.init_flag = 1;
 	}
+	motor_8010_count ++;
 }
 	
 void Manipulator_angle_check(Manipulator_t* manipulator_right, Manipulator_t* manipulator_left){
@@ -314,10 +330,14 @@ void Manipulator_angle_check(Manipulator_t* manipulator_right, Manipulator_t* ma
 }
 
 void joint0_Ctrl_right(Manipulator_t* manipulator){
-//	if(rc_Ctrl.rc.ch2 > =  1124 && rc_Ctrl.rc.s1 == 3 && rc_Ctrl.rc.s2 == 1 && manipulator -> controller_mapping_flag % 2 == 0)
-//		manipulator -> joint0_deg.angle_target -= -0.03;
-//	else if(rc_Ctrl.rc.ch2 < =  924 && rc_Ctrl.rc.s1 == 3 && rc_Ctrl.rc.s2 == 1 && manipulator -> controller_mapping_flag % 2 == 0)
-//		manipulator -> joint0_deg.angle_target += -0.03;
+	// if(rc_Ctrl.rc.ch2 >=  1124 && rc_Ctrl.rc.s1 == 3 && rc_Ctrl.rc.s2 == 1 && manipulator -> controller_mapping_flag % 2 == 0)
+	// 	manipulator -> joint0_deg.angle_target -= -0.03;
+	// else if(rc_Ctrl.rc.ch2 <=  924 && rc_Ctrl.rc.s1 == 3 && rc_Ctrl.rc.s2 == 1 && manipulator -> controller_mapping_flag % 2 == 0)
+	// 	manipulator -> joint0_deg.angle_target += -0.03;
+	if(vT13.rc.ch0 >=  1124 && manipulator -> controller_mapping_flag % 2 == 0)
+		manipulator -> joint0_deg.angle_target -= -0.03;
+	else if(vT13.rc.ch0 <=  924 && manipulator -> controller_mapping_flag % 2 == 0)
+		manipulator -> joint0_deg.angle_target += -0.03;
 
 	if(manipulator -> joint0_deg.angle_target + manipulator -> joint0_deg.angle_init > manipulator -> joint0_deg.angle + 0.01)
 		manipulator -> joint0_deg.angle += velocity_plan(&manipulator -> joint0_deg);
@@ -327,10 +347,10 @@ void joint0_Ctrl_right(Manipulator_t* manipulator){
 }
 
 void joint1_Ctrl_right(Manipulator_t* manipulator){
-//	if(rc_Ctrl.rc.ch3 > =  1124 && rc_Ctrl.rc.s1 == 3 && rc_Ctrl.rc.s2 == 1 && manipulator -> controller_mapping_flag % 2 == 0)
-//		manipulator -> joint1_deg.angle_target += 0.01*sensitivity;
-//	else if(rc_Ctrl.rc.ch3 < =  924 && rc_Ctrl.rc.s1 == 3 && rc_Ctrl.rc.s2 == 1 && manipulator -> controller_mapping_flag % 2 == 0)
-//		manipulator -> joint1_deg.angle_target -= 0.01*sensitivity;
+	// if(rc_Ctrl.rc.ch3 >=  1124 && rc_Ctrl.rc.s1 == 3 && rc_Ctrl.rc.s2 == 1 && manipulator -> controller_mapping_flag % 2 == 0)
+	// 	manipulator -> joint1_deg.angle_target += 0.01*sensitivity;
+	// else if(rc_Ctrl.rc.ch3 <=  924 && rc_Ctrl.rc.s1 == 3 && rc_Ctrl.rc.s2 == 1 && manipulator -> controller_mapping_flag % 2 == 0)
+	// 	manipulator -> joint1_deg.angle_target -= 0.01*sensitivity;
  
 	if(manipulator -> joint1_deg.angle_target + manipulator -> joint1_deg.angle_init > manipulator -> joint1_deg.angle + 0.01)
 		manipulator -> joint1_deg.angle += velocity_plan(&manipulator -> joint1_deg);
@@ -340,10 +360,10 @@ void joint1_Ctrl_right(Manipulator_t* manipulator){
 }
 
 void joint2_Ctrl_right(Manipulator_t* manipulator){
-//	if(rc_Ctrl.rc.ch0 > =  1124 && rc_Ctrl.rc.s1 == 3 && rc_Ctrl.rc.s2 == 1 && manipulator -> controller_mapping_flag % 2 == 0)
-//		manipulator -> joint2_deg.angle_target += 0.01;
-//	else if(rc_Ctrl.rc.ch0 < =  924 && rc_Ctrl.rc.s1 == 3 && rc_Ctrl.rc.s2 == 1 && manipulator -> controller_mapping_flag % 2 == 0)
-//		manipulator -> joint2_deg.angle_target -= 0.01;
+	// if(rc_Ctrl.rc.ch0 >=  1124 && rc_Ctrl.rc.s1 == 3 && rc_Ctrl.rc.s2 == 1 && manipulator -> controller_mapping_flag % 2 == 0)
+	// 	manipulator -> joint2_deg.angle_target += 0.01;
+	// else if(rc_Ctrl.rc.ch0 <=  924 && rc_Ctrl.rc.s1 == 3 && rc_Ctrl.rc.s2 == 1 && manipulator -> controller_mapping_flag % 2 == 0)
+	// 	manipulator -> joint2_deg.angle_target -= 0.01;
 	
 	if(manipulator -> joint2_deg.angle_target + manipulator -> joint2_deg.angle_init > manipulator -> joint2_deg.angle + 0.01)
 		manipulator -> joint2_deg.angle += velocity_plan(&manipulator -> joint2_deg);
@@ -353,9 +373,9 @@ void joint2_Ctrl_right(Manipulator_t* manipulator){
 }
 
 void joint3_Ctrl_right(Manipulator_t* manipulator){
-	// if(rc_Ctrl.rc.ch1 > =  1124 && rc_Ctrl.rc.s1 == 3 && rc_Ctrl.rc.s2 == 1 && manipulator -> controller_mapping_flag % 2 == 0)
+	// if(rc_Ctrl.rc.ch1 >   1124 && rc_Ctrl.rc.s1 == 3 && rc_Ctrl.rc.s2 == 1 && manipulator -> controller_mapping_flag % 2 == 0)
 	// 	manipulator -> joint3_deg.angle_target += -0.01;
-	// else if(rc_Ctrl.rc.ch1 < =  924 && rc_Ctrl.rc.s1 == 3 && rc_Ctrl.rc.s2 == 1 && manipulator -> controller_mapping_flag % 2 == 0)
+	// else if(rc_Ctrl.rc.ch1 <=  924 && rc_Ctrl.rc.s1 == 3 && rc_Ctrl.rc.s2 == 1 && manipulator -> controller_mapping_flag % 2 == 0)
 	// 	manipulator -> joint3_deg.angle_target -= -0.01;
 
 	if(manipulator -> joint3_deg.angle_target + manipulator -> joint3_deg.angle_init > manipulator -> joint3_deg.angle + 0.01)
@@ -369,10 +389,10 @@ void joint3_Ctrl_right(Manipulator_t* manipulator){
 
 void joint4_Ctrl_right(Manipulator_t* manipulator){
 		/* 遥控模式 */
-//	if(rc_Ctrl.rc.ch2 > =  1124 && rc_Ctrl.rc.s1 == 3 && rc_Ctrl.rc.s2 == 3 && manipulator -> controller_mapping_flag % 2 == 0)
-//		manipulator -> joint4_deg.angle_target += 0.01;
-//	else if(rc_Ctrl.rc.ch2 < =  924 && rc_Ctrl.rc.s1 == 3 && rc_Ctrl.rc.s2 == 3 && manipulator -> controller_mapping_flag % 2 == 0)
-//		manipulator -> joint4_deg.angle_target -= 0.01;
+	// if(rc_Ctrl.rc.ch2 >=  1124 && rc_Ctrl.rc.s1 == 3 && rc_Ctrl.rc.s2 == 3 && manipulator -> controller_mapping_flag % 2 == 0)
+	// 	manipulator -> joint4_deg.angle_target += 0.01;
+	// else if(rc_Ctrl.rc.ch2 <=  924 && rc_Ctrl.rc.s1 == 3 && rc_Ctrl.rc.s2 == 3 && manipulator -> controller_mapping_flag % 2 == 0)
+	// 	manipulator -> joint4_deg.angle_target -= 0.01;
 
 	if(manipulator -> joint4_deg.angle_target + manipulator -> joint4_deg.angle_init > manipulator -> joint4_deg.angle + 0.01)
 		manipulator -> joint4_deg.angle += velocity_plan(&manipulator -> joint4_deg);
@@ -382,10 +402,10 @@ void joint4_Ctrl_right(Manipulator_t* manipulator){
 }
 
 void joint5_Ctrl_right(Manipulator_t* manipulator){
-//	if(rc_Ctrl.rc.ch3 > =  1124 && rc_Ctrl.rc.s1 == 3 && rc_Ctrl.rc.s2 == 3 && manipulator -> controller_mapping_flag % 2 == 0)
-//		manipulator -> joint5_deg.angle_target -= 0.01;
-//	else if(rc_Ctrl.rc.ch3 < =  924 && rc_Ctrl.rc.s1 == 3 && rc_Ctrl.rc.s2 == 3 && manipulator -> controller_mapping_flag % 2 == 0)
-//		manipulator -> joint5_deg.angle_target += 0.01;
+	// if(rc_Ctrl.rc.ch3 >=  1124 && rc_Ctrl.rc.s1 == 3 && rc_Ctrl.rc.s2 == 3 && manipulator -> controller_mapping_flag % 2 == 0)
+	// 	manipulator -> joint5_deg.angle_target -= 0.01;
+	// else if(rc_Ctrl.rc.ch3 <=  924 && rc_Ctrl.rc.s1 == 3 && rc_Ctrl.rc.s2 == 3 && manipulator -> controller_mapping_flag % 2 == 0)
+	// 	manipulator -> joint5_deg.angle_target += 0.01;
 	
 	if(manipulator -> joint5_deg.angle_target + manipulator -> joint5_deg.angle_init > manipulator -> joint5_deg.angle + 0.01)
 		manipulator -> joint5_deg.angle += velocity_plan(&manipulator -> joint5_deg);
@@ -395,10 +415,10 @@ void joint5_Ctrl_right(Manipulator_t* manipulator){
 }
 
 void joint6_Ctrl_right(Manipulator_t* manipulator){
-//	if(rc_Ctrl.rc.ch0 > =  1124 && rc_Ctrl.rc.s1 == 3 && rc_Ctrl.rc.s2 == 3 && manipulator -> controller_mapping_flag % 2 == 0)
-//		manipulator -> joint6_deg.angle_target += 0.01;
-//	else if(rc_Ctrl.rc.ch0 < =  924 && rc_Ctrl.rc.s1 == 3 && rc_Ctrl.rc.s2 == 3 && manipulator -> controller_mapping_flag % 2 == 0)
-//		manipulator -> joint6_deg.angle_target -= 0.01;
+	// if(rc_Ctrl.rc.ch0 >=  1124 && rc_Ctrl.rc.s1 == 3 && rc_Ctrl.rc.s2 == 3 && manipulator -> controller_mapping_flag % 2 == 0)
+	// 	manipulator -> joint6_deg.angle_target += 0.01;
+	// else if(rc_Ctrl.rc.ch0 <=  924 && rc_Ctrl.rc.s1 == 3 && rc_Ctrl.rc.s2 == 3 && manipulator -> controller_mapping_flag % 2 == 0)
+	// 	manipulator -> joint6_deg.angle_target -= 0.01;
 	
 	/* 自定义控制器模式 */
 	if(Custom.image_recv.Coordinate.right_index_switch == 1 && manipulator -> controller_mapping_flag % 2 == 1)

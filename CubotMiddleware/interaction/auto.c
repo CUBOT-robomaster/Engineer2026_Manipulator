@@ -10,7 +10,7 @@ void Auto_Control(Manipulator_t* manipulator_right, Manipulator_t* manipulator_l
 	servo_back_control(manipulator_right, manipulator_left, hiwo_data, auto_flags);
 	point_of_view_control(hiwo_data, auto_flags);
 	// scope_mode_control(hiwo_data, auto_flags);
-	clamp_jaw_control(manipulator_right, manipulator_left, auto_flags, custom);
+	// clamp_jaw_control(manipulator_right, manipulator_left, auto_flags, custom);
 	lifting_control(auto_flags);
 	Controller_mode_start(manipulator_right, manipulator_left, auto_flags, custom);
 	motor_start_control(manipulator_right, manipulator_left, auto_flags);
@@ -438,9 +438,6 @@ void Auto_move_key_check(Manipulator_t *manipulator_right, Manipulator_t* manipu
 	}
 	Auto_store_control(manipulator_right, auto_flags);
 }
-
-/* 前面的区域，等以后再来探索吧 */
---------------------------------------------------------------------------------------------------------------------------------------
 
 /* 自动存储能量单元函数 */
 void Auto_store_control(Manipulator_t *manipulator, auto_control_flags *auto_flags){

@@ -533,31 +533,17 @@ void joint6_Ctrl_left(Manipulator_t* manipulator){
 
 /* ¼Ð×¦½Ç¶È²âÊÔº¯Êý */
 void Clamp_jaw_angle_test(Manipulator_t* manipulator_right, Manipulator_t* manipulator_left){
-	manipulator_right -> clamp_jaw.STS_3215[0].position = test_angle0;
-	manipulator_right -> clamp_jaw.STS_3215[1].position = test_angle1;
+	// manipulator_right -> clamp_jaw.STS_3215[0].position = test_angle0;
+	// manipulator_right -> clamp_jaw.STS_3215[1].position = test_angle1;
 
-	manipulator_left -> clamp_jaw.STS_3215[0].position = test_angle2;
-	manipulator_left -> clamp_jaw.STS_3215[1].position = test_angle3;
+	// manipulator_left -> clamp_jaw.STS_3215[0].position = test_angle2;
+	// manipulator_left -> clamp_jaw.STS_3215[1].position = test_angle3;
 
-	// manipulator_right -> clamp_jaw.STS_3215[0].position = 1500 + open_angle_right;
-	// manipulator_right -> clamp_jaw.STS_3215[1].position = 1500 - open_angle_right;
+	manipulator_right -> clamp_jaw.STS_3215[0].position = SERVO_RIGHT_ZERO_OPEN_ID_ONE + open_angle_right;
+	manipulator_right -> clamp_jaw.STS_3215[1].position = SERVO_RIGHT_ONE_OPEN_ID_THREE - open_angle_right;
 	
-	// manipulator_left -> clamp_jaw.STS_3215[0].position = 1450 - open_angle_left;
-	// manipulator_left -> clamp_jaw.STS_3215[1].position = 1525 + open_angle_left;
-	
-	if(tim14.ClockTime % 120 == 0){
-		Feetech_STS_control(&manipulator_right -> clamp_jaw.STS_3215[0]);
-	}
-	if(tim14.ClockTime % 120 == 30){
-		Feetech_STS_control(&manipulator_right -> clamp_jaw.STS_3215[1]);
-	}
-	
-	if(tim14.ClockTime % 120 == 60){
-		Feetech_STS_control(&manipulator_left -> clamp_jaw.STS_3215[0]);
-	}
-	if(tim14.ClockTime % 120 == 90){
-		Feetech_STS_control(&manipulator_left -> clamp_jaw.STS_3215[1]);
-	}
+	manipulator_left -> clamp_jaw.STS_3215[0].position = SERVO_LEFT_ZERO_OPEN_ID_ZERO - open_angle_left;
+	manipulator_left -> clamp_jaw.STS_3215[1].position = SERVO_LEFT_ONE_OPEN_ID_TWO + open_angle_left;
 }
 
 /**

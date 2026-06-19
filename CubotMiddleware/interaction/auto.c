@@ -31,7 +31,7 @@ void land_reset_control(Manipulator_t* manipulator_right, Manipulator_t* manipul
 	// auto_flags -> lift_complish_flag = mecanum_Recv.lift_complish_flag;
 	/* 标志位为0，则检测对应键位，按下则将登岛位置归零 */
 	if(auto_flags -> land_flag == 0 && auto_flags -> pre_mapping_flag == 0){
-		if(vT13.key_ctrl_flag == 0 && vT13.key_shift_flag == 0 && vT13.key_B_flag == 1){
+		if((vT13.key_ctrl_flag == 0 && vT13.key_shift_flag == 0 && vT13.key_B_flag == 1) || (rc_Ctrl.rc.sw < 824)){
 			if(auto_flags -> pre_mapping_flag == 0){
 				auto_flags -> land_flag = 1;
 				auto_flags -> land_count = 0;
@@ -156,38 +156,38 @@ void point_of_view_control(Hiwonder_Servo* hiwo_data, auto_control_flags* auto_f
 	}
 }
 
-void scope_mode_control(Hiwonder_Servo* hiwo_data, auto_control_flags* auto_flags){
-	if(vT13.mouse.press_r_flag == 1 || rc_Ctrl.mouse.press_r_flag == 1){
-		auto_flags -> scope_filter_count ++;
-		if(auto_flags -> scope_filter_count == 20){
-			auto_flags -> scope_mode_flag ++;
-			auto_flags -> scope_mode_count = 0;
-		}
-	}
-	else{
-		auto_flags -> scope_filter_count = 0;
-	}
+// void scope_mode_control(Hiwonder_Servo* hiwo_data, auto_control_flags* auto_flags){
+// 	if(vT13.mouse.press_r_flag == 1 || rc_Ctrl.mouse.press_r_flag == 1){
+// 		auto_flags -> scope_filter_count ++;
+// 		if(auto_flags -> scope_filter_count == 20){
+// 			auto_flags -> scope_mode_flag ++;
+// 			auto_flags -> scope_mode_count = 0;
+// 		}
+// 	}
+// 	else{
+// 		auto_flags -> scope_filter_count = 0;
+// 	}
 	
-	if(auto_flags -> scope_mode_flag % 2 == 1){
-		if(auto_flags -> scope_mode_count <= 1000){
-			/* 舵机平视 */
-			hiwo_data -> pitch_servo.position = SERVO_UP_POSITION;
-			hiwo_data -> pitch_servo.target_angle = 0;
-		}
-		else if(auto_flags -> scope_mode_count > 1000 && auto_flags -> scope_mode_count <= 2000){
-			/* 倍镜向上旋转 */
-			hiwo_data -> roll_servo.position = SERVO_ROLL_UP_POSITION;
-		}
-		auto_flags -> scope_mode_count ++;
-	}
-	else if(auto_flags -> scope_mode_flag % 2 == 0){
-		if(auto_flags -> scope_mode_count <= 1000){
-			/* 倍镜向下旋转 */
-			hiwo_data -> roll_servo.position = SERVO_ROLL_DOWN_POSITION;
-		}
-		auto_flags -> scope_mode_count ++;
-	}
-}
+// 	if(auto_flags -> scope_mode_flag % 2 == 1){
+// 		if(auto_flags -> scope_mode_count <= 1000){
+// 			/* 舵机平视 */
+// 			hiwo_data -> pitch_servo.position = SERVO_UP_POSITION;
+// 			hiwo_data -> pitch_servo.target_angle = 0;
+// 		}
+// 		else if(auto_flags -> scope_mode_count > 1000 && auto_flags -> scope_mode_count <= 2000){
+// 			/* 倍镜向上旋转 */
+// 			hiwo_data -> roll_servo.position = SERVO_ROLL_UP_POSITION;
+// 		}
+// 		auto_flags -> scope_mode_count ++;
+// 	}
+// 	else if(auto_flags -> scope_mode_flag % 2 == 0){
+// 		if(auto_flags -> scope_mode_count <= 1000){
+// 			/* 倍镜向下旋转 */
+// 			hiwo_data -> roll_servo.position = SERVO_ROLL_DOWN_POSITION;
+// 		}
+// 		auto_flags -> scope_mode_count ++;
+// 	}
+// }
 
 void clamp_jaw_control(Manipulator_t* manipulator_right, Manipulator_t* manipulator_left, auto_control_flags* auto_flags, custom_robot_data_t* custom){
 	/* 夹爪手势检测 */
@@ -466,10 +466,8 @@ void Auto_store_control(Manipulator_t *manipulator, auto_control_flags *auto_fla
 		}
 		else if((manipulator -> auto_store_count > manipulator -> auto_store_key_time[5]) && (manipulator -> auto_store_count <= manipulator -> auto_store_key_time[6])){
 			manipulator -> auto_store_flag = 0;
-			manipulator -> lifting_auto_flag = 0;
+			auto_flags -> lifting_auto_flag = 0;
 		}
-
-
 		manipulator -> auto_store_count ++;
 	}
 

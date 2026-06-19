@@ -4,7 +4,7 @@
 #include "driver_timer.h"
 #include <string.h>
 #define AtR 0.0174532f	
-#define Mecanum_Datas_Send_Length 30
+#define Mecanum_Datas_Send_Length 32
 #define recv_count_max 3			
 float rotated_vy;
 float rotated_vx;
@@ -44,10 +44,10 @@ void Mecanum_data_Send(UART_HandleTypeDef* huart_x, unsigned char* pBuffer){
 	mecanum_Send.data_check_num = (uint16_t)(tim14.ClockTime * 0.05);
 	mecanum_Send.dead_flag = !check_robot_state.usart_state.GPIO_data;
 	
-	memcpy(pBuffer,&mecanum_Send,Mecanum_Datas_Send_Length);
+	memcpy(pBuffer, &mecanum_Send, Mecanum_Datas_Send_Length);
 	
 	if(huart_x == &huart4 && (mecanum_recv_flag == 1 || mecanum_recv_count >= recv_count_max)){
-		HAL_UART_Transmit_DMA(huart_x,Usart4_TxBuffer,Mecanum_Datas_Send_Length);
+		HAL_UART_Transmit_DMA(huart_x, Usart4_TxBuffer, Mecanum_Datas_Send_Length);
 		mecanum_recv_flag = 0;
 	}
 }

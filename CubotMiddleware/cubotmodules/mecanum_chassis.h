@@ -10,8 +10,8 @@
 #include "auto.h"
 #include "joint_control.h"
 
-#define USART4_RXBUF_SIZE 30
-#define USART4_TXBUF_SIZE 30
+#define USART4_RXBUF_SIZE 40
+#define USART4_TXBUF_SIZE 40
 
 extern unsigned char Usart4_RxBuffer[USART4_RXBUF_SIZE];
 extern unsigned char Usart4_TxBuffer[USART4_TXBUF_SIZE];

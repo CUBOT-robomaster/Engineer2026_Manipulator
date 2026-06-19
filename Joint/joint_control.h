@@ -90,7 +90,7 @@ typedef struct{
 
 	uint16_t auto_store_key_time[10];	//自动存储关键时间节点
 	uint8_t auto_store_flag;			//自动存储标志位
-	float auto_store_count;				//自动存储计时
+	uint16_t auto_store_count;				//自动存储计时
 
 	uint8_t auto_take_out_key_time[10];	//自动存储关键时间节点
 	uint8_t auto_take_out_flag;			//自动存储标志位

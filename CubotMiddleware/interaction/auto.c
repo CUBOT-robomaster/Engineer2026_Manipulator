@@ -31,7 +31,7 @@ void land_reset_control(Manipulator_t* manipulator_right, Manipulator_t* manipul
 	// auto_flags -> lift_complish_flag = mecanum_Recv.lift_complish_flag;
 	/* 标志位为0，则检测对应键位，按下则将登岛位置归零 */
 	if(auto_flags -> land_flag == 0 && auto_flags -> pre_mapping_flag == 0){
-		if((vT13.key_ctrl_flag == 0 && vT13.key_shift_flag == 0 && vT13.key_B_flag == 1) || (rc_Ctrl.rc.sw < 824)){
+		if((vT13.key_ctrl_flag == 0 && vT13.key_shift_flag == 0 && vT13.key_B_flag == 1) || (rc_Ctrl.rc.s1 == 3 && rc_Ctrl.rc.s2 == 1)){
 			if(auto_flags -> pre_mapping_flag == 0){
 				auto_flags -> land_flag = 1;
 				auto_flags -> land_count = 0;
@@ -344,7 +344,6 @@ void Controller_mode_start(Manipulator_t* manipulator_right, Manipulator_t* mani
 			}
 			Auto_move_key_check(manipulator_right, manipulator_left, auto_flags);	
 		}
-		// Controller_mode_exit(manipulator_right, manipulator_left, auto_flags);
 		auto_flags -> pre_mapping_count ++;
 	}
 }
@@ -442,29 +441,28 @@ void Auto_move_key_check(Manipulator_t *manipulator_right, Manipulator_t* manipu
 /* 自动存储能量单元函数 */
 void Auto_store_control(Manipulator_t *manipulator, auto_control_flags *auto_flags){
 	if(manipulator -> auto_store_flag == 1){
-		if(manipulator -> auto_store_count <= manipulator -> auto_store_key_time[0]){
+		if(manipulator -> auto_store_count <= 1000){
 			auto_flags -> pre_lift_flag = 1;
 		}
-		else if((manipulator -> auto_store_count > manipulator -> auto_store_key_time[0]) && (manipulator -> auto_store_count <= manipulator -> auto_store_key_time[1])){
+		else if((manipulator -> auto_store_count > 1000) && (manipulator -> auto_store_count <= 2000)){
 			manipulator -> joint0_deg.angle_target = manipulator -> joint0_deg.auto_store_key_point[0] * RtA - manipulator -> joint0_deg.angle_init;
 			manipulator -> joint3_deg.angle_target = manipulator -> joint3_deg.auto_store_key_point[0] * RtA - manipulator -> joint3_deg.angle_init;
 			manipulator -> joint5_deg.angle_target = manipulator -> joint5_deg.auto_store_key_point[0] * RtA - manipulator -> joint5_deg.angle_init;
 		}
-		else if((manipulator -> auto_store_count > manipulator -> auto_store_key_time[1]) && (manipulator -> auto_store_count <= manipulator -> auto_store_key_time[2])){
-			
+		else if((manipulator -> auto_store_count > 2000) && (manipulator -> auto_store_count <= 3000)){
 			auto_flags -> pre_lift_flag = 3;
 		}
-		else if((manipulator -> auto_store_count > manipulator -> auto_store_key_time[2]) && (manipulator -> auto_store_count <= manipulator -> auto_store_key_time[3])){
+		else if((manipulator -> auto_store_count > 3000) && (manipulator -> auto_store_count <= 4000)){
 			manipulator -> joint0_deg.angle_target = manipulator -> joint0_deg.auto_store_key_point[1] * RtA - manipulator -> joint0_deg.angle_init;
 			manipulator -> joint1_deg.angle_target = manipulator -> joint1_deg.auto_store_key_point[1] * RtA - manipulator -> joint1_deg.angle_init;
 		}
-		else if((manipulator -> auto_store_count > manipulator -> auto_store_key_time[3]) && (manipulator -> auto_store_count <= manipulator -> auto_store_key_time[4])){
+		else if((manipulator -> auto_store_count > 4000) && (manipulator -> auto_store_count <= 5000)){
 			auto_flags -> pre_lift_flag = 1;
 		}
-		else if((manipulator -> auto_store_count == manipulator -> auto_store_key_time[4])){
+		else if((manipulator -> auto_store_count == 6000)){
 			zero_point_reset(manipulator);
 		}
-		else if((manipulator -> auto_store_count > manipulator -> auto_store_key_time[5]) && (manipulator -> auto_store_count <= manipulator -> auto_store_key_time[6])){
+		else if((manipulator -> auto_store_count > 6000) && (manipulator -> auto_store_count <= 7000)){
 			manipulator -> auto_store_flag = 0;
 			auto_flags -> lifting_auto_flag = 0;
 		}

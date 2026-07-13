@@ -98,6 +98,6 @@ uint8_t CAN2_rxCallBack(CAN_RxBuffer* rxBuffer)
 {
 	MotorRxCallback(can2, (*rxBuffer)); 	
 	MitRxCallback(can2, (*rxBuffer));
-	Rxbuffer2 = AIMRxCallback(can1, (*rxBuffer), &MOTOR_TWO);
+	Rxbuffer2 = AIMRxCallback(can2, (*rxBuffer), &MOTOR_TWO);
 	return 0;
 }

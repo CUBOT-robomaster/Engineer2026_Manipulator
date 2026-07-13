@@ -260,7 +260,7 @@ CAN_RxBuffer MitRxCallback(CAN_Object canx, CAN_RxBuffer rxBuffer)
 			}
 			case 0x06:
 			{
-				DM_data(&Manipulator_Left.Dm_4310_joint6,rxBuffer.Data);
+				DM_data(&Manipulator_Right.Dm_4310_joint6,rxBuffer.Data);
 				break;
 			}
 			
@@ -291,7 +291,7 @@ CAN_RxBuffer MitRxCallback(CAN_Object canx, CAN_RxBuffer rxBuffer)
 			}
 			case 0x16:
 			{
-				DM_data(&Manipulator_Right.Dm_4310_joint6,rxBuffer.Data);
+				DM_data(&Manipulator_Left.Dm_4310_joint6,rxBuffer.Data);
 				break;
 			}
 			

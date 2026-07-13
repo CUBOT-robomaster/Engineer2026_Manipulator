@@ -48,16 +48,6 @@ Manipulator_t Manipulator_Right = {
 	.joint5_deg.angle_target = 0,
 	.joint6_deg.angle_target = 0,
 
-	/* 目标时间 */
-	.auto_store_key_time[0] = 1000,
-	.auto_store_key_time[1] = 2000,
-	.auto_store_key_time[2] = 3000,
-	.auto_store_key_time[3] = 4000,
-	.auto_store_key_time[4] = 5000,
-	.auto_store_key_time[5] = 6000,
-	.auto_store_key_time[6] = 7000,
-	.auto_store_key_time[7] = 8000,
-
 	/* 初始化运动量 */
 	.joint0_deg.velocity = 0,
 	.joint0_deg.max_velocity = 0.012 * JOINT_VELOCITY_SENSITIVITY,
@@ -70,8 +60,6 @@ Manipulator_t Manipulator_Right = {
 	.joint0_deg.limit_max = 114,
 	.joint0_deg.land_point = 0.1,			//弧度制，对应角度制为-12
 	.joint0_deg.step_out_point = -0.04,		//弧度制
-	.joint0_deg.auto_store_key_point[0] = 1.161,
-	.joint0_deg.auto_store_key_point[1] = 1.755,
 
 	.joint1_deg.velocity = 0,
 	.joint1_deg.max_velocity = 0.32 * JOINT_VELOCITY_SENSITIVITY,
@@ -84,7 +72,6 @@ Manipulator_t Manipulator_Right = {
 	.joint1_deg.limit_max = -1,
 	.joint1_deg.land_point = -2.7,
 	.joint1_deg.step_out_point = -2.7,
-	.joint1_deg.auto_store_key_point[1] = -2.69,
 
 	.joint2_deg.velocity = 0,
 	.joint2_deg.max_velocity = 0.32 * JOINT_VELOCITY_SENSITIVITY,
@@ -109,7 +96,6 @@ Manipulator_t Manipulator_Right = {
 	.joint3_deg.limit_max = 0.5,
 	.joint3_deg.land_point = -1.28,
 	.joint3_deg.step_out_point = -1.85,
-	.joint3_deg.auto_store_key_point[0] = -1.11,
 
 	.joint4_deg.velocity = 0,
 	.joint4_deg.max_velocity = 0.32 * JOINT_VELOCITY_SENSITIVITY,
@@ -134,7 +120,6 @@ Manipulator_t Manipulator_Right = {
 	.joint5_deg.limit_max = 1.84,
 	.joint5_deg.land_point = 0,
 	.joint5_deg.step_out_point = 0,
-	.joint5_deg.auto_store_key_point[0] = -0.44,
 
 	.joint6_deg.velocity = 0,
 	.joint6_deg.max_velocity = 0.32 * JOINT_VELOCITY_SENSITIVITY,
@@ -657,7 +642,15 @@ void joint_Ctrl(Manipulator_t* manipulator_right, Manipulator_t* manipulator_lef
 			clamp_jaw_data_send(&manipulator_right -> clamp_jaw, &manipulator_left -> clamp_jaw);
 		}
 		if(rc_Ctrl.isOnline == 0){
-			if(tim14.ClockTime % 3 == 0){
+			if(tim14.ClockTime % 7 == 0){
+				RPDO2_pos(&can1,0);
+				manipulator_right -> joint0_deg.angle = MOTOR_ONE.pos;
+				manipulator_right -> joint0_deg.angle_target = MOTOR_ONE.pos - manipulator_right -> joint0_deg.angle_init;
+				RPDO2_pos(&can2,0);
+				manipulator_left -> joint0_deg.angle = MOTOR_TWO.pos;
+				manipulator_left -> joint0_deg.angle_target = MOTOR_TWO.pos - manipulator_left -> joint0_deg.angle_init;
+			}
+			if(tim14.ClockTime % 7 == 1){
 				ctrl_motor1(&can1,&manipulator_right -> Dm_4340_joint1, 0, 0, 0, 0.3, 0);
 				manipulator_right -> joint1_deg.rad = manipulator_right -> Dm_4340_joint1.pos;
 				manipulator_right -> joint1_deg.angle = manipulator_right -> joint1_deg.rad * RtA;
@@ -666,7 +659,18 @@ void joint_Ctrl(Manipulator_t* manipulator_right, Manipulator_t* manipulator_lef
 				manipulator_left -> joint1_deg.rad = manipulator_left -> Dm_4340_joint1.pos;
 				manipulator_left -> joint1_deg.angle = manipulator_left -> joint1_deg.rad * RtA;
 				manipulator_left -> joint1_deg.angle_target = manipulator_left -> Dm_4340_joint1.pos * RtA - manipulator_left -> joint1_deg.angle_init;
-				
+			}
+			if(tim14.ClockTime % 7 == 2){
+				ctrl_motor1(&can1,&manipulator_right->Dm_4340_joint2,0,0,0,0.3,0);
+				manipulator_right->joint2_deg.rad = manipulator_right -> Dm_4340_joint2.pos;
+				manipulator_right -> joint2_deg.angle = manipulator_right -> joint2_deg.rad * RtA;
+				manipulator_right -> joint2_deg.angle_target = manipulator_right -> Dm_4340_joint2.pos * RtA - manipulator_right -> joint2_deg.angle_init;
+				ctrl_motor1(&can2,&manipulator_left->Dm_4340_joint2,0,0,0,0.3,0);
+				manipulator_left->joint2_deg.rad = manipulator_left -> Dm_4340_joint2.pos;
+				manipulator_left -> joint2_deg.angle = manipulator_left -> joint2_deg.rad * RtA;
+				manipulator_left -> joint2_deg.angle_target = manipulator_left -> Dm_4340_joint2.pos * RtA - manipulator_left -> joint2_deg.angle_init;
+			}
+			if(tim14.ClockTime % 7 == 3){
 				ctrl_motor1(&can1,&manipulator_right -> Dm_8006_joint3, 0, 0, 0, 1.5, 0);
 				manipulator_right -> joint3_deg.rad = manipulator_right -> Dm_8006_joint3.pos;
 				manipulator_right -> joint3_deg.angle = manipulator_right -> joint3_deg.rad * RtA;
@@ -676,42 +680,7 @@ void joint_Ctrl(Manipulator_t* manipulator_right, Manipulator_t* manipulator_lef
 				manipulator_left -> joint3_deg.angle = manipulator_left -> joint3_deg.rad * RtA;
 				manipulator_left -> joint3_deg.angle_target = manipulator_left -> Dm_8006_joint3.pos * RtA - manipulator_left -> joint3_deg.angle_init;
 			}
-			if(tim14.ClockTime % 3 == 1){
-				RPDO2_pos(&can1,0);
-				manipulator_right -> joint0_deg.angle = MOTOR_ONE.pos;
-				manipulator_right -> joint0_deg.angle_target = MOTOR_ONE.pos - manipulator_right -> joint0_deg.angle_init;
-				RPDO2_pos(&can2,0);
-				manipulator_left -> joint0_deg.angle = MOTOR_TWO.pos;
-				manipulator_left -> joint0_deg.angle_target = MOTOR_TWO.pos - manipulator_left -> joint0_deg.angle_init;
-				
-				ctrl_motor1(&can1,&manipulator_right->Dm_4310_joint5,0,0,0,0.3,0);
-				manipulator_right->joint5_deg.rad = manipulator_right -> Dm_4310_joint5.pos;
-				manipulator_right -> joint5_deg.angle = manipulator_right -> joint5_deg.rad * RtA;
-				manipulator_right -> joint5_deg.angle_target = manipulator_right -> Dm_4310_joint5.pos * RtA - manipulator_right -> joint5_deg.angle_init;
-				ctrl_motor1(&can2,&manipulator_left->Dm_4310_joint5,0,0,0,0.3,0);
-				manipulator_left->joint5_deg.rad = manipulator_left -> Dm_4310_joint5.pos;
-				manipulator_left -> joint5_deg.angle = manipulator_left -> joint5_deg.rad * RtA;
-				manipulator_left -> joint5_deg.angle_target = manipulator_left -> Dm_4310_joint5.pos * RtA - manipulator_left -> joint5_deg.angle_init;
-				
-				ctrl_motor1(&can1,&manipulator_right->Dm_4310_joint6,0,0,0,0.3,0);
-				manipulator_right->joint6_deg.rad = manipulator_right -> Dm_4310_joint6.pos;
-				manipulator_right -> joint6_deg.angle = manipulator_right -> joint6_deg.rad * RtA;
-				manipulator_right -> joint6_deg.angle_target = manipulator_right -> Dm_4310_joint6.pos * RtA - manipulator_right -> joint6_deg.angle_init;
-				ctrl_motor1(&can2,&manipulator_left->Dm_4310_joint6,0,0,0,0.3,0);
-				manipulator_left->joint6_deg.rad = manipulator_left -> Dm_4310_joint6.pos;
-				manipulator_left -> joint6_deg.angle = manipulator_left -> joint6_deg.rad * RtA;
-				manipulator_left -> joint6_deg.angle_target = manipulator_left -> Dm_4310_joint6.pos * RtA - manipulator_left -> joint6_deg.angle_init;
-			}
-			if(tim14.ClockTime % 3 == 2){
-				ctrl_motor1(&can1,&manipulator_right->Dm_4340_joint2,0,0,0,0.3,0);
-				manipulator_right->joint2_deg.rad = manipulator_right -> Dm_4340_joint2.pos;
-				manipulator_right -> joint2_deg.angle = manipulator_right -> joint2_deg.rad * RtA;
-				manipulator_right -> joint2_deg.angle_target = manipulator_right -> Dm_4340_joint2.pos * RtA - manipulator_right -> joint2_deg.angle_init;
-				ctrl_motor1(&can2,&manipulator_left->Dm_4340_joint2,0,0,0,0.3,0);
-				manipulator_left->joint2_deg.rad = manipulator_left -> Dm_4340_joint2.pos;
-				manipulator_left -> joint2_deg.angle = manipulator_left -> joint2_deg.rad * RtA;
-				manipulator_left -> joint2_deg.angle_target = manipulator_left -> Dm_4340_joint2.pos * RtA - manipulator_left -> joint2_deg.angle_init;
-				
+			if(tim14.ClockTime % 7 == 4){
 				ctrl_motor1(&can1,&manipulator_right -> Dm_4310_joint4,0,0,0,0.3,0);
 				manipulator_right -> joint4_deg.rad = manipulator_right -> Dm_4310_joint4.pos;
 				manipulator_right -> joint4_deg.angle = manipulator_right -> joint4_deg.rad * RtA;
@@ -720,6 +689,26 @@ void joint_Ctrl(Manipulator_t* manipulator_right, Manipulator_t* manipulator_lef
 				manipulator_left -> joint4_deg.rad = manipulator_left -> Dm_4310_joint4.pos;
 				manipulator_left -> joint4_deg.angle = manipulator_left -> joint4_deg.rad * RtA;
 				manipulator_left -> joint4_deg.angle_target = manipulator_left -> Dm_4310_joint4.pos * RtA - manipulator_left -> joint4_deg.angle_init;
+			}
+			if(tim14.ClockTime % 7 == 5){
+				ctrl_motor1(&can1,&manipulator_right->Dm_4310_joint5,0,0,0,0.3,0);
+				manipulator_right->joint5_deg.rad = manipulator_right -> Dm_4310_joint5.pos;
+				manipulator_right -> joint5_deg.angle = manipulator_right -> joint5_deg.rad * RtA;
+				manipulator_right -> joint5_deg.angle_target = manipulator_right -> Dm_4310_joint5.pos * RtA - manipulator_right -> joint5_deg.angle_init;
+				ctrl_motor1(&can2,&manipulator_left->Dm_4310_joint5,0,0,0,0.3,0);
+				manipulator_left->joint5_deg.rad = manipulator_left -> Dm_4310_joint5.pos;
+				manipulator_left -> joint5_deg.angle = manipulator_left -> joint5_deg.rad * RtA;
+				manipulator_left -> joint5_deg.angle_target = manipulator_left -> Dm_4310_joint5.pos * RtA - manipulator_left -> joint5_deg.angle_init;
+			}
+			if(tim14.ClockTime % 7 == 6){
+				ctrl_motor1(&can1,&manipulator_right->Dm_4310_joint6,0,0,0,0.3,0);
+				manipulator_right->joint6_deg.rad = manipulator_right -> Dm_4310_joint6.pos;
+				manipulator_right -> joint6_deg.angle = manipulator_right -> joint6_deg.rad * RtA;
+				manipulator_right -> joint6_deg.angle_target = manipulator_right -> Dm_4310_joint6.pos * RtA - manipulator_right -> joint6_deg.angle_init;
+				ctrl_motor1(&can2,&manipulator_left->Dm_4310_joint6,0,0,0,0.3,0);
+				manipulator_left->joint6_deg.rad = manipulator_left -> Dm_4310_joint6.pos;
+				manipulator_left -> joint6_deg.angle = manipulator_left -> joint6_deg.rad * RtA;
+				manipulator_left -> joint6_deg.angle_target = manipulator_left -> Dm_4310_joint6.pos * RtA - manipulator_left -> joint6_deg.angle_init;
 			}
 		}
 	}

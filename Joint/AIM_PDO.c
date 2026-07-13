@@ -83,14 +83,11 @@ void RPDO2_pos(CAN_Object* can, int speed)//位置模式(获取当前位置+设置梯形速度)
 	CAN_Send(can,&pdo_com.RPDO2_pos);
 }
 
-//int POS;
-
 CAN_RxBuffer AIMRxCallback(CAN_Object canx, CAN_RxBuffer rxBuffer, TPDO_COM* motor_data){
 	if(rxBuffer.Header.Identifier== motor_data -> RPDO1_ID || rxBuffer.Header.Identifier== motor_data -> RPDO2_ID){
-//	  POS=(int)(rxBuffer.Data[0] | rxBuffer.Data[1]<<8 | rxBuffer.Data[2]<<16 | rxBuffer.Data[3]<<24);
-	  motor_data -> state = (int)(rxBuffer.Data[4] | rxBuffer.Data[5]<<8);
-	  motor_data -> pos = (int)(rxBuffer.Data[0] | rxBuffer.Data[1]<<8 | rxBuffer.Data[2]<<16 | rxBuffer.Data[3]<<24) * 0.000215564f;
-		return  rxBuffer;
+	motor_data -> state = (int)(rxBuffer.Data[4] | rxBuffer.Data[5]<<8);
+	motor_data -> pos = (int)(rxBuffer.Data[0] | rxBuffer.Data[1]<<8 | rxBuffer.Data[2]<<16 | rxBuffer.Data[3]<<24) * 0.000215564f;
+	return  rxBuffer;
 	}
 }
 

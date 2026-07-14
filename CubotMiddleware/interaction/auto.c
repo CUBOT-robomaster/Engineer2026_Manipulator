@@ -342,13 +342,24 @@ void Controller_mode_start(Manipulator_t* manipulator_right, Manipulator_t* mani
 			else{
 				manipulator_left -> controller_mapping_count = 0;
 			}
-			Auto_move_key_check(manipulator_right, manipulator_left, auto_flags);	
+			Auto_grab_store_control(manipulator_right, manipulator_left, auto_flags);
 		}
 		auto_flags -> pre_mapping_count ++;
 	}
 }
 
+void angle_value_reset(Manipulator_t* manipulator){
+	manipulator -> joint0_deg.angle = manipulator -> joint0_deg.rad * RtA;
+	manipulator -> joint1_deg.angle = manipulator -> joint1_deg.rad * RtA;
+	manipulator -> joint2_deg.angle = manipulator -> joint2_deg.rad * RtA;
+	manipulator -> joint3_deg.angle = manipulator -> joint3_deg.rad * RtA;
+	manipulator -> joint4_deg.angle = manipulator -> joint4_deg.rad * RtA;
+	manipulator -> joint5_deg.angle = manipulator -> joint5_deg.rad * RtA;
+	manipulator -> joint6_deg.angle = manipulator -> joint6_deg.rad * RtA;
+}
+
 void zero_point_reset(Manipulator_t* manipulator){
+	/* 自定义控制器模式切换回target_angle控制时一定要修改angle值为当前角度，不然容易导致角度跳变 */
 	manipulator -> joint0_deg.angle = manipulator -> joint0_deg.rad * RtA;
 	manipulator -> joint1_deg.angle = manipulator -> joint1_deg.rad * RtA;
 	manipulator -> joint2_deg.angle = manipulator -> joint2_deg.rad * RtA;
@@ -422,51 +433,123 @@ void motor_start_control(Manipulator_t *manipulator_right, Manipulator_t* manipu
 	}
 }
 
-void Auto_move_key_check(Manipulator_t *manipulator_right, Manipulator_t* manipulator_left, auto_control_flags *auto_flags){
-	if(manipulator_right -> auto_store_flag == 0){
-		if(vT13.rc.ch1 > 1224){
-			manipulator_right -> auto_store_flag = 1;
-			manipulator_right -> auto_store_count = 0;
-			auto_flags -> lifting_auto_flag = 1;
-		}
-		else if(vT13.rc.ch1 < 824){
-			manipulator_right -> auto_take_out_flag = 1;
-			manipulator_right -> auto_take_out_count = 0;
-			auto_flags -> lifting_auto_flag = 1;
+/* 以下为自动存矿取矿的代码。能量单元以最上方的为0号，顺时针顺序依次为1-5号，相关函数据此命名 */
+/* 自动取矿相关标志位写在Auto_flags结构体中，从存矿机构中取出能量单元的标志位写在机械臂结构体中 */
+void Auto_grab_store_control(Manipulator_t *manipulator_right, Manipulator_t* manipulator_left, auto_control_flags *auto_flags){
+	if(auto_flags -> auto_grab_store_flag == 0 && manipulator_right -> controller_mapping_flag % 2 == 0 && manipulator_left -> controller_mapping_flag % 2 == 0){
+		if((vT13.key_ctrl_flag == 1 || rc_Ctrl.key_ctrl_flag == 1) && (vT13.key_V_flag == 1 || rc_Ctrl.key_V_flag == 1)){
+			auto_flags -> auto_grab_store_flag = 1;
+			auto_flags -> auto_grab_store_count = 0;
+
+			angle_value_reset(manipulator_left);
+			angle_value_reset(manipulator_right);
 		}
 	}
-	Auto_store_control(manipulator_right, auto_flags);
+	else if(auto_flags -> auto_grab_store_flag == 1){
+		land_point_reset(manipulator_left);
+		land_point_reset(manipulator_right);
+
+		auto_flags -> auto_grab_store_L4_R2_flag = 1;
+		auto_flags -> auto_grab_store_L4_R2_count = 0;
+
+		// auto_flags -> auto_grab_store_L5_R3_flag = 1;
+		// auto_flags -> auto_grab_store_L5_R3_count = 0;
+
+		// Auto_grab_store_L5_R3(manipulator_right, manipulator_left, auto_flags);
+		// Auto_grab_store_L0_R1(manipulator_right, manipulator_left, auto_flags);
+		Auto_grab_store_L4_R2(manipulator_right, manipulator_left, auto_flags);
+	}
+
 }
 
 /* 自动存储能量单元函数 */
-void Auto_store_control(Manipulator_t *manipulator, auto_control_flags *auto_flags){
-	if(manipulator -> auto_store_flag == 1){
-		if(manipulator -> auto_store_count <= 1000){
+void Auto_grab_store_L5_R3(Manipulator_t *manipulator_right, Manipulator_t* manipulator_left, auto_control_flags *auto_flags){
+	if(auto_flags -> auto_grab_store_L5_R3_flag == 1){
+		if(auto_flags -> auto_grab_store_L5_R3_count <= 1000){
 			auto_flags -> pre_lift_flag = 1;
 		}
-		else if((manipulator -> auto_store_count > 1000) && (manipulator -> auto_store_count <= 2000)){
-			manipulator -> joint0_deg.angle_target = manipulator -> joint0_deg.auto_store_key_point[0] * RtA - manipulator -> joint0_deg.angle_init;
-			manipulator -> joint3_deg.angle_target = manipulator -> joint3_deg.auto_store_key_point[0] * RtA - manipulator -> joint3_deg.angle_init;
-			manipulator -> joint5_deg.angle_target = manipulator -> joint5_deg.auto_store_key_point[0] * RtA - manipulator -> joint5_deg.angle_init;
+		else if((auto_flags -> auto_grab_store_L5_R3_count > 1000) && (auto_flags -> auto_grab_store_L5_R3_count <= 2000)){
+			
 		}
-		else if((manipulator -> auto_store_count > 2000) && (manipulator -> auto_store_count <= 3000)){
+		else if((auto_flags -> auto_grab_store_L5_R3_count > 2000) && (auto_flags -> auto_grab_store_L5_R3_count <= 3000)){
 			auto_flags -> pre_lift_flag = 3;
 		}
-		else if((manipulator -> auto_store_count > 3000) && (manipulator -> auto_store_count <= 4000)){
-			manipulator -> joint0_deg.angle_target = manipulator -> joint0_deg.auto_store_key_point[1] * RtA - manipulator -> joint0_deg.angle_init;
-			manipulator -> joint1_deg.angle_target = manipulator -> joint1_deg.auto_store_key_point[1] * RtA - manipulator -> joint1_deg.angle_init;
+		else if((auto_flags -> auto_grab_store_L5_R3_count > 3000) && (auto_flags -> auto_grab_store_L5_R3_count <= 4000)){
+			
 		}
-		else if((manipulator -> auto_store_count > 4000) && (manipulator -> auto_store_count <= 5000)){
+		else if((auto_flags -> auto_grab_store_L5_R3_count > 4000) && (auto_flags -> auto_grab_store_L5_R3_count <= 5000)){
 			auto_flags -> pre_lift_flag = 1;
 		}
-		else if((manipulator -> auto_store_count == 6000)){
-			zero_point_reset(manipulator);
+		else if((auto_flags -> auto_grab_store_L5_R3_count > 5000) && (auto_flags -> auto_grab_store_L5_R3_count <= 6000)){
+			land_point_reset(manipulator_right);
+			land_point_reset(manipulator_left);
 		}
-		else if((manipulator -> auto_store_count > 6000) && (manipulator -> auto_store_count <= 7000)){
-			manipulator -> auto_store_flag = 0;
-			auto_flags -> lifting_auto_flag = 0;
+		else if((auto_flags -> auto_grab_store_L5_R3_count > 6000) && (auto_flags -> auto_grab_store_L5_R3_count <= 7000)){
+			auto_flags -> auto_grab_store_L0_R1_flag = 1;
+			auto_flags -> auto_grab_store_L0_R1_count = 0;
+			auto_flags -> auto_grab_store_L5_R3_flag = 0;
 		}
-		manipulator -> auto_store_count ++;
+		auto_flags -> auto_grab_store_L5_R3_count ++;
 	}
-
 }
+
+void Auto_grab_store_L0_R1(Manipulator_t *manipulator_right, Manipulator_t* manipulator_left, auto_control_flags *auto_flags){
+	if(auto_flags -> auto_grab_store_L0_R1_flag == 1 && auto_flags -> auto_grab_store_L5_R3_flag == 0){
+		if(auto_flags -> auto_grab_store_L0_R1_count <= 1000){
+			auto_flags -> pre_lift_flag = 1;
+		}
+		else if((auto_flags -> auto_grab_store_L0_R1_count > 1000) && (auto_flags -> auto_grab_store_L0_R1_count <= 2000)){
+			
+		}
+		else if((auto_flags -> auto_grab_store_L0_R1_count > 2000) && (auto_flags -> auto_grab_store_L0_R1_count <= 3000)){
+			auto_flags -> pre_lift_flag = 3;
+		}
+		else if((auto_flags -> auto_grab_store_L0_R1_count > 3000) && (auto_flags -> auto_grab_store_L0_R1_count <= 4000)){
+			
+		}
+		else if((auto_flags -> auto_grab_store_L0_R1_count > 4000) && (auto_flags -> auto_grab_store_L0_R1_count <= 5000)){
+			auto_flags -> pre_lift_flag = 1;
+		}
+		else if((auto_flags -> auto_grab_store_L0_R1_count > 5000) && (auto_flags -> auto_grab_store_L0_R1_count <= 6000)){
+			land_point_reset(manipulator_right);
+			land_point_reset(manipulator_left);
+		}
+		else if((auto_flags -> auto_grab_store_L0_R1_count > 6000) && (auto_flags -> auto_grab_store_L0_R1_count <= 7000)){
+			auto_flags -> auto_grab_store_L4_R2_flag = 1;
+			auto_flags -> auto_grab_store_L4_R2_count = 0;
+			auto_flags -> auto_grab_store_L0_R1_flag = 0;
+		}
+		auto_flags -> auto_grab_store_L0_R1_count ++;
+	}
+}
+
+void Auto_grab_store_L4_R2(Manipulator_t *manipulator_right, Manipulator_t* manipulator_left, auto_control_flags *auto_flags){
+	if(auto_flags -> auto_grab_store_L4_R2_flag == 1 && auto_flags -> auto_grab_store_L0_R1_flag == 0){
+		if(auto_flags -> auto_grab_store_L4_R2_count <= 1000){
+			auto_flags -> pre_lift_flag = 1;
+		}
+		else if((auto_flags -> auto_grab_store_L4_R2_count > 1000) && (auto_flags -> auto_grab_store_L4_R2_count <= 2000)){
+			
+		}
+		else if((auto_flags -> auto_grab_store_L4_R2_count > 2000) && (auto_flags -> auto_grab_store_L4_R2_count <= 3000)){
+			auto_flags -> pre_lift_flag = 3;
+		}
+		else if((auto_flags -> auto_grab_store_L4_R2_count > 3000) && (auto_flags -> auto_grab_store_L4_R2_count <= 4000)){
+			
+		}
+		else if((auto_flags -> auto_grab_store_L4_R2_count > 4000) && (auto_flags -> auto_grab_store_L4_R2_count <= 5000)){
+			auto_flags -> pre_lift_flag = 1;
+		}
+		else if((auto_flags -> auto_grab_store_L4_R2_count > 5000) && (auto_flags -> auto_grab_store_L4_R2_count <= 6000)){
+			land_point_reset(manipulator_right);
+			land_point_reset(manipulator_left);
+		}
+		else if((auto_flags -> auto_grab_store_L4_R2_count > 6000) && (auto_flags -> auto_grab_store_L4_R2_count <= 7000)){
+			auto_flags -> auto_grab_store_L4_R2_flag = 0;
+			auto_flags -> auto_grab_store_flag = 0;
+		}
+		auto_flags -> auto_grab_store_L4_R2_count ++;
+	}
+	auto_flags -> lifting_auto_flag = 0;
+}
+

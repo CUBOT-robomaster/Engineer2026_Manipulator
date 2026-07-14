@@ -87,15 +87,11 @@ typedef struct{
 	joint_angle_t joint4_deg;
 	joint_angle_t joint5_deg;
 	joint_angle_t joint6_deg;
-
-	uint8_t auto_store_flag;				//自动存储标志位
-	uint16_t auto_store_count;				//自动存储计时
-
-	uint8_t auto_take_out_flag;				//自动存储标志位
-	float auto_take_out_count;				//自动存储计时
 	
 	uint8_t controller_mapping_flag;		//自定义控制器映射标志位
 	uint16_t controller_mapping_count;  
+
+	
 	
 	Feetech_servo clamp_jaw;				//夹爪两个舵机的数据
 }Manipulator_t;

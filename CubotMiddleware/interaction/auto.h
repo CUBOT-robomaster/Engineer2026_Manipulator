@@ -15,12 +15,17 @@
 #define Clamp_Jaw_Close_Filter_Limit_Time 20	//夹爪闭合按键消抖时间
 #define servo_pitch_sensitivity 5.0f			//舵机pitch轴灵敏度
 
+// #define count42 auto_flags->auto_grab_store_L4_R2_count
+// #define count53 auto_flags->auto_grab_store_L5_R3_count
+// #define count01 auto_flags->auto_grab_store_L0_R1_count
+
 
 typedef struct{
 	uint8_t		land_flag;						//登岛初始化标志位
 	uint32_t 	land_count;						//登岛复位计时
 
-	uint8_t 	pre_lift_flag;					//发送给底盘的标志位，让底盘抬升，2下降，1抬升
+	uint8_t 	pre_lift_flag;					//发送给底盘的标志位，让抬升机构抬升，2下降，1抬升
+	uint8_t 	mec_lift_flag;					//底盘抬升标志位，1底盘抬升，0降下
 	uint8_t 	lift_complish_flag;				//底盘抬升成功的标志位，确保电机正常复位
 
 	int8_t 		step_down_flag;					//台阶下降标志位
@@ -46,13 +51,19 @@ typedef struct{
 	uint8_t 	motor_start_mode_flag;			//电机使能标志位
 	uint16_t 	motor_start_mode_count;			//电机使能模式计时
 
-	uint8_t		lifting_auto_flag;				//抬升自动标志位，此时无法手动控制抬升
+	uint8_t		lifting_auto_flag;				//自动抬升标志位，此时无法手动控制抬升
 
-	int8_t		auto_store_flag;				//自动存储能量单元标志位
-	uint16_t	auto_store_count;				//自动存储能量单元计时
+	int8_t		auto_grab_store_flag;
+	uint16_t	auto_grab_store_count;
 
-	int8_t		auto_take_out_flag;				//自动取出能量单元标志位
-	uint16_t	auto_take_out_count;			//自动取出能量单元计时
+	int8_t		auto_grab_store_L4_R2_flag;		//自动取矿、存储能量单元标志位
+	uint16_t	auto_grab_store_L4_R2_count;	//自动取矿、存储能量单元计时
+
+	int8_t		auto_grab_store_L5_R3_flag;
+	uint16_t	auto_grab_store_L5_R3_count;
+
+	int8_t		auto_grab_store_L0_R1_flag;
+	uint16_t	auto_grab_store_L0_R1_count;
 }auto_control_flags;
 
 /* 测试用变量 */
@@ -65,6 +76,7 @@ typedef struct{
 	uint8_t left_middle_flag;
 }finger_gesture_flags;
 
+void angle_value_reset(Manipulator_t* manipulator);
 void zero_point_reset(Manipulator_t* manipulator);
 void land_point_reset(Manipulator_t* manipulator);
 void step_out_point_reset(Manipulator_t* manipulator);
@@ -79,9 +91,9 @@ void lifting_control(auto_control_flags* auto_flags);
 void Controller_mode_start(Manipulator_t* manipulator_right, Manipulator_t* manipulator_left, auto_control_flags* auto_flags, custom_robot_data_t* custom);
 void joint_sensitivity_set(Manipulator_t *manipulator, float target_sensitivity);
 void motor_start_control(Manipulator_t* manipulator_right, Manipulator_t* manipulator_left, auto_control_flags* auto_flags);
-void Auto_move_key_check(Manipulator_t *manipulator_right, Manipulator_t* manipulator_left, auto_control_flags *auto_flags);
-void Auto_store_control(Manipulator_t *manipulator, auto_control_flags *auto_flags);
-void Auto_store_move(Manipulator_t *manipulator, uint8_t key_time);
-void Auto_take_out_move(Manipulator_t *manipulator, uint8_t key_time);
+void Auto_grab_store_control(Manipulator_t *manipulator_right, Manipulator_t* manipulator_left, auto_control_flags *auto_flags);
+void Auto_grab_store_L5_R3(Manipulator_t *manipulator_right, Manipulator_t* manipulator_left, auto_control_flags *auto_flags);
+void Auto_grab_store_L0_R1(Manipulator_t *manipulator_right, Manipulator_t* manipulator_left, auto_control_flags *auto_flags);
+void Auto_grab_store_L4_R2(Manipulator_t *manipulator_right, Manipulator_t* manipulator_left, auto_control_flags *auto_flags);
 extern auto_control_flags Auto_flags;
 #endif

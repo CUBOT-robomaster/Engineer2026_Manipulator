@@ -535,6 +535,8 @@ void Clamp_jaw_angle_test(Manipulator_t* manipulator_right, Manipulator_t* manip
 * @brief 关节执行函数
   */ 
 void joint_Ctrl(Manipulator_t* manipulator_right, Manipulator_t* manipulator_left){
+	
+
 	/* 电机角度解算 */
 	if(Custom.image_recv.Coordinate.isonline == 1){
 		joints_data_filter(manipulator_right, manipulator_left, &Custom);

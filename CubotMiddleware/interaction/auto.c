@@ -55,8 +55,8 @@ void land_reset_control(Manipulator_t* manipulator_right, Manipulator_t* manipul
 			auto_flags -> lifting_auto_flag = 1;
 		}
 		else if(auto_flags -> land_count > 1500 && auto_flags -> land_count < 3000){//抬升已升起时，机械臂复位
-			joint_sensitivity_set(manipulator_right, 2.0);
-			joint_sensitivity_set(manipulator_left, 2.0);
+			joint_sensitivity_set(manipulator_right, 1.5);
+			joint_sensitivity_set(manipulator_left, 1.5);
 			/* 右臂复位 */
 			land_point_reset(manipulator_right);
 			
@@ -398,7 +398,7 @@ void step_out_point_reset(Manipulator_t *manipulator){
 }
 
 void joint_sensitivity_set(Manipulator_t *manipulator, float target_sensitivity){
-	manipulator -> joint0_deg.Accel_sensitivity = target_sensitivity;
+	// manipulator -> joint0_deg.Accel_sensitivity = target_sensitivity;
 	manipulator -> joint1_deg.Accel_sensitivity = target_sensitivity;
 	manipulator -> joint2_deg.Accel_sensitivity = target_sensitivity;
 	manipulator -> joint3_deg.Accel_sensitivity = target_sensitivity;
@@ -449,17 +449,19 @@ void Auto_grab_store_control(Manipulator_t *manipulator_right, Manipulator_t* ma
 		if(auto_flags -> auto_grab_store_count == 0){
 			zero_point_reset(manipulator_left);
 			zero_point_reset(manipulator_right);
-			auto_flags -> auto_grab_store_L4_R2_flag = 1;
-			auto_flags -> auto_grab_store_L4_R2_count = 0;
+			joint_sensitivity_set(manipulator_right, 0.7);
+			joint_sensitivity_set(manipulator_left, 0.7);
+			auto_flags -> auto_grab_store_L4_R1_flag = 1;
+			auto_flags -> auto_grab_store_L4_R1_count = 0;
 		}
 		
 
-		// auto_flags -> auto_grab_store_L5_R3_flag = 1;
-		// auto_flags -> auto_grab_store_L5_R3_count = 0;
+		// auto_flags -> auto_grab_store_L3_R2_flag = 1;
+		// auto_flags -> auto_grab_store_L3_R2_count = 0;
 
-		// Auto_grab_store_L5_R3(manipulator_right, manipulator_left, auto_flags);
-		// Auto_grab_store_L0_R1(manipulator_right, manipulator_left, auto_flags);
-		Auto_grab_store_L4_R2(manipulator_right, manipulator_left, auto_flags);
+		// Auto_grab_store_L3_R2(manipulator_right, manipulator_left, auto_flags);
+		// Auto_grab_store_L5_R0(manipulator_right, manipulator_left, auto_flags);
+		Auto_grab_store_L4_R1(manipulator_right, manipulator_left, auto_flags);
 
 		auto_flags -> auto_grab_store_count ++;
 	}
@@ -467,72 +469,42 @@ void Auto_grab_store_control(Manipulator_t *manipulator_right, Manipulator_t* ma
 }
 
 /* 自动存储能量单元函数 */
-void Auto_grab_store_L5_R3(Manipulator_t *manipulator_right, Manipulator_t* manipulator_left, auto_control_flags *auto_flags){
-	if(auto_flags -> auto_grab_store_L5_R3_flag == 1){
-		if(auto_flags -> auto_grab_store_L5_R3_count <= 1000){
+void Auto_grab_store_L3_R2(Manipulator_t *manipulator_right, Manipulator_t* manipulator_left, auto_control_flags *auto_flags){
+	if(auto_flags -> auto_grab_store_L3_R2_flag == 1){
+		if(auto_flags -> auto_grab_store_L3_R2_count <= 1000){
 			auto_flags -> pre_lift_flag = 1;
 		}
-		else if((auto_flags -> auto_grab_store_L5_R3_count > 1000) && (auto_flags -> auto_grab_store_L5_R3_count <= 2000)){
+		else if((auto_flags -> auto_grab_store_L3_R2_count > 1000) && (auto_flags -> auto_grab_store_L3_R2_count <= 2000)){
 			
 		}
-		else if((auto_flags -> auto_grab_store_L5_R3_count > 2000) && (auto_flags -> auto_grab_store_L5_R3_count <= 3000)){
+		else if((auto_flags -> auto_grab_store_L3_R2_count > 2000) && (auto_flags -> auto_grab_store_L3_R2_count <= 3000)){
 			auto_flags -> pre_lift_flag = 3;
 		}
-		else if((auto_flags -> auto_grab_store_L5_R3_count > 3000) && (auto_flags -> auto_grab_store_L5_R3_count <= 4000)){
+		else if((auto_flags -> auto_grab_store_L3_R2_count > 3000) && (auto_flags -> auto_grab_store_L3_R2_count <= 4000)){
 			
 		}
-		else if((auto_flags -> auto_grab_store_L5_R3_count > 4000) && (auto_flags -> auto_grab_store_L5_R3_count <= 5000)){
+		else if((auto_flags -> auto_grab_store_L3_R2_count > 4000) && (auto_flags -> auto_grab_store_L3_R2_count <= 5000)){
 			auto_flags -> pre_lift_flag = 1;
 		}
-		else if((auto_flags -> auto_grab_store_L5_R3_count > 5000) && (auto_flags -> auto_grab_store_L5_R3_count <= 6000)){
+		else if((auto_flags -> auto_grab_store_L3_R2_count > 5000) && (auto_flags -> auto_grab_store_L3_R2_count <= 6000)){
 			land_point_reset(manipulator_right);
 			land_point_reset(manipulator_left);
 		}
-		else if((auto_flags -> auto_grab_store_L5_R3_count > 6000) && (auto_flags -> auto_grab_store_L5_R3_count <= 7000)){
-			auto_flags -> auto_grab_store_L0_R1_flag = 1;
-			auto_flags -> auto_grab_store_L0_R1_count = 0;
-			auto_flags -> auto_grab_store_L5_R3_flag = 0;
+		else if((auto_flags -> auto_grab_store_L3_R2_count > 6000) && (auto_flags -> auto_grab_store_L3_R2_count <= 7000)){
+			auto_flags -> auto_grab_store_L4_R1_flag = 1;
+			auto_flags -> auto_grab_store_L4_R1_count = 0;
+			auto_flags -> auto_grab_store_L3_R2_flag = 0;
 		}
-		auto_flags -> auto_grab_store_L5_R3_count ++;
+		auto_flags -> auto_grab_store_L3_R2_count ++;
 	}
 }
 
-void Auto_grab_store_L0_R1(Manipulator_t *manipulator_right, Manipulator_t* manipulator_left, auto_control_flags *auto_flags){
-	if(auto_flags -> auto_grab_store_L0_R1_flag == 1 && auto_flags -> auto_grab_store_L5_R3_flag == 0){
-		if(auto_flags -> auto_grab_store_L0_R1_count <= 1000){
+void Auto_grab_store_L4_R1(Manipulator_t *manipulator_right, Manipulator_t* manipulator_left, auto_control_flags *auto_flags){
+	if(auto_flags -> auto_grab_store_L4_R1_flag == 1 && auto_flags -> auto_grab_store_L3_R2_flag == 0){
+		if(auto_flags -> auto_grab_store_L4_R1_count <= 1000){
 			auto_flags -> pre_lift_flag = 1;
 		}
-		else if((auto_flags -> auto_grab_store_L0_R1_count > 1000) && (auto_flags -> auto_grab_store_L0_R1_count <= 2000)){
-			
-		}
-		else if((auto_flags -> auto_grab_store_L0_R1_count > 2000) && (auto_flags -> auto_grab_store_L0_R1_count <= 3000)){
-			auto_flags -> pre_lift_flag = 3;
-		}
-		else if((auto_flags -> auto_grab_store_L0_R1_count > 3000) && (auto_flags -> auto_grab_store_L0_R1_count <= 4000)){
-			
-		}
-		else if((auto_flags -> auto_grab_store_L0_R1_count > 4000) && (auto_flags -> auto_grab_store_L0_R1_count <= 5000)){
-			auto_flags -> pre_lift_flag = 1;
-		}
-		else if((auto_flags -> auto_grab_store_L0_R1_count > 5000) && (auto_flags -> auto_grab_store_L0_R1_count <= 6000)){
-			land_point_reset(manipulator_right);
-			land_point_reset(manipulator_left);
-		}
-		else if((auto_flags -> auto_grab_store_L0_R1_count > 6000) && (auto_flags -> auto_grab_store_L0_R1_count <= 7000)){
-			auto_flags -> auto_grab_store_L4_R2_flag = 1;
-			auto_flags -> auto_grab_store_L4_R2_count = 0;
-			auto_flags -> auto_grab_store_L0_R1_flag = 0;
-		}
-		auto_flags -> auto_grab_store_L0_R1_count ++;
-	}
-}
-
-void Auto_grab_store_L4_R2(Manipulator_t *manipulator_right, Manipulator_t* manipulator_left, auto_control_flags *auto_flags){
-	if(auto_flags -> auto_grab_store_L4_R2_flag == 1 && auto_flags -> auto_grab_store_L0_R1_flag == 0){
-		if(auto_flags -> auto_grab_store_L4_R2_count <= 1000){
-			auto_flags -> pre_lift_flag = 1;
-		}
-		else if((auto_flags -> auto_grab_store_L4_R2_count > 1000) && (auto_flags -> auto_grab_store_L4_R2_count <= 2200)){
+		else if((auto_flags -> auto_grab_store_L4_R1_count > 1000) && (auto_flags -> auto_grab_store_L4_R1_count <= 2800)){
 			/* 右手向前伸 */
 			manipulator_right -> joint0_deg.angle_target = -9.13 - manipulator_right -> joint0_deg.angle_init;
 			manipulator_right -> joint1_deg.angle_target = -2.619 * RtA - manipulator_right -> joint1_deg.angle_init;
@@ -542,19 +514,19 @@ void Auto_grab_store_L4_R2(Manipulator_t *manipulator_right, Manipulator_t* mani
 			manipulator_right -> joint5_deg.angle_target = 0.911 * RtA - manipulator_right -> joint5_deg.angle_init;
 			manipulator_right -> joint6_deg.angle_target = 1.533 * RtA - manipulator_right -> joint6_deg.angle_init;
 		}
-		else if((auto_flags -> auto_grab_store_L4_R2_count > 2200) && (auto_flags -> auto_grab_store_L4_R2_count <= 3400)){
+		else if((auto_flags -> auto_grab_store_L4_R1_count > 2800) && (auto_flags -> auto_grab_store_L4_R1_count <= 4600)){
 			/* 右手到达取矿位置 */
 			manipulator_right -> joint0_deg.angle_target = -30.93 - manipulator_right -> joint0_deg.angle_init;
 			manipulator_right -> joint1_deg.angle_target = -2.60 * RtA - manipulator_right -> joint1_deg.angle_init;
 			manipulator_right -> joint3_deg.angle_target = -0.36 * RtA - manipulator_right -> joint3_deg.angle_init;
 			manipulator_right -> joint6_deg.angle_target = 1.3 * RtA - manipulator_right -> joint6_deg.angle_init;
 		}
-		else if((auto_flags -> auto_grab_store_L4_R2_count > 3400) && (auto_flags -> auto_grab_store_L4_R2_count <= 4000)){
+		else if((auto_flags -> auto_grab_store_L4_R1_count > 4600) && (auto_flags -> auto_grab_store_L4_R1_count <= 5600)){
 			/* 右手夹爪闭合 */
 			auto_flags -> left_clamp_jaw_key_flag = 1;
 			manipulator_right -> clamp_jaw.clamp_jaw_close_flag = 1;
 		}
-		else if((auto_flags -> auto_grab_store_L4_R2_count > 4000) && (auto_flags -> auto_grab_store_L4_R2_count <= 5000)){
+		else if((auto_flags -> auto_grab_store_L4_R1_count > 5600) && (auto_flags -> auto_grab_store_L4_R1_count <= 7400)){
 			/* 右手拔出能量单元 */
 			manipulator_right -> joint0_deg.angle_target = -34.43 - manipulator_right -> joint0_deg.angle_init;
 			manipulator_right -> joint1_deg.angle_target = -2.22 * RtA - manipulator_right -> joint1_deg.angle_init;
@@ -564,36 +536,111 @@ void Auto_grab_store_L4_R2(Manipulator_t *manipulator_right, Manipulator_t* mani
 			manipulator_right -> joint5_deg.angle_target = 0.836 * RtA - manipulator_right -> joint5_deg.angle_init;
 			manipulator_right -> joint6_deg.angle_target = 1.47 * RtA - manipulator_right -> joint6_deg.angle_init;
 		}
-		else if((auto_flags -> auto_grab_store_L4_R2_count > 5000) && (auto_flags -> auto_grab_store_L4_R2_count <= 6000)){
+		else if((auto_flags -> auto_grab_store_L4_R1_count > 7400) && (auto_flags -> auto_grab_store_L4_R1_count <= 9200)){
+
+		}
+		else if((auto_flags -> auto_grab_store_L4_R1_count > 9200) && (auto_flags -> auto_grab_store_L4_R1_count <= 11000)){
 			/* 右手收回 */
-
+			manipulator_right -> joint0_deg.angle_target = 13.493 - manipulator_right -> joint0_deg.angle_init;
+			manipulator_right -> joint1_deg.angle_target = -2.259 * RtA - manipulator_right -> joint1_deg.angle_init;
+			manipulator_right -> joint2_deg.angle_target = -0.065 * RtA - manipulator_right -> joint2_deg.angle_init;
+			manipulator_right -> joint3_deg.angle_target = -0.823 * RtA - manipulator_right -> joint3_deg.angle_init;
+			manipulator_right -> joint4_deg.angle_target = 0.819 * RtA - manipulator_right -> joint4_deg.angle_init;
+			manipulator_right -> joint5_deg.angle_target = -0.132 * RtA - manipulator_right -> joint5_deg.angle_init;
+			manipulator_right -> joint6_deg.angle_target = 1.264 * RtA - manipulator_right -> joint6_deg.angle_init;
 		}
-		else if((auto_flags -> auto_grab_store_L4_R2_count > 6000) && (auto_flags -> auto_grab_store_L4_R2_count <= 7000)){
+		else if((auto_flags -> auto_grab_store_L4_R1_count > 11000) && (auto_flags -> auto_grab_store_L4_R1_count <= 12800)){
 			/* 右手夹爪移动至后方存矿装置附近 */
+			manipulator_right -> joint0_deg.angle_target = 36.99 - manipulator_right -> joint0_deg.angle_init;
+			manipulator_right -> joint1_deg.angle_target = -1.932 * RtA - manipulator_right -> joint1_deg.angle_init;
+			manipulator_right -> joint2_deg.angle_target = -1.323 * RtA - manipulator_right -> joint2_deg.angle_init;
+			manipulator_right -> joint3_deg.angle_target = -1.554 * RtA - manipulator_right -> joint3_deg.angle_init;
+			manipulator_right -> joint4_deg.angle_target = 1.016 * RtA - manipulator_right -> joint4_deg.angle_init;
+			manipulator_right -> joint5_deg.angle_target = 0.183 * RtA - manipulator_right -> joint5_deg.angle_init;
+			manipulator_right -> joint6_deg.angle_target = -0.094 * RtA - manipulator_right -> joint6_deg.angle_init;
 		}
-		else if((auto_flags -> auto_grab_store_L4_R2_count > 7000) && (auto_flags -> auto_grab_store_L4_R2_count <= 8000)){
+		else if((auto_flags -> auto_grab_store_L4_R1_count > 12800) && (auto_flags -> auto_grab_store_L4_R1_count <= 14600)){
 			/* 能量单元放入存矿装置 */
-
+			manipulator_right -> joint2_deg.angle_target = -1.740 * RtA - manipulator_right -> joint2_deg.angle_init;
+			manipulator_right -> joint3_deg.angle_target = -1.194 * RtA - manipulator_right -> joint3_deg.angle_init;
+			manipulator_right -> joint4_deg.angle_target = 0.039 * RtA - manipulator_right -> joint4_deg.angle_init;
+			manipulator_right -> joint5_deg.angle_target = 0.047 * RtA - manipulator_right -> joint5_deg.angle_init;
+			manipulator_right -> joint6_deg.angle_target = 0.451 * RtA - manipulator_right -> joint6_deg.angle_init;
 		}
-		else if((auto_flags -> auto_grab_store_L4_R2_count > 8000) && (auto_flags -> auto_grab_store_L4_R2_count <= 9000)){
+		else if((auto_flags -> auto_grab_store_L4_R1_count > 14600) && (auto_flags -> auto_grab_store_L4_R1_count <= 16400)){
 			/* 右手夹爪松开 */
-			// auto_flags -> left_clamp_jaw_key_flag = 0;
-			// manipulator_right -> clamp_jaw.clamp_jaw_close_flag = 0;
+			auto_flags -> left_clamp_jaw_key_flag = 0;
+			manipulator_right -> clamp_jaw.clamp_jaw_close_flag = 0;
 		}
-		else if((auto_flags -> auto_grab_store_L4_R2_count > 9000) && (auto_flags -> auto_grab_store_L4_R2_count <= 10000)){
+		else if((auto_flags -> auto_grab_store_L4_R1_count > 16400) && (auto_flags -> auto_grab_store_L4_R1_count <= 18200)){
 			/* 右手夹爪远离存矿单元 */
-
+			manipulator_right -> joint0_deg.angle_target = 36.981 - manipulator_right -> joint0_deg.angle_init;
+			manipulator_right -> joint1_deg.angle_target = -1.489 * RtA - manipulator_right -> joint1_deg.angle_init;
+			manipulator_right -> joint2_deg.angle_target = -1.792 * RtA - manipulator_right -> joint2_deg.angle_init;
+			manipulator_right -> joint3_deg.angle_target = -1.116 * RtA - manipulator_right -> joint3_deg.angle_init;
+			manipulator_right -> joint4_deg.angle_target = 0.115 * RtA - manipulator_right -> joint4_deg.angle_init;
+			manipulator_right -> joint5_deg.angle_target = -0.543 * RtA - manipulator_right -> joint5_deg.angle_init;
+			manipulator_right -> joint6_deg.angle_target = 0.397 * RtA - manipulator_right -> joint6_deg.angle_init;
 		}
-		else if((auto_flags -> auto_grab_store_L4_R2_count > 10000) && (auto_flags -> auto_grab_store_L4_R2_count <= 11000)){
+		else if((auto_flags -> auto_grab_store_L4_R1_count > 18200) && (auto_flags -> auto_grab_store_L4_R1_count <= 20000)){
+			/* 右手夹爪继续远离存矿单元 */
+			// manipulator_right -> joint0_deg.angle_target = 36.981 - manipulator_right -> joint0_deg.angle_init;
+			manipulator_right -> joint1_deg.angle_target = -1.618 * RtA - manipulator_right -> joint1_deg.angle_init;
+			manipulator_right -> joint2_deg.angle_target = -0.387 * RtA - manipulator_right -> joint2_deg.angle_init;
+			manipulator_right -> joint3_deg.angle_target = -1.072 * RtA - manipulator_right -> joint3_deg.angle_init;
+			manipulator_right -> joint4_deg.angle_target = 0.059 * RtA - manipulator_right -> joint4_deg.angle_init;
+			manipulator_right -> joint5_deg.angle_target = -0.285 * RtA - manipulator_right -> joint5_deg.angle_init;
+			// manipulator_right -> joint6_deg.angle_target = 0.399 * RtA - manipulator_right -> joint6_deg.angle_init;
+		}
+		else if((auto_flags -> auto_grab_store_L4_R1_count > 20000) && (auto_flags -> auto_grab_store_L4_R1_count <= 21500)){
 			/* 右臂复位至零点 */
-			// zero_point_reset(manipulator_right);
+			zero_point_reset(manipulator_right);
 		}
-		else if((auto_flags -> auto_grab_store_L4_R2_count > 11000) && (auto_flags -> auto_grab_store_L4_R2_count <= 12000)){
-			auto_flags -> auto_grab_store_L4_R2_flag = 0;
+		else if((auto_flags -> auto_grab_store_L4_R1_count > 21500) && (auto_flags -> auto_grab_store_L4_R1_count <= 22500)){
+			// auto_flags -> auto_grab_store_L4_R1_flag = 0;
+			// auto_flags -> auto_grab_store_L5_R0_flag = 1;
+			// auto_flags -> auto_grab_store_L5_R0_count = 0;
+
+			joint_sensitivity_set(manipulator_right, 1.0);
+			joint_sensitivity_set(manipulator_left, 1.0);
 			auto_flags -> auto_grab_store_flag = 0;
 			auto_flags -> lifting_auto_flag = 0;
 		}
 	}
-	auto_flags -> auto_grab_store_L4_R2_count ++;
+	auto_flags -> auto_grab_store_L4_R1_count ++;
 }
+
+void Auto_grab_store_L5_R0(Manipulator_t *manipulator_right, Manipulator_t* manipulator_left, auto_control_flags *auto_flags){
+	if(auto_flags -> auto_grab_store_L5_R0_flag == 1 && auto_flags -> auto_grab_store_L4_R1_flag == 0){
+		if(auto_flags -> auto_grab_store_L5_R0_count <= 1000){
+			auto_flags -> pre_lift_flag = 1;
+		}
+		else if((auto_flags -> auto_grab_store_L5_R0_count > 1000) && (auto_flags -> auto_grab_store_L5_R0_count <= 2000)){
+			
+		}
+		else if((auto_flags -> auto_grab_store_L5_R0_count > 2000) && (auto_flags -> auto_grab_store_L5_R0_count <= 3000)){
+			auto_flags -> pre_lift_flag = 3;
+		}
+		else if((auto_flags -> auto_grab_store_L5_R0_count > 3000) && (auto_flags -> auto_grab_store_L5_R0_count <= 4000)){
+			
+		}
+		else if((auto_flags -> auto_grab_store_L5_R0_count > 4000) && (auto_flags -> auto_grab_store_L5_R0_count <= 5000)){
+			auto_flags -> pre_lift_flag = 1;
+		}
+		else if((auto_flags -> auto_grab_store_L5_R0_count > 5000) && (auto_flags -> auto_grab_store_L5_R0_count <= 6000)){
+			land_point_reset(manipulator_right);
+			land_point_reset(manipulator_left);
+		}
+		else if((auto_flags -> auto_grab_store_L5_R0_count > 6000) && (auto_flags -> auto_grab_store_L5_R0_count <= 7000)){
+			joint_sensitivity_set(manipulator_right, 1.0);
+			joint_sensitivity_set(manipulator_left, 1.0);
+			auto_flags -> auto_grab_store_L5_R0_flag = 0;
+			auto_flags -> auto_grab_store_flag = 0;
+			auto_flags -> lifting_auto_flag = 0;
+		}
+		auto_flags -> auto_grab_store_L5_R0_count ++;
+	}
+}
+
+
 

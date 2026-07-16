@@ -50,7 +50,7 @@ Manipulator_t Manipulator_Right = {
 
 	/* 初始化运动量 */
 	.joint0_deg.velocity = 0,
-	.joint0_deg.max_velocity = 0.012 * JOINT_VELOCITY_SENSITIVITY,
+	.joint0_deg.max_velocity = 0.12 * JOINT_VELOCITY_SENSITIVITY,
 	.joint0_deg.min_velocity = 0.06 * JOINT_VELOCITY_SENSITIVITY,
 	.joint0_deg.Accel = 0.0032 * JOINT_VELOCITY_SENSITIVITY,
 	.joint0_deg.Accel_sensitivity = 1.0,

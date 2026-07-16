@@ -15,9 +15,9 @@
 #define Clamp_Jaw_Close_Filter_Limit_Time 20	//夹爪闭合按键消抖时间
 #define servo_pitch_sensitivity 5.0f			//舵机pitch轴灵敏度
 
-// #define count42 auto_flags->auto_grab_store_L4_R2_count
-// #define count53 auto_flags->auto_grab_store_L5_R3_count
-// #define count01 auto_flags->auto_grab_store_L0_R1_count
+// #define count41 auto_flags->auto_grab_store_L4_R1_count
+// #define count50 auto_flags->auto_grab_store_L5_R0_count
+// #define count32 auto_flags->auto_grab_store_L3_R2_count
 
 
 typedef struct{
@@ -56,14 +56,14 @@ typedef struct{
 	int8_t		auto_grab_store_flag;
 	uint16_t	auto_grab_store_count;
 
-	int8_t		auto_grab_store_L4_R2_flag;		//自动取矿、存储能量单元标志位
-	uint16_t	auto_grab_store_L4_R2_count;	//自动取矿、存储能量单元计时
+	int8_t		auto_grab_store_L3_R2_flag;		//自动取矿、存储能量单元标志位
+	uint16_t	auto_grab_store_L3_R2_count;	//自动取矿、存储能量单元计时
 
-	int8_t		auto_grab_store_L5_R3_flag;
-	uint16_t	auto_grab_store_L5_R3_count;
+	int8_t		auto_grab_store_L5_R0_flag;
+	uint16_t	auto_grab_store_L5_R0_count;
 
-	int8_t		auto_grab_store_L0_R1_flag;
-	uint16_t	auto_grab_store_L0_R1_count;
+	int8_t		auto_grab_store_L4_R1_flag;
+	uint16_t	auto_grab_store_L4_R1_count;
 }auto_control_flags;
 
 /* 测试用变量 */
@@ -92,8 +92,8 @@ void Controller_mode_start(Manipulator_t* manipulator_right, Manipulator_t* mani
 void joint_sensitivity_set(Manipulator_t *manipulator, float target_sensitivity);
 void motor_start_control(Manipulator_t* manipulator_right, Manipulator_t* manipulator_left, auto_control_flags* auto_flags);
 void Auto_grab_store_control(Manipulator_t *manipulator_right, Manipulator_t* manipulator_left, auto_control_flags *auto_flags);
-void Auto_grab_store_L5_R3(Manipulator_t *manipulator_right, Manipulator_t* manipulator_left, auto_control_flags *auto_flags);
-void Auto_grab_store_L0_R1(Manipulator_t *manipulator_right, Manipulator_t* manipulator_left, auto_control_flags *auto_flags);
-void Auto_grab_store_L4_R2(Manipulator_t *manipulator_right, Manipulator_t* manipulator_left, auto_control_flags *auto_flags);
+void Auto_grab_store_L3_R2(Manipulator_t *manipulator_right, Manipulator_t* manipulator_left, auto_control_flags *auto_flags);
+void Auto_grab_store_L4_R1(Manipulator_t *manipulator_right, Manipulator_t* manipulator_left, auto_control_flags *auto_flags);
+void Auto_grab_store_L5_R0(Manipulator_t *manipulator_right, Manipulator_t* manipulator_left, auto_control_flags *auto_flags);
 extern auto_control_flags Auto_flags;
 #endif

@@ -30,7 +30,7 @@ float velocity_plan(joint_angle_t* joint){
 		joint -> velocity = joint -> max_velocity;
 	if(joint -> velocity < joint -> min_velocity)
 		joint -> velocity = joint -> min_velocity;
-	return joint -> velocity;
+	return joint -> velocity * joint -> Accel_sensitivity;
 }	 
 
 

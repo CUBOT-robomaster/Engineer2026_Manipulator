@@ -15,15 +15,12 @@
   * @brief 关节控制模块
   */
 
+uint8_t manipulator_offline_test = 0;		//机械臂离线测试标志位
+
 uint8_t init_angle_check_flag = 0;  		//角度正确标志位
 
 int8_t motor_8010_flag = 1;  				//joint0初始化标志位
 int16_t motor_8010_count = 0;  				//joint0初始化计数
-
-float test_angle0 = 0;
-float test_angle1 = 0;
-float test_angle2 = 0;
-float test_angle3 = 0;
 
 float open_angle_right = 0;
 float open_angle_left = 0;
@@ -608,9 +605,9 @@ void joint_Ctrl(Manipulator_t* manipulator_right, Manipulator_t* manipulator_lef
 //		all_joints_limit(manipulator_right);//右臂限幅
 //		all_joints_limit(manipulator_left);//左臂限幅
 	
-//最终输出
+	/* 最终输出 */
 	if(tim14.ClockTime > 4000){
-		if(rc_Ctrl.isOnline == 1){
+		if(rc_Ctrl.isOnline == 1 && manipulator_offline_test == 0){
 			if(tim14.ClockTime % 7 == 0){
 				ctrl_motor1(&can1,&manipulator_right->Dm_4340_joint1,manipulator_right->joint1_deg.rad,0,175,2.0,1.0);
 				ctrl_motor1(&can2,&manipulator_left->Dm_4340_joint1,manipulator_left->joint1_deg.rad,0,175,2.0,1.0);
@@ -643,7 +640,7 @@ void joint_Ctrl(Manipulator_t* manipulator_right, Manipulator_t* manipulator_lef
 			}
 			clamp_jaw_data_send(&manipulator_right -> clamp_jaw, &manipulator_left -> clamp_jaw);
 		}
-		if(rc_Ctrl.isOnline == 0){
+		else if(rc_Ctrl.isOnline == 0 || manipulator_offline_test != 0){
 			if(tim14.ClockTime % 7 == 0){
 				RPDO2_pos(&can1,0);
 				manipulator_right -> joint0_deg.angle = MOTOR_ONE.pos;

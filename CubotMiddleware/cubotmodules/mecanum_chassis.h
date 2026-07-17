@@ -36,7 +36,7 @@ struct
 	}Movement;
 }MecanumChassis_t;
 
-typedef struct{
+typedef struct __attribute__((packed)){
 	uint8_t header_0;
 	uint8_t header_1;
 	int32_t X_Integ;					//float

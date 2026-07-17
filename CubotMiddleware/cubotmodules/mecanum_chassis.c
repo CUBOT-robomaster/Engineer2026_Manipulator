@@ -15,7 +15,6 @@ uint16_t mecanum_recv_count = 0;	//接收计数
 MecanumChassis_Send mecanum_Send = {
 	.header_0 = 0xEF,
 	.header_1 = 0xA1,
-	.control_flags = 0,
 };
 
 MecanumChassis_Recv mecanum_Recv;
@@ -29,6 +28,8 @@ UART_RxBuffer uart4_buffer={
 };
 
 void Mecanum_data_Send(UART_HandleTypeDef* huart_x, unsigned char* pBuffer){
+	mecanum_Send.header_0 = 0xEF;
+	mecanum_Send.header_1 = 0xA1;
 	mecanum_Send.X_Integ = (int32_t)(rc_Ctrl.Chassis_X_Integ * 1000 + vT13.Chassis_X_Integ * 1000);
 	mecanum_Send.Y_Integ = (int32_t)(rc_Ctrl.Chassis_Y_Integ * 1000 + vT13.Chassis_Y_Integ * 1000);
 	mecanum_Send.vt13_mouse_x = (vT13.mouse.x) * 3 + (rc_Ctrl.rc.ch2 - 1024) * 0.3;	//图传ch2是左拨杆上下
@@ -39,7 +40,7 @@ void Mecanum_data_Send(UART_HandleTypeDef* huart_x, unsigned char* pBuffer){
 	
 	mecanum_Send.control_flags[0] = (vT13.key_ctrl_flag << 5) | (vT13.key_shift_flag << 4) | (vT13.key_R_flag << 3) | (vT13.key_Z_flag << 2) | (vT13.key_X_flag << 1) | (vT13.key_C_flag);
 	mecanum_Send.control_flags[1] = (vT13.key_V_flag << 4) | (vT13.key_F_flag << 3) | (vT13.key_G_flag << 2) | ((Manipulator_Left.controller_mapping_flag % 2) << 1) | (Manipulator_Right.controller_mapping_flag % 2);
-	mecanum_Send.control_flags[2] = 0;
+	mecanum_Send.control_flags[2] = (vT13.mouse.press_r_flag);
 	mecanum_Send.land_flag = Auto_flags.pre_lift_flag;
 	mecanum_Send.data_check_num = (uint16_t)(tim14.ClockTime * 0.05);
 	mecanum_Send.chassis_lift_flag = Auto_flags.chassis_lift_flag;

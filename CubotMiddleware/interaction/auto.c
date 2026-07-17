@@ -451,8 +451,6 @@ void Auto_grab_store_control(Manipulator_t *manipulator_right, Manipulator_t* ma
 			zero_point_reset(manipulator_right);
 			joint_sensitivity_set(manipulator_right, 0.6);
 			joint_sensitivity_set(manipulator_left, 0.6);
-			auto_flags -> auto_grab_store_L4_R1_flag = 1;
-			auto_flags -> auto_grab_store_L4_R1_count = 0;
 
 			/* 右手夹爪松开 */
 			auto_flags -> right_clamp_jaw_key_flag = 0;
@@ -461,12 +459,16 @@ void Auto_grab_store_control(Manipulator_t *manipulator_right, Manipulator_t* ma
 			/* 左手夹爪松开 */
 			auto_flags -> left_clamp_jaw_key_flag = 0;
 			manipulator_left -> clamp_jaw.clamp_jaw_close_flag = 0;
+
+			// auto_flags -> auto_grab_store_L4_R1_flag = 1;
+			// auto_flags -> auto_grab_store_L4_R1_count = 0;
+			auto_flags -> auto_grab_store_L5_R0_flag = 1;
+			auto_flags -> auto_grab_store_L5_R0_count = 0;
 		}
 
-		
-		Auto_grab_store_L4_R1(manipulator_right, manipulator_left, auto_flags);
+		// Auto_grab_store_L4_R1(manipulator_right, manipulator_left, auto_flags);
+		Auto_grab_store_L5_R0(manipulator_right, manipulator_left, auto_flags);
 		// Auto_grab_store_L3_R2(manipulator_right, manipulator_left, auto_flags);
-		// Auto_grab_store_L5_R0(manipulator_right, manipulator_left, auto_flags);
 
 		auto_flags -> auto_grab_store_count ++;
 	}
@@ -506,13 +508,13 @@ void Auto_grab_store_L4_R1(Manipulator_t *manipulator_right, Manipulator_t* mani
 			manipulator_right -> joint6_deg.angle_target = 1.3 * RtA - manipulator_right -> joint6_deg.angle_init;
 
 			/* 左手到达取矿位置 */
-			manipulator_left -> joint0_deg.angle_target = 288.821 - manipulator_left -> joint0_deg.angle_init;
-			manipulator_left -> joint1_deg.angle_target = 1.004 * RtA - manipulator_left -> joint1_deg.angle_init;
-			manipulator_left -> joint2_deg.angle_target = 1.677 * RtA - manipulator_left -> joint2_deg.angle_init;
-			manipulator_left -> joint3_deg.angle_target = -1.522 * RtA - manipulator_left -> joint3_deg.angle_init;
-			manipulator_left -> joint4_deg.angle_target = 0.785 * RtA - manipulator_left -> joint4_deg.angle_init;
-			manipulator_left -> joint5_deg.angle_target = 0.610 * RtA - manipulator_left -> joint5_deg.angle_init;
-			manipulator_left -> joint6_deg.angle_target = -2.82 * RtA - manipulator_left -> joint6_deg.angle_init;
+			manipulator_left -> joint0_deg.angle_target = 291.203 - manipulator_left -> joint0_deg.angle_init;
+			manipulator_left -> joint1_deg.angle_target = 0.950 * RtA - manipulator_left -> joint1_deg.angle_init;
+			manipulator_left -> joint2_deg.angle_target = 1.715 * RtA - manipulator_left -> joint2_deg.angle_init;
+			manipulator_left -> joint3_deg.angle_target = -1.411 * RtA - manipulator_left -> joint3_deg.angle_init;
+			manipulator_left -> joint4_deg.angle_target = 0.396 * RtA - manipulator_left -> joint4_deg.angle_init;
+			manipulator_left -> joint5_deg.angle_target = 0.797 * RtA - manipulator_left -> joint5_deg.angle_init;
+			manipulator_left -> joint6_deg.angle_target = -2.518 * RtA - manipulator_left -> joint6_deg.angle_init;
 		}
 		else if((auto_flags -> auto_grab_store_L4_R1_count > 4600) && (auto_flags -> auto_grab_store_L4_R1_count <= 5600)){
 			/* 右手夹爪闭合 */
@@ -553,10 +555,10 @@ void Auto_grab_store_L4_R1(Manipulator_t *manipulator_right, Manipulator_t* mani
 			manipulator_right -> joint3_deg.angle_target = -0.823 * RtA - manipulator_right -> joint3_deg.angle_init;
 			manipulator_right -> joint4_deg.angle_target = 0.819 * RtA - manipulator_right -> joint4_deg.angle_init;
 			manipulator_right -> joint5_deg.angle_target = -0.132 * RtA - manipulator_right -> joint5_deg.angle_init;
-			manipulator_right -> joint6_deg.angle_target = 1.264 * RtA - manipulator_right -> joint6_deg.angle_init;
+			manipulator_right -> joint6_deg.angle_target = -0.094 * RtA - manipulator_right -> joint6_deg.angle_init;
 
 			/* 左手收回 */
-			manipulator_left -> joint0_deg.angle_target = 277.340 - manipulator_left -> joint0_deg.angle_init;
+			manipulator_left -> joint0_deg.angle_target = 251.133 - manipulator_left -> joint0_deg.angle_init;
 			manipulator_left -> joint1_deg.angle_target = 0.996 * RtA - manipulator_left -> joint1_deg.angle_init;
 			manipulator_left -> joint2_deg.angle_target = 0.885 * RtA - manipulator_left -> joint2_deg.angle_init;
 			manipulator_left -> joint3_deg.angle_target = -2.141 * RtA - manipulator_left -> joint3_deg.angle_init;
@@ -576,29 +578,29 @@ void Auto_grab_store_L4_R1(Manipulator_t *manipulator_right, Manipulator_t* mani
 
 			/* 左手夹爪移动至后方存矿装置附近 */
 			manipulator_left -> joint0_deg.angle_target = 251.133 - manipulator_left -> joint0_deg.angle_init;
-			manipulator_left -> joint1_deg.angle_target = -0.032 * RtA - manipulator_left -> joint1_deg.angle_init;
+			manipulator_left -> joint1_deg.angle_target = -0.102 * RtA - manipulator_left -> joint1_deg.angle_init;
 			manipulator_left -> joint2_deg.angle_target = 2.417 * RtA - manipulator_left -> joint2_deg.angle_init;
 			manipulator_left -> joint3_deg.angle_target = -2.497 * RtA - manipulator_left -> joint3_deg.angle_init;
 			manipulator_left -> joint4_deg.angle_target = -0.905 * RtA - manipulator_left -> joint4_deg.angle_init;
-			manipulator_left -> joint5_deg.angle_target = 0.247 * RtA - manipulator_left -> joint5_deg.angle_init;
+			manipulator_left -> joint5_deg.angle_target = 0.277 * RtA - manipulator_left -> joint5_deg.angle_init;
 			manipulator_left -> joint6_deg.angle_target = 0.047 * RtA - manipulator_left -> joint6_deg.angle_init;
 		}
 		else if((auto_flags -> auto_grab_store_L4_R1_count > 12800) && (auto_flags -> auto_grab_store_L4_R1_count <= 14600)){
 			/* 右手能量单元放入存矿装置 */
 			manipulator_right -> joint2_deg.angle_target = -1.740 * RtA - manipulator_right -> joint2_deg.angle_init;
-			manipulator_right -> joint3_deg.angle_target = -1.194 * RtA - manipulator_right -> joint3_deg.angle_init;
+			manipulator_right -> joint3_deg.angle_target = -1.234 * RtA - manipulator_right -> joint3_deg.angle_init;
 			manipulator_right -> joint4_deg.angle_target = 0.039 * RtA - manipulator_right -> joint4_deg.angle_init;
 			manipulator_right -> joint5_deg.angle_target = 0.047 * RtA - manipulator_right -> joint5_deg.angle_init;
 			manipulator_right -> joint6_deg.angle_target = 0.451 * RtA - manipulator_right -> joint6_deg.angle_init;
 
 			/* 左手能量单元放入存矿装置 */
 			manipulator_left -> joint0_deg.angle_target = 251.140 - manipulator_left -> joint0_deg.angle_init;
-			manipulator_left -> joint1_deg.angle_target = 0.022 * RtA - manipulator_left -> joint1_deg.angle_init;
+			manipulator_left -> joint1_deg.angle_target = -0.102 * RtA - manipulator_left -> joint1_deg.angle_init;
 			manipulator_left -> joint2_deg.angle_target = 2.778 * RtA - manipulator_left -> joint2_deg.angle_init;
 			manipulator_left -> joint3_deg.angle_target = -2.153 * RtA - manipulator_left -> joint3_deg.angle_init;
 			manipulator_left -> joint4_deg.angle_target = -0.543 * RtA - manipulator_left -> joint4_deg.angle_init;
-			manipulator_left -> joint5_deg.angle_target = 0.027 * RtA - manipulator_left -> joint5_deg.angle_init;
-			manipulator_left -> joint6_deg.angle_target = 0.007 * RtA - manipulator_left -> joint6_deg.angle_init;
+			manipulator_left -> joint5_deg.angle_target = 0.067 * RtA - manipulator_left -> joint5_deg.angle_init;
+			manipulator_left -> joint6_deg.angle_target = 0.047 * RtA - manipulator_left -> joint6_deg.angle_init;
 		}
 		else if((auto_flags -> auto_grab_store_L4_R1_count > 14600) && (auto_flags -> auto_grab_store_L4_R1_count <= 16400)){
 			/* 右手夹爪松开 */
@@ -618,6 +620,15 @@ void Auto_grab_store_L4_R1(Manipulator_t *manipulator_right, Manipulator_t* mani
 			manipulator_right -> joint4_deg.angle_target = 0.115 * RtA - manipulator_right -> joint4_deg.angle_init;
 			manipulator_right -> joint5_deg.angle_target = -0.543 * RtA - manipulator_right -> joint5_deg.angle_init;
 			manipulator_right -> joint6_deg.angle_target = 0.397 * RtA - manipulator_right -> joint6_deg.angle_init;
+
+			/* 左手夹爪远离存矿单元 */
+			manipulator_left -> joint0_deg.angle_target = 251.120 - manipulator_left -> joint0_deg.angle_init;
+			manipulator_left -> joint1_deg.angle_target = -0.416 * RtA - manipulator_left -> joint1_deg.angle_init;
+			manipulator_left -> joint2_deg.angle_target = 2.788 * RtA - manipulator_left -> joint2_deg.angle_init;
+			manipulator_left -> joint3_deg.angle_target = -2.175 * RtA - manipulator_left -> joint3_deg.angle_init;
+			manipulator_left -> joint4_deg.angle_target = -0.427 * RtA - manipulator_left -> joint4_deg.angle_init;
+			manipulator_left -> joint5_deg.angle_target = -0.109 * RtA - manipulator_left -> joint5_deg.angle_init;
+			manipulator_left -> joint6_deg.angle_target = -0.138 * RtA - manipulator_left -> joint6_deg.angle_init;
 		}
 		else if((auto_flags -> auto_grab_store_L4_R1_count > 18200) && (auto_flags -> auto_grab_store_L4_R1_count <= 20000)){
 			/* 右手夹爪继续远离存矿单元 */
@@ -626,13 +637,71 @@ void Auto_grab_store_L4_R1(Manipulator_t *manipulator_right, Manipulator_t* mani
 			manipulator_right -> joint3_deg.angle_target = -1.072 * RtA - manipulator_right -> joint3_deg.angle_init;
 			manipulator_right -> joint4_deg.angle_target = 0.059 * RtA - manipulator_right -> joint4_deg.angle_init;
 			manipulator_right -> joint5_deg.angle_target = -0.285 * RtA - manipulator_right -> joint5_deg.angle_init;
+
+			/* 左手夹爪继续远离存矿单元 */
+			manipulator_left -> joint0_deg.angle_target = 251.119 - manipulator_left -> joint0_deg.angle_init;
+			manipulator_left -> joint1_deg.angle_target = -0.234 * RtA - manipulator_left -> joint1_deg.angle_init;
+			manipulator_left -> joint2_deg.angle_target = 1.522 * RtA - manipulator_left -> joint2_deg.angle_init;
+			manipulator_left -> joint3_deg.angle_target = -1.915 * RtA - manipulator_left -> joint3_deg.angle_init;
+			manipulator_left -> joint4_deg.angle_target = -0.187 * RtA - manipulator_left -> joint4_deg.angle_init;
+			manipulator_left -> joint5_deg.angle_target = -0.071 * RtA - manipulator_left -> joint5_deg.angle_init;
+			manipulator_left -> joint6_deg.angle_target = -0.138 * RtA - manipulator_left -> joint6_deg.angle_init;
 		}
 		else if((auto_flags -> auto_grab_store_L4_R1_count > 20000) && (auto_flags -> auto_grab_store_L4_R1_count <= 21500)){
 			/* 右臂复位至零点 */
 			zero_point_reset(manipulator_right);
+
+			/* 左臂复位至零点 */
+			zero_point_reset(manipulator_left);
 		}
 		else if((auto_flags -> auto_grab_store_L4_R1_count > 21500) && (auto_flags -> auto_grab_store_L4_R1_count <= 22500)){
 			auto_flags -> auto_grab_store_L4_R1_flag = 0;
+			auto_flags -> auto_grab_store_L5_R0_flag = 1;
+			auto_flags -> auto_grab_store_L5_R0_count = 0;
+
+			// joint_sensitivity_set(manipulator_right, 1.0);
+			// joint_sensitivity_set(manipulator_left, 1.0);
+			// auto_flags -> auto_grab_store_flag = 0;
+			// auto_flags -> lifting_auto_flag = 0;
+		}
+	}
+	auto_flags -> auto_grab_store_L4_R1_count ++;
+}
+
+void Auto_grab_store_L5_R0(Manipulator_t *manipulator_right, Manipulator_t* manipulator_left, auto_control_flags *auto_flags){
+	if(auto_flags -> auto_grab_store_L5_R0_flag == 1){
+		if(auto_flags -> auto_grab_store_L5_R0_count <= 800){
+			joint_sensitivity_set(manipulator_right, 1.5);
+			joint_sensitivity_set(manipulator_left, 1.5);
+			/* 右臂复位 */
+			land_point_reset(manipulator_right);
+			
+			/* 左臂复位 */
+			land_point_reset(manipulator_left);
+		}
+		else if((auto_flags -> auto_grab_store_L5_R0_count > 800) && (auto_flags -> auto_grab_store_L5_R0_count <= 2000)){
+			/* 抬升下降 */
+			auto_flags -> pre_lift_flag = 2;
+			joint_sensitivity_set(manipulator_right, 1.0);
+			joint_sensitivity_set(manipulator_left, 1.0);
+		}
+		else if((auto_flags -> auto_grab_store_L5_R0_count > 2000) && (auto_flags -> auto_grab_store_L5_R0_count <= 3000)){
+			/* 底盘整体抬升 */
+			auto_flags -> chassis_lift_flag = 1;
+		}
+		else if((auto_flags -> auto_grab_store_L5_R0_count > 3000) && (auto_flags -> auto_grab_store_L5_R0_count <= 4000)){
+			
+		}
+		else if((auto_flags -> auto_grab_store_L5_R0_count > 4000) && (auto_flags -> auto_grab_store_L5_R0_count <= 5000)){
+			
+
+			auto_flags -> chassis_lift_flag = 0;
+		}
+		else if((auto_flags -> auto_grab_store_L5_R0_count > 5000) && (auto_flags -> auto_grab_store_L5_R0_count <= 6000)){
+			auto_flags -> chassis_lift_flag = 2;
+		}
+		else if((auto_flags -> auto_grab_store_L5_R0_count > 6000) && (auto_flags -> auto_grab_store_L5_R0_count <= 7000)){
+			auto_flags -> auto_grab_store_L5_R0_flag = 0;
 			// auto_flags -> auto_grab_store_L3_R2_flag = 1;
 			// auto_flags -> auto_grab_store_L3_R2_count = 0;
 
@@ -641,8 +710,8 @@ void Auto_grab_store_L4_R1(Manipulator_t *manipulator_right, Manipulator_t* mani
 			auto_flags -> auto_grab_store_flag = 0;
 			auto_flags -> lifting_auto_flag = 0;
 		}
+		auto_flags -> auto_grab_store_L5_R0_count ++;
 	}
-	auto_flags -> auto_grab_store_L4_R1_count ++;
 }
 
 void Auto_grab_store_L3_R2(Manipulator_t *manipulator_right, Manipulator_t* manipulator_left, auto_control_flags *auto_flags){
@@ -668,44 +737,16 @@ void Auto_grab_store_L3_R2(Manipulator_t *manipulator_right, Manipulator_t* mani
 		}
 		else if((auto_flags -> auto_grab_store_L3_R2_count > 6000) && (auto_flags -> auto_grab_store_L3_R2_count <= 7000)){
 			auto_flags -> auto_grab_store_L3_R2_flag = 0;
-			auto_flags -> auto_grab_store_L5_R0_flag = 1;
-			auto_flags -> auto_grab_store_L5_R0_count = 0;
-		}
-		auto_flags -> auto_grab_store_L3_R2_count ++;
-	}
-}
 
-void Auto_grab_store_L5_R0(Manipulator_t *manipulator_right, Manipulator_t* manipulator_left, auto_control_flags *auto_flags){
-	if(auto_flags -> auto_grab_store_L5_R0_flag == 1){
-		if(auto_flags -> auto_grab_store_L5_R0_count <= 1000){
-			auto_flags -> pre_lift_flag = 1;
-		}
-		else if((auto_flags -> auto_grab_store_L5_R0_count > 1000) && (auto_flags -> auto_grab_store_L5_R0_count <= 2000)){
-			
-		}
-		else if((auto_flags -> auto_grab_store_L5_R0_count > 2000) && (auto_flags -> auto_grab_store_L5_R0_count <= 3000)){
-			auto_flags -> pre_lift_flag = 3;
-		}
-		else if((auto_flags -> auto_grab_store_L5_R0_count > 3000) && (auto_flags -> auto_grab_store_L5_R0_count <= 4000)){
-			
-		}
-		else if((auto_flags -> auto_grab_store_L5_R0_count > 4000) && (auto_flags -> auto_grab_store_L5_R0_count <= 5000)){
-			auto_flags -> pre_lift_flag = 1;
-		}
-		else if((auto_flags -> auto_grab_store_L5_R0_count > 5000) && (auto_flags -> auto_grab_store_L5_R0_count <= 6000)){
-			land_point_reset(manipulator_right);
-			land_point_reset(manipulator_left);
-		}
-		else if((auto_flags -> auto_grab_store_L5_R0_count > 6000) && (auto_flags -> auto_grab_store_L5_R0_count <= 7000)){
-			auto_flags -> auto_grab_store_L5_R0_flag = 0;
 			joint_sensitivity_set(manipulator_right, 1.0);
 			joint_sensitivity_set(manipulator_left, 1.0);
 			auto_flags -> auto_grab_store_flag = 0;
 			auto_flags -> lifting_auto_flag = 0;
 		}
-		auto_flags -> auto_grab_store_L5_R0_count ++;
+		auto_flags -> auto_grab_store_L3_R2_count ++;
 	}
 }
+
 
 
 

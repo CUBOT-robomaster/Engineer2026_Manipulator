@@ -42,7 +42,7 @@ void Mecanum_data_Send(UART_HandleTypeDef* huart_x, unsigned char* pBuffer){
 	mecanum_Send.control_flags[2] = 0;
 	mecanum_Send.land_flag = Auto_flags.pre_lift_flag;
 	mecanum_Send.data_check_num = (uint16_t)(tim14.ClockTime * 0.05);
-	mecanum_Send.dead_flag = !check_robot_state.usart_state.GPIO_data;
+	mecanum_Send.chassis_lift_flag = Auto_flags.chassis_lift_flag;
 	
 	memcpy(pBuffer, &mecanum_Send, Mecanum_Datas_Send_Length);
 	

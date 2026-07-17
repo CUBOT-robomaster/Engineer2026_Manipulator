@@ -49,7 +49,7 @@ typedef struct{
 	uint8_t control_flags[3];			//八个标志位
 	uint8_t land_flag;					//抬升标志位
 	uint16_t data_check_num;			//检测数据是否更新，数值为计时器的0.1倍
-	uint8_t dead_flag;					//死亡标志位
+	uint8_t chassis_lift_flag;			//底盘整体抬升标志位
 }MecanumChassis_Send;//需要发送给底盘的数据
 
 typedef struct{

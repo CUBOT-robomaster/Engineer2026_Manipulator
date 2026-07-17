@@ -15,11 +15,6 @@
 #define Clamp_Jaw_Close_Filter_Limit_Time 20	//夹爪闭合按键消抖时间
 #define servo_pitch_sensitivity 5.0f			//舵机pitch轴灵敏度
 
-// #define count41 auto_flags->auto_grab_store_L4_R1_count
-// #define count50 auto_flags->auto_grab_store_L5_R0_count
-// #define count32 auto_flags->auto_grab_store_L3_R2_count
-
-
 typedef struct{
 	uint8_t		land_flag;						//登岛初始化标志位
 	uint32_t 	land_count;						//登岛复位计时
@@ -52,6 +47,8 @@ typedef struct{
 	uint16_t 	motor_start_mode_count;			//电机使能模式计时
 
 	uint8_t		lifting_auto_flag;				//自动抬升标志位，此时无法手动控制抬升
+
+	uint8_t		chassis_lift_flag;				//底盘整体抬升标志位，1抬升，2下降，0保持不变
 
 	int8_t		auto_grab_store_flag;
 	uint16_t	auto_grab_store_count;
@@ -92,8 +89,8 @@ void Controller_mode_start(Manipulator_t* manipulator_right, Manipulator_t* mani
 void joint_sensitivity_set(Manipulator_t *manipulator, float target_sensitivity);
 void motor_start_control(Manipulator_t* manipulator_right, Manipulator_t* manipulator_left, auto_control_flags* auto_flags);
 void Auto_grab_store_control(Manipulator_t *manipulator_right, Manipulator_t* manipulator_left, auto_control_flags *auto_flags);
-void Auto_grab_store_L3_R2(Manipulator_t *manipulator_right, Manipulator_t* manipulator_left, auto_control_flags *auto_flags);
 void Auto_grab_store_L4_R1(Manipulator_t *manipulator_right, Manipulator_t* manipulator_left, auto_control_flags *auto_flags);
+void Auto_grab_store_L3_R2(Manipulator_t *manipulator_right, Manipulator_t* manipulator_left, auto_control_flags *auto_flags);
 void Auto_grab_store_L5_R0(Manipulator_t *manipulator_right, Manipulator_t* manipulator_left, auto_control_flags *auto_flags);
 extern auto_control_flags Auto_flags;
 #endif

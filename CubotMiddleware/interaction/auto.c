@@ -453,6 +453,14 @@ void Auto_grab_store_control(Manipulator_t *manipulator_right, Manipulator_t* ma
 			joint_sensitivity_set(manipulator_left, 0.6);
 			auto_flags -> auto_grab_store_L4_R1_flag = 1;
 			auto_flags -> auto_grab_store_L4_R1_count = 0;
+
+			/* ÓÒÊÖ¼Ð×¦ËÉ¿ª */
+			auto_flags -> right_clamp_jaw_key_flag = 0;
+			manipulator_right -> clamp_jaw.clamp_jaw_close_flag = 0;
+
+			/* ×óÊÖ¼Ð×¦ËÉ¿ª */
+			auto_flags -> left_clamp_jaw_key_flag = 0;
+			manipulator_left -> clamp_jaw.clamp_jaw_close_flag = 0;
 		}
 
 		
@@ -498,10 +506,10 @@ void Auto_grab_store_L4_R1(Manipulator_t *manipulator_right, Manipulator_t* mani
 			manipulator_right -> joint6_deg.angle_target = 1.3 * RtA - manipulator_right -> joint6_deg.angle_init;
 
 			/* ×óÊÖµ½´ïÈ¡¿óÎ»ÖÃ */
-			manipulator_left -> joint0_deg.angle_target = 285.821 - manipulator_left -> joint0_deg.angle_init;
+			manipulator_left -> joint0_deg.angle_target = 288.821 - manipulator_left -> joint0_deg.angle_init;
 			manipulator_left -> joint1_deg.angle_target = 1.004 * RtA - manipulator_left -> joint1_deg.angle_init;
 			manipulator_left -> joint2_deg.angle_target = 1.677 * RtA - manipulator_left -> joint2_deg.angle_init;
-			manipulator_left -> joint3_deg.angle_target = -1.482 * RtA - manipulator_left -> joint3_deg.angle_init;
+			manipulator_left -> joint3_deg.angle_target = -1.522 * RtA - manipulator_left -> joint3_deg.angle_init;
 			manipulator_left -> joint4_deg.angle_target = 0.785 * RtA - manipulator_left -> joint4_deg.angle_init;
 			manipulator_left -> joint5_deg.angle_target = 0.610 * RtA - manipulator_left -> joint5_deg.angle_init;
 			manipulator_left -> joint6_deg.angle_target = -2.82 * RtA - manipulator_left -> joint6_deg.angle_init;
@@ -598,8 +606,8 @@ void Auto_grab_store_L4_R1(Manipulator_t *manipulator_right, Manipulator_t* mani
 			manipulator_right -> clamp_jaw.clamp_jaw_close_flag = 0;
 
 			/* ×óÊÖ¼Ð×¦ËÉ¿ª */
-			// auto_flags -> left_clamp_jaw_key_flag = 0;
-			// manipulator_left -> clamp_jaw.clamp_jaw_close_flag = 0;
+			auto_flags -> left_clamp_jaw_key_flag = 0;
+			manipulator_left -> clamp_jaw.clamp_jaw_close_flag = 0;
 		}
 		else if((auto_flags -> auto_grab_store_L4_R1_count > 16400) && (auto_flags -> auto_grab_store_L4_R1_count <= 18200)){
 			/* ÓÒÊÖ¼Ð×¦Ô¶Àë´æ¿óµ¥Ôª */

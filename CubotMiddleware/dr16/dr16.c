@@ -438,7 +438,7 @@ void KeyBoard_DataUnpack(RC_Ctrl *rc_ctrl)
 		}	else
 		 {
 			key_V_cnt=0;	
-  		RC_Ctl->key_V_flag=0;
+  			RC_Ctl->key_V_flag=0;
 		 } 	 
 		//key_ctrl
 		if(RC_Ctl->key_ctrl==1) 

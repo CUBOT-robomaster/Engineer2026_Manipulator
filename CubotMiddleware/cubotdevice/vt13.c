@@ -290,7 +290,6 @@ void PC_keybroad_filter_vt13(VT13* RC_Ctl)
 		key_V_cnt++;
 		if(key_V_cnt==Key_Filter_Num_vT13)	
 		{
-//	
 			RC_Ctl->key_V_flag=1;
 		}			
 	}	else

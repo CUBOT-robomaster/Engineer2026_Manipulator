@@ -23,6 +23,7 @@ void robot_offline_protection(){
 	if(check_robot_state.usart_state.GPIO_data == 0 || Auto_flags.motor_start_mode_flag == 1 || (vT13.rc.mode_sw == 0 && check_robot_state.usart_state.Check_receiver > 50)){
 		rc_Ctrl.isOnline = 0;//“£øÿ¿Îœﬂ
 		Auto_flags.pre_mapping_flag = 0;
+		Auto_flags.chassis_lift_flag = 0;
 		Manipulator_Right.controller_mapping_flag = 0;
 		Manipulator_Left.controller_mapping_flag = 0;
 	}

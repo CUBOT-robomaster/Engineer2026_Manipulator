@@ -15,7 +15,7 @@
   * @brief 关节控制模块
   */
 
-uint8_t manipulator_offline_test = 0;		//机械臂离线测试标志位
+uint8_t manipulator_online_test = 0;		//机械臂在线标志位
 
 uint8_t init_angle_check_flag = 0;  		//角度正确标志位
 
@@ -316,9 +316,10 @@ void joint0_Ctrl_right(Manipulator_t* manipulator){
 	// 	manipulator -> joint0_deg.angle_target -= -0.03;
 	// else if(rc_Ctrl.rc.ch2 <=  924 && rc_Ctrl.rc.s1 == 3 && rc_Ctrl.rc.s2 == 1 && manipulator -> controller_mapping_flag % 2 == 0)
 	// 	manipulator -> joint0_deg.angle_target += -0.03;
-	if(vT13.rc.ch0 >=  1124 && manipulator -> controller_mapping_flag % 2 == 0)
+
+	if(vT13.rc.ch1 >=  1124 && manipulator -> controller_mapping_flag % 2 == 0)
 		manipulator -> joint0_deg.angle_target -= -0.03;
-	else if(vT13.rc.ch0 <=  924 && manipulator -> controller_mapping_flag % 2 == 0)
+	else if(vT13.rc.ch1 <=  924 && manipulator -> controller_mapping_flag % 2 == 0)
 		manipulator -> joint0_deg.angle_target += -0.03;
 
 	if(manipulator -> joint0_deg.angle_target + manipulator -> joint0_deg.angle_init > manipulator -> joint0_deg.angle + 0.01)
@@ -416,10 +417,15 @@ void joint6_Ctrl_right(Manipulator_t* manipulator){
 }
 
 void joint0_Ctrl_left(Manipulator_t* manipulator){
-//	if(rc_Ctrl.rc.ch2 > =  1124 && rc_Ctrl.rc.s1 == 3 && rc_Ctrl.rc.s2 == 1 && manipulator -> controller_mapping_flag % 2 == 0)
+//	if(rc_Ctrl.rc.ch2 >=  1124 && rc_Ctrl.rc.s1 == 3 && rc_Ctrl.rc.s2 == 1 && manipulator -> controller_mapping_flag % 2 == 0)
 //		manipulator -> joint0_deg.angle_target -= -0.03;
-//	else if(rc_Ctrl.rc.ch2 < =  924 && rc_Ctrl.rc.s1 == 3 && rc_Ctrl.rc.s2 == 1 && manipulator -> controller_mapping_flag % 2 == 0)
+//	else if(rc_Ctrl.rc.ch2 <=  924 && rc_Ctrl.rc.s1 == 3 && rc_Ctrl.rc.s2 == 1 && manipulator -> controller_mapping_flag % 2 == 0)
 //		manipulator -> joint0_deg.angle_target += -0.03;
+
+	if(vT13.rc.ch0 >=  1124 && manipulator -> controller_mapping_flag % 2 == 0)
+		manipulator -> joint0_deg.angle_target -= -0.03;
+	else if(vT13.rc.ch0 <=  924 && manipulator -> controller_mapping_flag % 2 == 0)
+		manipulator -> joint0_deg.angle_target += -0.03;
 
 	if(manipulator -> joint0_deg.angle_target + manipulator -> joint0_deg.angle_init > manipulator -> joint0_deg.angle + 0.01)
 		manipulator -> joint0_deg.angle += velocity_plan(&manipulator -> joint0_deg);
@@ -607,7 +613,7 @@ void joint_Ctrl(Manipulator_t* manipulator_right, Manipulator_t* manipulator_lef
 	
 	/* 最终输出 */
 	if(tim14.ClockTime > 4000){
-		if(rc_Ctrl.isOnline == 1 && manipulator_offline_test == 0){
+		if(rc_Ctrl.isOnline == 1 && manipulator_online_test != 0){
 			if(tim14.ClockTime % 7 == 0){
 				ctrl_motor1(&can1,&manipulator_right->Dm_4340_joint1,manipulator_right->joint1_deg.rad,0,175,2.0,1.0);
 				ctrl_motor1(&can2,&manipulator_left->Dm_4340_joint1,manipulator_left->joint1_deg.rad,0,175,2.0,1.0);
@@ -640,7 +646,7 @@ void joint_Ctrl(Manipulator_t* manipulator_right, Manipulator_t* manipulator_lef
 			}
 			clamp_jaw_data_send(&manipulator_right -> clamp_jaw, &manipulator_left -> clamp_jaw);
 		}
-		else if(rc_Ctrl.isOnline == 0 || manipulator_offline_test != 0){
+		else if(rc_Ctrl.isOnline == 0 || manipulator_online_test == 0){
 			if(tim14.ClockTime % 7 == 0){
 				RPDO2_pos(&can1,0);
 				manipulator_right -> joint0_deg.angle = MOTOR_ONE.pos;

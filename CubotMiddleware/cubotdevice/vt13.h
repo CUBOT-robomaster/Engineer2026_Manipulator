@@ -6,7 +6,7 @@
 #include "driver_usart.h"
 #include "dr16.h"
 
-#define Key_Filter_Num_vT13 2       //< 按键检测消抖滤波时间(ms)
+#define Key_Filter_Num_vT13 5       //< 按键检测消抖滤波时间(ms)
 typedef struct { 
  struct {
 	 uint16_t ch0;       

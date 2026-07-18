@@ -8,7 +8,7 @@
 #include <check.h>
 
 #define DR16_rxBufferLengh 18	 //< dr16接收缓存区数据长度
-#define Key_Filter_Num 4       //< 按键检测消抖滤波时间(ms)
+#define Key_Filter_Num 5       //< 按键检测消抖滤波时间(ms)
 #define ACE_SENSE  0.12f //0.05f
 #define ACE_SHACHE 0.009f
 #define PARK_SENSE 0.005f

@@ -70,7 +70,7 @@ void TIM14_Task(void){
 		Auto_Control(&Manipulator_Right, &Manipulator_Left, &Auto_flags, &hiwonder_Servo, &Custom, tim14.ClockTime);
 		joint_Ctrl(&Manipulator_Right, &Manipulator_Left);
 		hiwonder_servo_control(tim14.ClockTime, &hiwonder_Servo);
-		Clamp_jaw_angle_test(&Manipulator_Right, &Manipulator_Left);
+		// Clamp_jaw_angle_test(&Manipulator_Right, &Manipulator_Left);
 		// Usart8DmaPrintf("%f,%f,%f,%f\n",Manipulator_Right.Dm_8006_joint3.T,Manipulator_Right.joint3_deg.cc_recv,Custom.image_recv.Coordinate.joint6_left,Custom.image_recv.Coordinate.joint3_left);
 		
 		/* 上下板通信 */

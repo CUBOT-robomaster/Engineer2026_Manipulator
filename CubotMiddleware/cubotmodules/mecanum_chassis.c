@@ -40,7 +40,7 @@ void Mecanum_data_Send(UART_HandleTypeDef* huart_x, unsigned char* pBuffer){
 	
 	mecanum_Send.control_flags[0] = (vT13.key_ctrl_flag << 5) | (vT13.key_shift_flag << 4) | (vT13.key_R_flag << 3) | (vT13.key_Z_flag << 2) | (vT13.key_X_flag << 1) | (vT13.key_C_flag);
 	mecanum_Send.control_flags[1] = (vT13.key_V_flag << 4) | (vT13.key_F_flag << 3) | (vT13.key_G_flag << 2) | ((Manipulator_Left.controller_mapping_flag % 2) << 1) | (Manipulator_Right.controller_mapping_flag % 2);
-	mecanum_Send.control_flags[2] = (vT13.mouse.press_r_flag);
+	mecanum_Send.control_flags[2] = (check_robot_state.usart_state.GPIO_data << 1) | (vT13.mouse.press_r_flag);
 	mecanum_Send.land_flag = Auto_flags.pre_lift_flag;
 	mecanum_Send.data_check_num = (uint16_t)(tim14.ClockTime * 0.05);
 	mecanum_Send.chassis_lift_flag = Auto_flags.chassis_lift_flag;

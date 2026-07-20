@@ -40,9 +40,7 @@ typedef struct
  
  
  }motor6020_t;
-typedef struct
-{
-	
+typedef struct{
 	float rad;
 	float rad_init;
 	float rad_target;

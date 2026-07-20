@@ -15,7 +15,12 @@
   * @brief 关节控制模块
   */
 
-uint8_t manipulator_online_test = 0;		//机械臂在线标志位
+uint16_t test_angle0 = SERVO_LEFT_ZERO_OPEN_ID_ZERO;
+uint16_t test_angle1 = SERVO_RIGHT_ZERO_OPEN_ID_ONE;
+uint16_t test_angle2 = SERVO_LEFT_ONE_OPEN_ID_TWO;
+uint16_t test_angle3 = SERVO_RIGHT_ONE_OPEN_ID_THREE;
+
+uint8_t manipulator_online_test = 1;		//机械臂在线标志位
 
 uint8_t init_angle_check_flag = 0;  		//角度正确标志位
 
@@ -52,7 +57,7 @@ Manipulator_t Manipulator_Right = {
 	.joint0_deg.Accel = 0.0032 * JOINT_VELOCITY_SENSITIVITY,
 	.joint0_deg.Accel_sensitivity = 1.0,
 	.joint0_deg.sensitivity = 2.5,
-	.joint0_deg.zero_point = 0.462,			//弧度制,对应角度值为26.4
+	.joint0_deg.zero_point = 0.653,			//弧度制,对应角度值为37.396
 	.joint0_deg.limit_min = -68,			//角度制
 	.joint0_deg.limit_max = 114,
 	.joint0_deg.land_point = 0.1,			//弧度制，对应角度制为-12
@@ -85,7 +90,7 @@ Manipulator_t Manipulator_Right = {
 	.joint3_deg.velocity = 0,
 	.joint3_deg.max_velocity = 0.18 * JOINT_VELOCITY_SENSITIVITY,
 	.joint3_deg.min_velocity = 0.06 * JOINT_VELOCITY_SENSITIVITY,
-	.joint3_deg.Accel = 0.00024 * JOINT_VELOCITY_SENSITIVITY,
+	.joint3_deg.Accel = 0.00048 * JOINT_VELOCITY_SENSITIVITY,
 	.joint3_deg.Accel_sensitivity = 1.0,
 	.joint3_deg.sensitivity = 1.4,
 	.joint3_deg.zero_point = -1.13,
@@ -166,7 +171,7 @@ Manipulator_t Manipulator_Left = {
 	.joint0_deg.zero_point = 4.34,			//弧度制，对应角度制为213
 	.joint0_deg.limit_min = 96,				//角度制
 	.joint0_deg.limit_max = 296,
-	.joint0_deg.land_point = 4.7,			//弧度制，对应角度制为258
+	.joint0_deg.land_point = 4.91,			//弧度制，对应角度制为270
 	.joint0_deg.step_out_point = 4.56,		//弧度制
 
 	.joint1_deg.velocity = 0,
@@ -521,17 +526,17 @@ void joint6_Ctrl_left(Manipulator_t* manipulator){
 
 /* 夹爪角度测试函数 */
 void Clamp_jaw_angle_test(Manipulator_t* manipulator_right, Manipulator_t* manipulator_left){
-	// manipulator_right -> clamp_jaw.STS_3215[0].position = test_angle0;
-	// manipulator_right -> clamp_jaw.STS_3215[1].position = test_angle1;
+	// manipulator_right -> clamp_jaw.STS_3215[0].position = test_angle1;
+	// manipulator_right -> clamp_jaw.STS_3215[1].position = test_angle3;
 
-	// manipulator_left -> clamp_jaw.STS_3215[0].position = test_angle2;
-	// manipulator_left -> clamp_jaw.STS_3215[1].position = test_angle3;
+	manipulator_left -> clamp_jaw.STS_3215[0].position = test_angle0;
+	manipulator_left -> clamp_jaw.STS_3215[1].position = test_angle2;
 
-	manipulator_right -> clamp_jaw.STS_3215[0].position = SERVO_RIGHT_ZERO_OPEN_ID_ONE + open_angle_right;
-	manipulator_right -> clamp_jaw.STS_3215[1].position = SERVO_RIGHT_ONE_OPEN_ID_THREE - open_angle_right;
+	// manipulator_right -> clamp_jaw.STS_3215[0].position = SERVO_RIGHT_ZERO_OPEN_ID_ONE - open_angle_right;
+	// manipulator_right -> clamp_jaw.STS_3215[1].position = SERVO_RIGHT_ONE_OPEN_ID_THREE + open_angle_right;
 	
-	manipulator_left -> clamp_jaw.STS_3215[0].position = SERVO_LEFT_ZERO_OPEN_ID_ZERO - open_angle_left;
-	manipulator_left -> clamp_jaw.STS_3215[1].position = SERVO_LEFT_ONE_OPEN_ID_TWO + open_angle_left;
+	// manipulator_left -> clamp_jaw.STS_3215[0].position = SERVO_LEFT_ZERO_OPEN_ID_ZERO - open_angle_left;
+	// manipulator_left -> clamp_jaw.STS_3215[1].position = SERVO_LEFT_ONE_OPEN_ID_TWO + open_angle_left;
 }
 
 /**
@@ -607,10 +612,10 @@ void joint_Ctrl(Manipulator_t* manipulator_right, Manipulator_t* manipulator_lef
 		joint5_Ctrl_left(manipulator_left);
 		joint6_Ctrl_left(manipulator_left);
 	}
-	
+
 //		all_joints_limit(manipulator_right);//右臂限幅
 //		all_joints_limit(manipulator_left);//左臂限幅
-	
+
 	/* 最终输出 */
 	if(tim14.ClockTime > 4000){
 		if(rc_Ctrl.isOnline == 1 && manipulator_online_test != 0){
@@ -620,7 +625,7 @@ void joint_Ctrl(Manipulator_t* manipulator_right, Manipulator_t* manipulator_lef
 			}
 			if(tim14.ClockTime % 7 == 1){
 				ctrl_motor1(&can1,&manipulator_right->Dm_4340_joint2,manipulator_right->joint2_deg.rad,0,85,0.6,0);
-				ctrl_motor1(&can2,&manipulator_left->Dm_4340_joint2,manipulator_left->joint2_deg.rad,0,30,0.6,0);
+				ctrl_motor1(&can2,&manipulator_left->Dm_4340_joint2,manipulator_left->joint2_deg.rad,0,85,0.6,0);
 			}
 			if(tim14.ClockTime % 7 == 2){
 				ctrl_motor1(&can1,&manipulator_right->Dm_8006_joint3,manipulator_right->joint3_deg.rad,0,85,1.6,0);

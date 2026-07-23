@@ -87,10 +87,14 @@ typedef struct{
 	joint_angle_t joint6_deg;
 	
 	uint8_t controller_mapping_flag;		//自定义控制器映射标志位
-	uint16_t controller_mapping_count;  
+	uint16_t controller_mapping_count;
 
-	
-	
+	uint8_t auto_take_out_back_flag;		//自动取出后方能量单元标志位
+	uint16_t auto_take_out_back_count;		//自动取出后方能量单元计数
+
+	uint8_t auto_take_out_front_flag;		//自动取出前方能量单元标志位
+	uint16_t auto_take_out_front_count;		//自动取出前方能量单元计数
+
 	Feetech_servo clamp_jaw;				//夹爪两个舵机的数据
 }Manipulator_t;
 
@@ -107,8 +111,8 @@ void joint2_Ctrl_right(Manipulator_t* manipulator);
 void joint3_Ctrl_right(Manipulator_t* manipulator);
 void joint4_Ctrl_right(Manipulator_t* manipulator);
 void joint5_Ctrl_right(Manipulator_t* manipulator);
-
 void joint6_Ctrl_right(Manipulator_t* manipulator);
+
 void joint0_Ctrl_left(Manipulator_t* manipulator);
 void joint1_Ctrl_left(Manipulator_t* manipulator);
 void joint2_Ctrl_left(Manipulator_t* manipulator);

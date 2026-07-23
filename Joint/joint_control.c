@@ -61,7 +61,7 @@ Manipulator_t Manipulator_Right = {
 	.joint0_deg.limit_min = -68,			//角度制
 	.joint0_deg.limit_max = 114,
 	.joint0_deg.land_point = 0.1,			//弧度制，对应角度制为-12
-	.joint0_deg.step_out_point = -0.04,		//弧度制
+	.joint0_deg.step_out_point = 0.285,		//弧度制，对应角度制为16.333
 
 	.joint1_deg.velocity = 0,
 	.joint1_deg.max_velocity = 0.18 * JOINT_VELOCITY_SENSITIVITY,
@@ -124,9 +124,9 @@ Manipulator_t Manipulator_Right = {
 	.joint5_deg.step_out_point = 0,
 
 	.joint6_deg.velocity = 0,
-	.joint6_deg.max_velocity = 0.24 * JOINT_VELOCITY_SENSITIVITY,
-	.joint6_deg.min_velocity = 0.09 * JOINT_VELOCITY_SENSITIVITY,
-	.joint6_deg.Accel = 0.009 * JOINT_VELOCITY_SENSITIVITY,
+	.joint6_deg.max_velocity = 0.32 * JOINT_VELOCITY_SENSITIVITY,
+	.joint6_deg.min_velocity = 0.12 * JOINT_VELOCITY_SENSITIVITY,
+	.joint6_deg.Accel = 0.012 * JOINT_VELOCITY_SENSITIVITY,
 	.joint6_deg.sensitivity = 1.0,
 	.joint6_deg.Accel_sensitivity = 1.0,
 	.joint6_deg.zero_point = 0,
@@ -171,8 +171,8 @@ Manipulator_t Manipulator_Left = {
 	.joint0_deg.zero_point = 4.34,			//弧度制，对应角度制为213
 	.joint0_deg.limit_min = 96,				//角度制
 	.joint0_deg.limit_max = 296,
-	.joint0_deg.land_point = 4.91,			//弧度制，对应角度制为270
-	.joint0_deg.step_out_point = 4.56,		//弧度制
+	.joint0_deg.land_point = 4.91,			//弧度制
+	.joint0_deg.step_out_point = 4.727,		//弧度制，对应角度制为270
 
 	.joint1_deg.velocity = 0,
 	.joint1_deg.max_velocity = 0.16 * JOINT_VELOCITY_SENSITIVITY,
@@ -235,9 +235,9 @@ Manipulator_t Manipulator_Left = {
 	.joint5_deg.step_out_point = 0,
 
 	.joint6_deg.velocity = 0,
-	.joint6_deg.max_velocity = 0.16 * JOINT_VELOCITY_SENSITIVITY,
-	.joint6_deg.min_velocity = 0.06 * JOINT_VELOCITY_SENSITIVITY,
-	.joint6_deg.Accel = 0.006 * JOINT_VELOCITY_SENSITIVITY,
+	.joint6_deg.max_velocity = 0.32 * JOINT_VELOCITY_SENSITIVITY,
+	.joint6_deg.min_velocity = 0.12 * JOINT_VELOCITY_SENSITIVITY,
+	.joint6_deg.Accel = 0.012 * JOINT_VELOCITY_SENSITIVITY,
 	.joint6_deg.Accel_sensitivity = 1.0,
 	.joint6_deg.sensitivity = 1.0,
 	.joint6_deg.zero_point = 0,

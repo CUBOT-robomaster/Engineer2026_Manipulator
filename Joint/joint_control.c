@@ -130,8 +130,8 @@ Manipulator_t Manipulator_Right = {
 	.joint6_deg.sensitivity = 1.0,
 	.joint6_deg.Accel_sensitivity = 1.0,
 	.joint6_deg.zero_point = 0,
-	.joint6_deg.limit_min = -3,
-	.joint6_deg.limit_max = 3,
+	.joint6_deg.limit_min = -3.56,
+	.joint6_deg.limit_max = 3.56,
 	.joint6_deg.land_point = 0,
 	.joint6_deg.step_out_point = 0,
 
@@ -242,7 +242,7 @@ Manipulator_t Manipulator_Left = {
 	.joint6_deg.sensitivity = 1.0,
 	.joint6_deg.zero_point = 0,
 	.joint6_deg.limit_min = -3.56,
-	.joint6_deg.limit_max = 3.24,
+	.joint6_deg.limit_max = 3.56,
 	.joint6_deg.land_point = 0,
 	.joint6_deg.step_out_point = 0,
 
@@ -271,12 +271,12 @@ float joints_limit(float target_angle,float min_angle,float max_angle)
 }
 
 void all_joints_limit(Manipulator_t* manipulator){
-	manipulator -> joint0_deg.angle = joints_limit(manipulator -> joint0_deg.angle, manipulator -> joint0_deg.limit_min, manipulator -> joint0_deg.limit_max);
-	manipulator -> joint1_deg.rad = joints_limit(manipulator -> joint1_deg.rad, manipulator -> joint1_deg.limit_min, manipulator -> joint1_deg.limit_max);
-	manipulator -> joint2_deg.rad = joints_limit(manipulator -> joint2_deg.rad, manipulator -> joint2_deg.limit_min, manipulator -> joint2_deg.limit_max);
-	manipulator -> joint3_deg.rad = joints_limit(manipulator -> joint3_deg.rad, manipulator -> joint3_deg.limit_min, manipulator -> joint3_deg.limit_max);
-	manipulator -> joint4_deg.rad = joints_limit(manipulator -> joint4_deg.rad, manipulator -> joint4_deg.limit_min, manipulator -> joint4_deg.limit_max);
-	manipulator -> joint5_deg.rad = joints_limit(manipulator -> joint5_deg.rad, manipulator -> joint5_deg.limit_min, manipulator -> joint5_deg.limit_max);
+//	manipulator -> joint0_deg.angle = joints_limit(manipulator -> joint0_deg.angle, manipulator -> joint0_deg.limit_min, manipulator -> joint0_deg.limit_max);
+//	manipulator -> joint1_deg.rad = joints_limit(manipulator -> joint1_deg.rad, manipulator -> joint1_deg.limit_min, manipulator -> joint1_deg.limit_max);
+//	manipulator -> joint2_deg.rad = joints_limit(manipulator -> joint2_deg.rad, manipulator -> joint2_deg.limit_min, manipulator -> joint2_deg.limit_max);
+//	manipulator -> joint3_deg.rad = joints_limit(manipulator -> joint3_deg.rad, manipulator -> joint3_deg.limit_min, manipulator -> joint3_deg.limit_max);
+//	manipulator -> joint4_deg.rad = joints_limit(manipulator -> joint4_deg.rad, manipulator -> joint4_deg.limit_min, manipulator -> joint4_deg.limit_max);
+//	manipulator -> joint5_deg.rad = joints_limit(manipulator -> joint5_deg.rad, manipulator -> joint5_deg.limit_min, manipulator -> joint5_deg.limit_max);
 	manipulator -> joint6_deg.rad = joints_limit(manipulator -> joint6_deg.rad, manipulator -> joint6_deg.limit_min, manipulator -> joint6_deg.limit_max);
 }
 
@@ -551,16 +551,14 @@ void joint_Ctrl(Manipulator_t* manipulator_right, Manipulator_t* manipulator_lef
 		
 		/* 右臂自定义控制器映射 */
 		if(manipulator_right -> controller_mapping_flag % 2 == 1){
-			manipulator_right -> joint0_deg.angle = manipulator_right -> joint0_deg.zero_point * RtA + (-3.0) * (manipulator_right -> joint0_deg.cc_recv - manipulator_right -> joint0_deg.cc_init);
-			manipulator_right -> joint1_deg.rad = (manipulator_right -> joint1_deg.zero_point + (2.1) * (manipulator_right -> joint1_deg.cc_recv - manipulator_right -> joint1_deg.cc_init) * AtR);
-			manipulator_right -> joint2_deg.rad = (manipulator_right -> joint2_deg.zero_point + (-1.75) * (manipulator_right -> joint2_deg.cc_recv - manipulator_right -> joint2_deg.cc_init) * AtR);
-			manipulator_right -> joint3_deg.rad = (manipulator_right -> joint3_deg.zero_point + (-1.4) * (manipulator_right -> joint3_deg.cc_recv - manipulator_right -> joint3_deg.cc_init) * AtR);
+			manipulator_right -> joint0_deg.angle = manipulator_right -> joint0_deg.zero_point * RtA + (-1.5) * (manipulator_right -> joint0_deg.cc_recv - manipulator_right -> joint0_deg.cc_init);
+			manipulator_right -> joint1_deg.rad = (manipulator_right -> joint1_deg.zero_point + (1.1) * (manipulator_right -> joint1_deg.cc_recv - manipulator_right -> joint1_deg.cc_init) * AtR);
+			manipulator_right -> joint2_deg.rad = (manipulator_right -> joint2_deg.zero_point + (-1) * (manipulator_right -> joint2_deg.cc_recv - manipulator_right -> joint2_deg.cc_init) * AtR);
+			manipulator_right -> joint3_deg.rad = (manipulator_right -> joint3_deg.zero_point + (-1) * (manipulator_right -> joint3_deg.cc_recv - manipulator_right -> joint3_deg.cc_init) * AtR);
 			manipulator_right -> joint4_deg.rad = (manipulator_right -> joint4_deg.zero_point + (-1) * (manipulator_right -> joint4_deg.cc_recv - manipulator_right -> joint4_deg.cc_init) * AtR);
-			manipulator_right -> joint5_deg.rad = (manipulator_right -> joint5_deg.zero_point + (2.5) * (manipulator_right -> joint5_deg.cc_recv - manipulator_right -> joint5_deg.cc_init) * AtR);			
+			manipulator_right -> joint5_deg.rad = (manipulator_right -> joint5_deg.zero_point + (-1.5) * (manipulator_right -> joint5_deg.cc_recv - manipulator_right -> joint5_deg.cc_init) * AtR);			
 			/* joint6数据为1是正转，数据为-1时逆转，数据为0时不动 */
-			if(Custom.image_recv.Coordinate.right_middle_switch == 0){
-				joint6_Ctrl_right(manipulator_right);
-			}	
+			joint6_Ctrl_right(manipulator_right);
 		}
 		else if(manipulator_right -> controller_mapping_flag % 2 == 0){
 			joint0_Ctrl_right(manipulator_right);
@@ -574,16 +572,14 @@ void joint_Ctrl(Manipulator_t* manipulator_right, Manipulator_t* manipulator_lef
 		
 		/* 左臂自定义控制器映射 */
 		if(manipulator_left -> controller_mapping_flag % 2 == 1){
-			manipulator_left -> joint0_deg.angle = manipulator_left -> joint0_deg.zero_point * RtA + (-3.0) * (manipulator_left -> joint0_deg.cc_recv - manipulator_left -> joint0_deg.cc_init);
-			manipulator_left -> joint1_deg.rad = (manipulator_left -> joint1_deg.zero_point + (2.1) * (manipulator_left -> joint1_deg.cc_recv - manipulator_left -> joint1_deg.cc_init) * AtR);
-			manipulator_left -> joint2_deg.rad = (manipulator_left -> joint2_deg.zero_point + (-1.75) * (manipulator_left -> joint2_deg.cc_recv - manipulator_left -> joint2_deg.cc_init) * AtR);
-			manipulator_left -> joint3_deg.rad = (manipulator_left -> joint3_deg.zero_point + (1.4) * (manipulator_left -> joint3_deg.cc_recv - manipulator_left -> joint3_deg.cc_init) * AtR);
+			manipulator_left -> joint0_deg.angle = manipulator_left -> joint0_deg.zero_point * RtA + (-1.5) * (manipulator_left -> joint0_deg.cc_recv - manipulator_left -> joint0_deg.cc_init);
+			manipulator_left -> joint1_deg.rad = (manipulator_left -> joint1_deg.zero_point + (1.1) * (manipulator_left -> joint1_deg.cc_recv - manipulator_left -> joint1_deg.cc_init) * AtR);
+			manipulator_left -> joint2_deg.rad = (manipulator_left -> joint2_deg.zero_point + (-1) * (manipulator_left -> joint2_deg.cc_recv - manipulator_left -> joint2_deg.cc_init) * AtR);
+			manipulator_left -> joint3_deg.rad = (manipulator_left -> joint3_deg.zero_point + (1) * (manipulator_left -> joint3_deg.cc_recv - manipulator_left -> joint3_deg.cc_init) * AtR);
 			manipulator_left -> joint4_deg.rad = (manipulator_left -> joint4_deg.zero_point + (-1) * (manipulator_left -> joint4_deg.cc_recv - manipulator_left -> joint4_deg.cc_init) * AtR);
-			manipulator_left -> joint5_deg.rad = (manipulator_left -> joint5_deg.zero_point + (-2.5) * (manipulator_left -> joint5_deg.cc_recv - manipulator_left -> joint5_deg.cc_init) * AtR);
+			manipulator_left -> joint5_deg.rad = (manipulator_left -> joint5_deg.zero_point + (1.5) * (manipulator_left -> joint5_deg.cc_recv - manipulator_left -> joint5_deg.cc_init) * AtR);
 			/* joint6数据为1是正转，数据为-1时逆转，数据为0时不动 */
-			if(Custom.image_recv.Coordinate.left_middle_switch == 0){
-				joint6_Ctrl_left(manipulator_left);
-			}
+			joint6_Ctrl_left(manipulator_left);
 		}
 		else if(manipulator_left -> controller_mapping_flag % 2 == 0){
 			joint0_Ctrl_left(manipulator_left);
@@ -613,8 +609,8 @@ void joint_Ctrl(Manipulator_t* manipulator_right, Manipulator_t* manipulator_lef
 		joint6_Ctrl_left(manipulator_left);
 	}
 
-//		all_joints_limit(manipulator_right);//右臂限幅
-//		all_joints_limit(manipulator_left);//左臂限幅
+		all_joints_limit(manipulator_right);//右臂限幅
+		all_joints_limit(manipulator_left);//左臂限幅
 
 	/* 最终输出 */
 	if(tim14.ClockTime > 4000){

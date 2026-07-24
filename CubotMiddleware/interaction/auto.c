@@ -142,12 +142,12 @@ void point_of_view_control(Hiwonder_Servo* hiwo_data, auto_control_flags* auto_f
 		if((vT13.key_Q_flag == 1 || rc_Ctrl.key_Q_flag == 1) && (vT13.key_ctrl_flag == 0 && rc_Ctrl.key_ctrl_flag == 0) && (vT13.key_shift_flag == 0 && rc_Ctrl.key_shift_flag == 0)){
 			auto_flags -> scope_mode_flag = 0; 
 			/* 舵机头向上运动 */
-			hiwo_data -> pitch_servo.target_angle += 0.01 * servo_pitch_sensitivity;
+			hiwo_data -> pitch_servo.target_angle += 0.02 * servo_pitch_sensitivity;
 		}
 		else if((vT13.key_E_flag == 1 || rc_Ctrl.key_E_flag == 1) && (vT13.key_ctrl_flag == 0 && rc_Ctrl.key_ctrl_flag == 0) && (vT13.key_shift_flag == 0 && rc_Ctrl.key_shift_flag == 0)){
 			auto_flags -> scope_mode_flag = 0;
 			/* 舵机头向下运动 */
-			hiwo_data -> pitch_servo.target_angle -= 0.01 * servo_pitch_sensitivity;
+			hiwo_data -> pitch_servo.target_angle -= 0.02 * servo_pitch_sensitivity;
 		}
 		/* target_angle限幅 */
 		hiwo_data -> pitch_servo.target_angle = joints_limit(hiwo_data -> pitch_servo.target_angle, SERVO_DOWN_POSITION - SERVO_UP_POSITION, 0);
@@ -516,13 +516,13 @@ void Auto_grab_store_L3_R2(Manipulator_t *manipulator_right, Manipulator_t* mani
 		else if((auto_flags -> auto_grab_store_L3_R2_count > 2500) && (auto_flags -> auto_grab_store_L3_R2_count <= 4000)){
 			auto_flags -> pre_lift_flag = 0;
 			/* 右手到达取矿位置 */
-			manipulator_right -> joint0_deg.angle_target = -7.615 - manipulator_right -> joint0_deg.angle_init;
-			manipulator_right -> joint1_deg.angle_target = -2.782 * RtA - manipulator_right -> joint1_deg.angle_init;
-			manipulator_right -> joint2_deg.angle_target = -0.726 * RtA - manipulator_right -> joint2_deg.angle_init;
-			manipulator_right -> joint3_deg.angle_target = -0.379 * RtA - manipulator_right -> joint3_deg.angle_init;
-			manipulator_right -> joint4_deg.angle_target = -0.940 * RtA - manipulator_right -> joint4_deg.angle_init;
-			manipulator_right -> joint5_deg.angle_target = 0.446 * RtA - manipulator_right -> joint5_deg.angle_init;
-			manipulator_right -> joint6_deg.angle_target = 3.173 * RtA - manipulator_right -> joint6_deg.angle_init;
+			manipulator_right -> joint0_deg.angle_target = -7.232 - manipulator_right -> joint0_deg.angle_init;
+			manipulator_right -> joint1_deg.angle_target = -2.778 * RtA - manipulator_right -> joint1_deg.angle_init;
+			manipulator_right -> joint2_deg.angle_target = -0.805 * RtA - manipulator_right -> joint2_deg.angle_init;
+			manipulator_right -> joint3_deg.angle_target = -0.348 * RtA - manipulator_right -> joint3_deg.angle_init;
+			manipulator_right -> joint4_deg.angle_target = -1.000 * RtA - manipulator_right -> joint4_deg.angle_init;
+			manipulator_right -> joint5_deg.angle_target = 0.522 * RtA - manipulator_right -> joint5_deg.angle_init;
+			manipulator_right -> joint6_deg.angle_target = 3.296 * RtA - manipulator_right -> joint6_deg.angle_init;
 
 			/* 左手到达取矿位置 */
 			manipulator_left -> joint0_deg.angle_target = 321.546 - manipulator_left -> joint0_deg.angle_init;
@@ -931,13 +931,13 @@ void Auto_grab_store_L5_R0(Manipulator_t *manipulator_right, Manipulator_t* mani
 		else if((auto_flags -> auto_grab_store_L5_R0_count > 3000) && (auto_flags -> auto_grab_store_L5_R0_count <= 4500)){
 			auto_flags -> chassis_lift_flag = 0;
 			/* 右手向前伸 */
-			manipulator_right -> joint0_deg.angle_target = -42.828 - manipulator_right -> joint0_deg.angle_init;
-			manipulator_right -> joint1_deg.angle_target = -2.537 * RtA - manipulator_right -> joint1_deg.angle_init;
-			manipulator_right -> joint2_deg.angle_target = -1.157 * RtA - manipulator_right -> joint2_deg.angle_init;
-			manipulator_right -> joint3_deg.angle_target = -0.331 * RtA - manipulator_right -> joint3_deg.angle_init;
-			manipulator_right -> joint4_deg.angle_target = 0.785 * RtA - manipulator_right -> joint4_deg.angle_init;
-			manipulator_right -> joint5_deg.angle_target = 1.040 * RtA - manipulator_right -> joint5_deg.angle_init;
-			manipulator_right -> joint6_deg.angle_target = 0.267 * RtA - manipulator_right -> joint6_deg.angle_init;
+			manipulator_right -> joint0_deg.angle_target = -42.801 - manipulator_right -> joint0_deg.angle_init;
+			manipulator_right -> joint1_deg.angle_target = -2.581 * RtA - manipulator_right -> joint1_deg.angle_init;
+			manipulator_right -> joint2_deg.angle_target = -1.234 * RtA - manipulator_right -> joint2_deg.angle_init;
+			manipulator_right -> joint3_deg.angle_target = -0.297 * RtA - manipulator_right -> joint3_deg.angle_init;
+			manipulator_right -> joint4_deg.angle_target = 0.750 * RtA - manipulator_right -> joint4_deg.angle_init;
+			manipulator_right -> joint5_deg.angle_target = 0.888 * RtA - manipulator_right -> joint5_deg.angle_init;
+			manipulator_right -> joint6_deg.angle_target = 0.321 * RtA - manipulator_right -> joint6_deg.angle_init;
 
 			/* 左手向前伸 */
 			manipulator_left -> joint0_deg.angle_target = 302.851 - manipulator_left -> joint0_deg.angle_init;
@@ -950,13 +950,13 @@ void Auto_grab_store_L5_R0(Manipulator_t *manipulator_right, Manipulator_t* mani
 		}
 		else if((auto_flags -> auto_grab_store_L5_R0_count > 4500) && (auto_flags -> auto_grab_store_L5_R0_count <= 6000)){
 			/* 右手到达取矿位置 */
-			manipulator_right -> joint0_deg.angle_target = -49.636 - manipulator_right -> joint0_deg.angle_init;
-			manipulator_right -> joint1_deg.angle_target = -2.777 * RtA - manipulator_right -> joint1_deg.angle_init;
-			manipulator_right -> joint2_deg.angle_target = -1.267 * RtA - manipulator_right -> joint2_deg.angle_init;
-			manipulator_right -> joint3_deg.angle_target = 0.233 * RtA - manipulator_right -> joint3_deg.angle_init;
-			manipulator_right -> joint4_deg.angle_target = 0.878 * RtA - manipulator_right -> joint4_deg.angle_init;
-			manipulator_right -> joint5_deg.angle_target = 0.605 * RtA - manipulator_right -> joint5_deg.angle_init;
-			manipulator_right -> joint6_deg.angle_target = 0.236 * RtA - manipulator_right -> joint6_deg.angle_init;
+			manipulator_right -> joint0_deg.angle_target = -50.177 - manipulator_right -> joint0_deg.angle_init;
+			manipulator_right -> joint1_deg.angle_target = -2.749 * RtA - manipulator_right -> joint1_deg.angle_init;
+			manipulator_right -> joint2_deg.angle_target = -1.330 * RtA - manipulator_right -> joint2_deg.angle_init;
+			manipulator_right -> joint3_deg.angle_target = 0.100 * RtA - manipulator_right -> joint3_deg.angle_init;
+			manipulator_right -> joint4_deg.angle_target = 0.841 * RtA - manipulator_right -> joint4_deg.angle_init;
+			manipulator_right -> joint5_deg.angle_target = 0.654 * RtA - manipulator_right -> joint5_deg.angle_init;
+			manipulator_right -> joint6_deg.angle_target = 0.187 * RtA - manipulator_right -> joint6_deg.angle_init;
 
 			/* 左手到达取矿位置 */
 			manipulator_left -> joint0_deg.angle_target = 320.054 - manipulator_left -> joint0_deg.angle_init;
@@ -1109,23 +1109,23 @@ void Auto_take_out_right_back(Manipulator_t *manipulator_right, Manipulator_t* m
 		}
 		else if((manipulator_right -> auto_take_out_back_count > 1500) && (manipulator_right -> auto_take_out_back_count <= 3000)){
 			/* 右手夹爪移动至存矿机构附近 */
-			manipulator_right -> joint0_deg.angle_target = 36.981 - manipulator_right -> joint0_deg.angle_init;
-			manipulator_right -> joint1_deg.angle_target = -1.489 * RtA - manipulator_right -> joint1_deg.angle_init;
-			manipulator_right -> joint2_deg.angle_target = -1.792 * RtA - manipulator_right -> joint2_deg.angle_init;
-			manipulator_right -> joint3_deg.angle_target = -1.116 * RtA - manipulator_right -> joint3_deg.angle_init;
-			manipulator_right -> joint4_deg.angle_target = 0.115 * RtA - manipulator_right -> joint4_deg.angle_init;
-			manipulator_right -> joint5_deg.angle_target = -0.543 * RtA - manipulator_right -> joint5_deg.angle_init;
-			manipulator_right -> joint6_deg.angle_target = 0.397 * RtA - manipulator_right -> joint6_deg.angle_init;
+			manipulator_right -> joint0_deg.angle_target = 37.004 - manipulator_right -> joint0_deg.angle_init;
+			manipulator_right -> joint1_deg.angle_target = -1.554 * RtA - manipulator_right -> joint1_deg.angle_init;
+			manipulator_right -> joint2_deg.angle_target = -1.779 * RtA - manipulator_right -> joint2_deg.angle_init;
+			manipulator_right -> joint3_deg.angle_target = -1.308 * RtA - manipulator_right -> joint3_deg.angle_init;
+			manipulator_right -> joint4_deg.angle_target = 0.222 * RtA - manipulator_right -> joint4_deg.angle_init;
+			manipulator_right -> joint5_deg.angle_target = -0.262 * RtA - manipulator_right -> joint5_deg.angle_init;
+			manipulator_right -> joint6_deg.angle_target = 0.423 * RtA - manipulator_right -> joint6_deg.angle_init;
 		}
 		else if((manipulator_right -> auto_take_out_back_count > 3000) && (manipulator_right -> auto_take_out_back_count <= 4500)){
 			/* 右手到达存矿装置位置 */
-			manipulator_right -> joint0_deg.angle_target = 25.883 - manipulator_right -> joint0_deg.angle_init;
-			manipulator_right -> joint1_deg.angle_target = -1.864 * RtA - manipulator_right -> joint1_deg.angle_init;
-			manipulator_right -> joint2_deg.angle_target = -1.963 * RtA - manipulator_right -> joint2_deg.angle_init;
-			manipulator_right -> joint3_deg.angle_target = -1.196 * RtA - manipulator_right -> joint3_deg.angle_init;
-			manipulator_right -> joint4_deg.angle_target = 0.604 * RtA - manipulator_right -> joint4_deg.angle_init;
-			manipulator_right -> joint5_deg.angle_target = -0.031 * RtA - manipulator_right -> joint5_deg.angle_init;
-			manipulator_right -> joint6_deg.angle_target = -0.045 * RtA - manipulator_right -> joint6_deg.angle_init;
+			manipulator_right -> joint0_deg.angle_target = 37.000 - manipulator_right -> joint0_deg.angle_init;
+			manipulator_right -> joint1_deg.angle_target = -1.921 * RtA - manipulator_right -> joint1_deg.angle_init;
+			manipulator_right -> joint2_deg.angle_target = -1.747 * RtA - manipulator_right -> joint2_deg.angle_init;
+			manipulator_right -> joint3_deg.angle_target = -1.223 * RtA - manipulator_right -> joint3_deg.angle_init;
+			manipulator_right -> joint4_deg.angle_target = 0.046 * RtA - manipulator_right -> joint4_deg.angle_init;
+			manipulator_right -> joint5_deg.angle_target = -0.158 * RtA - manipulator_right -> joint5_deg.angle_init;
+			manipulator_right -> joint6_deg.angle_target = 0.420 * RtA - manipulator_right -> joint6_deg.angle_init;
 		}
 		else if((manipulator_right -> auto_take_out_back_count > 4500) && (manipulator_right -> auto_take_out_back_count <= 5200)){
 			/* 右手夹爪闭合 */
@@ -1168,23 +1168,23 @@ void Auto_take_out_right_front(Manipulator_t *manipulator_right, Manipulator_t* 
 		}
 		else if(manipulator_right -> auto_take_out_front_count > 1500 && manipulator_right -> auto_take_out_front_count <= 3000){
 			/* 右手夹爪靠近存矿装置 */
-			manipulator_right -> joint0_deg.angle_target = 16.480 - manipulator_right -> joint0_deg.angle_init;
-			manipulator_right -> joint1_deg.angle_target = -1.711 * RtA - manipulator_right -> joint1_deg.angle_init;
-			manipulator_right -> joint2_deg.angle_target = -1.897 * RtA - manipulator_right -> joint2_deg.angle_init;
-			manipulator_right -> joint3_deg.angle_target = -0.954 * RtA - manipulator_right -> joint3_deg.angle_init;
-			manipulator_right -> joint4_deg.angle_target = 0.857 * RtA - manipulator_right -> joint4_deg.angle_init;
-			manipulator_right -> joint5_deg.angle_target = -0.267 * RtA - manipulator_right -> joint5_deg.angle_init;
-			manipulator_right -> joint6_deg.angle_target = -0.071 * RtA - manipulator_right -> joint6_deg.angle_init;
+			manipulator_right -> joint0_deg.angle_target = 16.484 - manipulator_right -> joint0_deg.angle_init;
+			manipulator_right -> joint1_deg.angle_target = -1.718 * RtA - manipulator_right -> joint1_deg.angle_init;
+			manipulator_right -> joint2_deg.angle_target = -1.917 * RtA - manipulator_right -> joint2_deg.angle_init;
+			manipulator_right -> joint3_deg.angle_target = -1.065 * RtA - manipulator_right -> joint3_deg.angle_init;
+			manipulator_right -> joint4_deg.angle_target = 0.841 * RtA - manipulator_right -> joint4_deg.angle_init;
+			manipulator_right -> joint5_deg.angle_target = -0.260 * RtA - manipulator_right -> joint5_deg.angle_init;
+			manipulator_right -> joint6_deg.angle_target = -0.048 * RtA - manipulator_right -> joint6_deg.angle_init;
 		}
 		else if(manipulator_right -> auto_take_out_front_count > 3000 && manipulator_right -> auto_take_out_front_count <= 4500){
 			/* 右手到达存矿装置位置 */
-			manipulator_right -> joint0_deg.angle_target = 16.483 - manipulator_right -> joint0_deg.angle_init;
-			manipulator_right -> joint1_deg.angle_target = -2.028 * RtA - manipulator_right -> joint1_deg.angle_init;
-			manipulator_right -> joint2_deg.angle_target = -1.932 * RtA - manipulator_right -> joint2_deg.angle_init;
-			manipulator_right -> joint3_deg.angle_target = -0.857 * RtA - manipulator_right -> joint3_deg.angle_init;
-			manipulator_right -> joint4_deg.angle_target = 0.830 * RtA - manipulator_right -> joint4_deg.angle_init;
-			manipulator_right -> joint5_deg.angle_target = -0.287 * RtA - manipulator_right -> joint5_deg.angle_init;
-			manipulator_right -> joint6_deg.angle_target = -0.098 * RtA - manipulator_right -> joint6_deg.angle_init;
+			manipulator_right -> joint0_deg.angle_target = 16.484 - manipulator_right -> joint0_deg.angle_init;
+			manipulator_right -> joint1_deg.angle_target = -2.032 * RtA - manipulator_right -> joint1_deg.angle_init;
+			manipulator_right -> joint2_deg.angle_target = -1.871 * RtA - manipulator_right -> joint2_deg.angle_init;
+			manipulator_right -> joint3_deg.angle_target = -0.908 * RtA - manipulator_right -> joint3_deg.angle_init;
+			manipulator_right -> joint4_deg.angle_target = 0.706 * RtA - manipulator_right -> joint4_deg.angle_init;
+			manipulator_right -> joint5_deg.angle_target = -0.157 * RtA - manipulator_right -> joint5_deg.angle_init;
+			manipulator_right -> joint6_deg.angle_target = -0.048 * RtA - manipulator_right -> joint6_deg.angle_init;
 		}
 		else if(manipulator_right -> auto_take_out_front_count > 4500 && manipulator_right -> auto_take_out_front_count <= 5200){
 			/* 右手夹爪闭合 */
@@ -1227,23 +1227,23 @@ void Auto_take_out_left_back(Manipulator_t *manipulator_right, Manipulator_t* ma
 		}
 		else if(manipulator_left -> auto_take_out_back_count > 1500 && manipulator_left -> auto_take_out_back_count <= 3000){
 			/* 左手夹爪移动至存矿机构附近 */
-			manipulator_left -> joint0_deg.angle_target = 251.120 - manipulator_left -> joint0_deg.angle_init;
-			manipulator_left -> joint1_deg.angle_target = -0.416 * RtA - manipulator_left -> joint1_deg.angle_init;
-			manipulator_left -> joint2_deg.angle_target = 2.788 * RtA - manipulator_left -> joint2_deg.angle_init;
-			manipulator_left -> joint3_deg.angle_target = -2.175 * RtA - manipulator_left -> joint3_deg.angle_init;
-			manipulator_left -> joint4_deg.angle_target = -0.427 * RtA - manipulator_left -> joint4_deg.angle_init;
-			manipulator_left -> joint5_deg.angle_target = -0.109 * RtA - manipulator_left -> joint5_deg.angle_init;
-			manipulator_left -> joint6_deg.angle_target = -0.138 * RtA - manipulator_left -> joint6_deg.angle_init;
+			manipulator_left -> joint0_deg.angle_target = 251.114 - manipulator_left -> joint0_deg.angle_init;
+			manipulator_left -> joint1_deg.angle_target = -0.195 * RtA - manipulator_left -> joint1_deg.angle_init;
+			manipulator_left -> joint2_deg.angle_target = 2.657 * RtA - manipulator_left -> joint2_deg.angle_init;
+			manipulator_left -> joint3_deg.angle_target = -2.166 * RtA - manipulator_left -> joint3_deg.angle_init;
+			manipulator_left -> joint4_deg.angle_target = -0.284 * RtA - manipulator_left -> joint4_deg.angle_init;
+			manipulator_left -> joint5_deg.angle_target = -0.287 * RtA - manipulator_left -> joint5_deg.angle_init;
+			manipulator_left -> joint6_deg.angle_target = -0.353 * RtA - manipulator_left -> joint6_deg.angle_init;
 		}
 		else if(manipulator_left -> auto_take_out_back_count > 3000 && manipulator_left -> auto_take_out_back_count <= 4500){
 			/* 左手到达存矿装置位置 */
-			manipulator_left -> joint0_deg.angle_target = 251.157 - manipulator_left -> joint0_deg.angle_init;
-			manipulator_left -> joint1_deg.angle_target = 0.035 * RtA - manipulator_left -> joint1_deg.angle_init;
-			manipulator_left -> joint2_deg.angle_target = 2.653 * RtA - manipulator_left -> joint2_deg.angle_init;
-			manipulator_left -> joint3_deg.angle_target = -2.124 * RtA - manipulator_left -> joint3_deg.angle_init;
-			manipulator_left -> joint4_deg.angle_target = -0.584 * RtA - manipulator_left -> joint4_deg.angle_init;
-			manipulator_left -> joint5_deg.angle_target = -0.060 * RtA - manipulator_left -> joint5_deg.angle_init;
-			manipulator_left -> joint6_deg.angle_target = 0.102 * RtA - manipulator_left -> joint6_deg.angle_init;
+			manipulator_left -> joint0_deg.angle_target = 251.114 - manipulator_left -> joint0_deg.angle_init;
+			manipulator_left -> joint1_deg.angle_target = 0.078 * RtA - manipulator_left -> joint1_deg.angle_init;
+			manipulator_left -> joint2_deg.angle_target = 2.634 * RtA - manipulator_left -> joint2_deg.angle_init;
+			manipulator_left -> joint3_deg.angle_target = -2.098 * RtA - manipulator_left -> joint3_deg.angle_init;
+			manipulator_left -> joint4_deg.angle_target = -0.094 * RtA - manipulator_left -> joint4_deg.angle_init;
+			manipulator_left -> joint5_deg.angle_target = -0.149 * RtA - manipulator_left -> joint5_deg.angle_init;
+			manipulator_left -> joint6_deg.angle_target = -0.357 * RtA - manipulator_left -> joint6_deg.angle_init;
 		}
 		else if(manipulator_left -> auto_take_out_back_count > 4500 && manipulator_left -> auto_take_out_back_count <= 5200){
 			/* 左手夹爪闭合 */
@@ -1286,23 +1286,23 @@ void Auto_take_out_left_front(Manipulator_t *manipulator_right, Manipulator_t* m
 		}
 		else if(manipulator_left -> auto_take_out_front_count > 1500 && manipulator_left -> auto_take_out_front_count <= 3000){
 			/* 左手夹爪靠近存矿装置 */
-			manipulator_left -> joint0_deg.angle_target = 263.481 - manipulator_left -> joint0_deg.angle_init;
-			manipulator_left -> joint1_deg.angle_target = -0.235 * RtA - manipulator_left -> joint1_deg.angle_init;
-			manipulator_left -> joint2_deg.angle_target = 2.778 * RtA - manipulator_left -> joint2_deg.angle_init;
-			manipulator_left -> joint3_deg.angle_target = -1.912 * RtA - manipulator_left -> joint3_deg.angle_init;
-			manipulator_left -> joint4_deg.angle_target = -0.501 * RtA - manipulator_left -> joint4_deg.angle_init;
-			manipulator_left -> joint5_deg.angle_target = -0.156 * RtA - manipulator_left -> joint5_deg.angle_init;
-			manipulator_left -> joint6_deg.angle_target = -0.157 * RtA - manipulator_left -> joint6_deg.angle_init;
+			manipulator_left -> joint0_deg.angle_target = 263.487 - manipulator_left -> joint0_deg.angle_init;
+			manipulator_left -> joint1_deg.angle_target = -0.109 * RtA - manipulator_left -> joint1_deg.angle_init;
+			manipulator_left -> joint2_deg.angle_target = 2.683 * RtA - manipulator_left -> joint2_deg.angle_init;
+			manipulator_left -> joint3_deg.angle_target = -1.953 * RtA - manipulator_left -> joint3_deg.angle_init;
+			manipulator_left -> joint4_deg.angle_target = -0.693 * RtA - manipulator_left -> joint4_deg.angle_init;
+			manipulator_left -> joint5_deg.angle_target = -0.243 * RtA - manipulator_left -> joint5_deg.angle_init;
+			manipulator_left -> joint6_deg.angle_target = -0.081 * RtA - manipulator_left -> joint6_deg.angle_init;
 		}
 		else if(manipulator_left -> auto_take_out_front_count > 3000 && manipulator_left -> auto_take_out_front_count <= 4500){
 			/* 左手到达存矿装置位置 */
-			manipulator_left -> joint0_deg.angle_target = 263.405 - manipulator_left -> joint0_deg.angle_init;
-			manipulator_left -> joint1_deg.angle_target = 0.211 * RtA - manipulator_left -> joint1_deg.angle_init;
-			manipulator_left -> joint2_deg.angle_target = 2.636 * RtA - manipulator_left -> joint2_deg.angle_init;
-			manipulator_left -> joint3_deg.angle_target = -1.766 * RtA - manipulator_left -> joint3_deg.angle_init;
-			manipulator_left -> joint4_deg.angle_target = -0.609 * RtA - manipulator_left -> joint4_deg.angle_init;
-			manipulator_left -> joint5_deg.angle_target = -0.131 * RtA - manipulator_left -> joint5_deg.angle_init;
-			manipulator_left -> joint6_deg.angle_target = -0.030 * RtA - manipulator_left -> joint6_deg.angle_init;
+			manipulator_left -> joint0_deg.angle_target = 263.467 - manipulator_left -> joint0_deg.angle_init;
+			manipulator_left -> joint1_deg.angle_target = 0.237 * RtA - manipulator_left -> joint1_deg.angle_init;
+			manipulator_left -> joint2_deg.angle_target = 2.564 * RtA - manipulator_left -> joint2_deg.angle_init;
+			manipulator_left -> joint3_deg.angle_target = -1.854 * RtA - manipulator_left -> joint3_deg.angle_init;
+			manipulator_left -> joint4_deg.angle_target = -0.516 * RtA - manipulator_left -> joint4_deg.angle_init;
+			manipulator_left -> joint5_deg.angle_target = -0.037 * RtA - manipulator_left -> joint5_deg.angle_init;
+			manipulator_left -> joint6_deg.angle_target = -0.037 * RtA - manipulator_left -> joint6_deg.angle_init;
 		}
 		else if(manipulator_left -> auto_take_out_front_count > 4500 && manipulator_left -> auto_take_out_front_count <= 5200){
 			/* 左手夹爪闭合 */

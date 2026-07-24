@@ -620,12 +620,12 @@ void joint_Ctrl(Manipulator_t* manipulator_right, Manipulator_t* manipulator_lef
 				ctrl_motor1(&can2,&manipulator_left->Dm_4340_joint1,manipulator_left->joint1_deg.rad,0,225,2.0,1.0);
 			}
 			if(tim14.ClockTime % 7 == 1){
-				ctrl_motor1(&can1,&manipulator_right->Dm_4340_joint2,manipulator_right->joint2_deg.rad,0,85,0.6,0);
-				ctrl_motor1(&can2,&manipulator_left->Dm_4340_joint2,manipulator_left->joint2_deg.rad,0,85,0.6,0);
+				ctrl_motor1(&can1,&manipulator_right->Dm_4340_joint2,manipulator_right->joint2_deg.rad,0,125,0.6,0);
+				ctrl_motor1(&can2,&manipulator_left->Dm_4340_joint2,manipulator_left->joint2_deg.rad,0,125,0.6,0);
 			}
 			if(tim14.ClockTime % 7 == 2){
-				ctrl_motor1(&can1,&manipulator_right->Dm_8006_joint3,manipulator_right->joint3_deg.rad,0,85,1.6,0);
-				ctrl_motor1(&can2,&manipulator_left->Dm_8006_joint3,manipulator_left->joint3_deg.rad,0,85,1.6,0);
+				ctrl_motor1(&can1,&manipulator_right->Dm_8006_joint3,manipulator_right->joint3_deg.rad,0,100,1.6,0);
+				ctrl_motor1(&can2,&manipulator_left->Dm_8006_joint3,manipulator_left->joint3_deg.rad,0,100,1.6,0);
 			}
 			if(tim14.ClockTime % 7 == 3){
 				ctrl_motor1(&can1,&manipulator_right->Dm_4310_joint4,manipulator_right->joint4_deg.rad,0,30,0.6,0);	

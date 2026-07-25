@@ -56,6 +56,9 @@ void controller_recv_datas_modify(uint8_t *pdata,custom_robot_data_t* custom)
 		for (int i = 0; i < 4; i++) {
 			custom->image_recv.Coordinate.switches[i] = (switch_zero >> i) & 0x01;
 		}
+
+		custom->image_recv.Coordinate.right_glove_online_flag = switch_one & 0x01;
+		custom->image_recv.Coordinate.left_glove_online_flag = (switch_one >> 1 ) & 0x01;
 		
 		custom->image_recv.Coordinate.cc_circle=*(pdata+32)&0x01;
 

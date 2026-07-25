@@ -10,9 +10,9 @@
 #include "controllerl.h"
 #include "mit.h"
 #define servo_back_time_limit 200				//舵机转头最大时间
-#define Mapping_Filter_Limit_Time 20			//映射模式按鍵消抖时间
-#define Mapping_Exit_Filter_Limit_Time 20		//退出映射模式按键消抖时间
-#define Clamp_Jaw_Close_Filter_Limit_Time 20	//夹爪闭合按键消抖时间
+#define Mapping_Filter_Limit_Time 5			//映射模式按鍵消抖时间
+#define Mapping_Exit_Filter_Limit_Time 5		//退出映射模式按键消抖时间
+#define Clamp_Jaw_Close_Filter_Limit_Time 5	//夹爪闭合按键消抖时间
 #define servo_pitch_sensitivity 5.0f			//舵机pitch轴灵敏度
 
 typedef struct{
@@ -87,6 +87,7 @@ void clamp_jaw_control(Manipulator_t* manipulator_right, Manipulator_t* manipula
 void lifting_control(auto_control_flags* auto_flags);
 void Controller_mode_start(Manipulator_t* manipulator_right, Manipulator_t* manipulator_left, auto_control_flags* auto_flags, custom_robot_data_t* custom);
 void joint_sensitivity_set(Manipulator_t *manipulator, float target_sensitivity);
+void gloves_data_calc(auto_control_flags* auto_flags, custom_robot_data_t* custom);
 void motor_start_control(Manipulator_t* manipulator_right, Manipulator_t* manipulator_left, auto_control_flags* auto_flags);
 
 void Auto_grab_store_control(Manipulator_t *manipulator_right, Manipulator_t* manipulator_left, auto_control_flags *auto_flags);

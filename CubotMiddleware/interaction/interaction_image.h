@@ -10,12 +10,12 @@ typedef float float32_t;
 #define USART2_RXBUF_SIZE 7+controller_data_lenth+2+5+10//取最大
 #define USART2_TXBUF_SIZE 7+controller_data_lenth+2+10//取最大
 
-#define  right_thumb_switch  switches[0]	//右拇指开关
-#define  right_index_switch  joint6_right		//右食指开关，使用Joint6数据
-#define  right_middle_switch switches[1]	//右中指开关
-#define  left_thumb_switch   switches[2] 		//左拇指开关
-#define  left_index_switch   joint6_left		//左食指开关，使用Joint6数据
-#define  left_middle_switch	 switches[3] 	//左中指开关
+#define  right_micro_switch_zero  	switches[0]			//右拇指开关(映射模式)
+#define  right_index_switch  		joint6_right		//右食指开关，使用Joint6数据
+#define  right_micro_switch_one 	switches[1]			//右中指开关（夹爪）
+#define  left_micro_switch_zero   	switches[2] 		//左拇指开关(映射模式)
+#define  left_index_switch   		joint6_left			//左食指开关，使用Joint6数据
+#define  left_micro_switch_one	 	switches[3] 		//左中指开关（夹爪）
 
 extern int16_t recv_test;
 extern UART_RxBuffer uart2_buffer;
@@ -65,7 +65,16 @@ typedef __packed struct //自定义接收结构体
 	float joint4_left;
 	float joint5_left;
 	int8_t joint6_left;
+	uint8_t left_glove_online_flag;
+	uint32_t left_glove_online_count;
+	uint8_t right_glove_online_flag;
+	uint32_t right_glove_online_count;
 	uint8_t switches[4];
+	uint8_t last_switches[4];
+	uint8_t left_controller_flag;
+	uint8_t right_controller_flag;
+	uint8_t right_clamp_jaw_count;
+	uint8_t left_clamp_jaw_count;
 	
 	uint8_t  cc_circle;
 	uint8_t isonline;

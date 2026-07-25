@@ -10,6 +10,7 @@ void Auto_Control(Manipulator_t* manipulator_right, Manipulator_t* manipulator_l
 	servo_back_control(manipulator_right, manipulator_left, hiwo_data, auto_flags);
 	point_of_view_control(hiwo_data, auto_flags);
 	// scope_mode_control(hiwo_data, auto_flags);
+	gloves_data_calc(auto_flags, custom);
 	clamp_jaw_control(manipulator_right, manipulator_left, auto_flags, custom);
 	lifting_control(auto_flags);
 	Controller_mode_start(manipulator_right, manipulator_left, auto_flags, custom);
@@ -18,12 +19,12 @@ void Auto_Control(Manipulator_t* manipulator_right, Manipulator_t* manipulator_l
 
 /* 检查手势数据 */
 void finger_data_test(Manipulator_t* manipulator_right, Manipulator_t* manipulator_left, custom_robot_data_t* custom, finger_gesture_flags* finger_flags){
-	finger_flags -> right_thumb_flag = custom -> image_recv.Coordinate.right_thumb_switch;
+	finger_flags -> right_thumb_flag = custom -> image_recv.Coordinate.right_micro_switch_zero;
 	finger_flags -> right_index_flag = custom -> image_recv.Coordinate.right_index_switch;
-	finger_flags -> right_middle_flag = custom -> image_recv.Coordinate.right_middle_switch;
-	finger_flags -> left_thumb_flag = custom -> image_recv.Coordinate.left_thumb_switch;
+	finger_flags -> right_middle_flag = custom -> image_recv.Coordinate.right_micro_switch_one;
+	finger_flags -> left_thumb_flag = custom -> image_recv.Coordinate.left_micro_switch_zero;
 	finger_flags -> left_index_flag = custom -> image_recv.Coordinate.left_index_switch;
-	finger_flags -> left_middle_flag = custom -> image_recv.Coordinate.left_middle_switch;
+	finger_flags -> left_middle_flag = custom -> image_recv.Coordinate.left_micro_switch_one;
 }
 
 /* 机械臂登岛前复位 */
@@ -189,53 +190,88 @@ void point_of_view_control(Hiwonder_Servo* hiwo_data, auto_control_flags* auto_f
 // 	}
 // }
 
+void gloves_data_calc(auto_control_flags* auto_flags, custom_robot_data_t* custom){
+	if(custom -> image_recv.Coordinate.right_glove_online_flag == 1){
+		custom -> image_recv.Coordinate.right_glove_online_count ++;
+	}
+	else{
+		custom -> image_recv.Coordinate.right_glove_online_count = 0;
+	}
+
+	if(custom -> image_recv.Coordinate.left_glove_online_flag == 1){
+		custom -> image_recv.Coordinate.left_glove_online_count ++;
+	}
+	else{
+		custom -> image_recv.Coordinate.left_glove_online_count = 0;
+	}
+
+	
+	if(custom -> image_recv.Coordinate.last_switches[1] != custom -> image_recv.Coordinate.switches[1] && custom -> image_recv.Coordinate.left_glove_online_count > 20){
+		custom -> image_recv.Coordinate.right_clamp_jaw_count ++;
+		if(custom -> image_recv.Coordinate.right_clamp_jaw_count == 1){
+			auto_flags -> right_clamp_jaw_key_flag ++;
+		}
+	}
+	else{
+		custom -> image_recv.Coordinate.right_clamp_jaw_count = 0;
+	}
+
+	if(custom -> image_recv.Coordinate.last_switches[3] != custom -> image_recv.Coordinate.switches[3] && custom -> image_recv.Coordinate.right_glove_online_count > 20){
+		custom -> image_recv.Coordinate.left_clamp_jaw_count ++;
+		if(custom -> image_recv.Coordinate.left_clamp_jaw_count == 1){
+			auto_flags -> left_clamp_jaw_key_flag ++;
+		}
+	}
+	else{
+		custom -> image_recv.Coordinate.left_clamp_jaw_count = 0;
+	}
+
+	if(custom -> image_recv.Coordinate.last_switches[0] != custom -> image_recv.Coordinate.switches[0] && custom -> image_recv.Coordinate.left_glove_online_count > 20){
+		custom -> image_recv.Coordinate.right_controller_flag ++;
+	}
+	else{
+		custom -> image_recv.Coordinate.right_controller_flag = 0;
+	}
+	
+	if(custom -> image_recv.Coordinate.last_switches[2] != custom -> image_recv.Coordinate.switches[2] && custom -> image_recv.Coordinate.right_glove_online_count > 20){
+		custom -> image_recv.Coordinate.left_controller_flag ++;
+	}
+	else{
+		custom -> image_recv.Coordinate.left_controller_flag = 0;
+	}
+	custom -> image_recv.Coordinate.last_switches[0] = custom -> image_recv.Coordinate.switches[0];
+	custom -> image_recv.Coordinate.last_switches[1] = custom -> image_recv.Coordinate.switches[1];
+	custom -> image_recv.Coordinate.last_switches[2] = custom -> image_recv.Coordinate.switches[2];
+	custom -> image_recv.Coordinate.last_switches[3] = custom -> image_recv.Coordinate.switches[3];
+}
+
 void clamp_jaw_control(Manipulator_t* manipulator_right, Manipulator_t* manipulator_left, auto_control_flags* auto_flags, custom_robot_data_t* custom){
-	/* 夹爪手势检测 */
+	/* 夹爪按键检测 */
 	/* 右手 */
-	// if(manipulator_right -> controller_mapping_flag % 2 == 1){
-	// 	if(custom -> image_recv.Coordinate.right_thumb_switch == 1 && custom -> image_recv.Coordinate.right_index_switch == 0 && custom -> image_recv.Coordinate.right_middle_switch == 0){
-	// 		manipulator_right -> clamp_jaw.clamp_jaw_close_flag = 1;
-	// 	}
-	// 	else if(custom -> image_recv.Coordinate.right_thumb_switch == 0 && custom -> image_recv.Coordinate.right_index_switch == 0 && custom -> image_recv.Coordinate.right_middle_switch == 0){
-	// 		manipulator_right -> clamp_jaw.clamp_jaw_close_flag = 0;
-	// 	}
-	// }
-	// /* 键位Ctrl+E控制右臂夹爪 */
-	// else if(manipulator_right -> controller_mapping_flag % 2 == 0){
-		if((rc_Ctrl.key_ctrl_flag == 1 || vT13.key_ctrl_flag == 1) && (rc_Ctrl.key_G_flag == 1 || vT13.key_G_flag == 1) && (rc_Ctrl.key_shift_flag == 0 && vT13.key_shift_flag == 0)){
-			auto_flags -> right_clamp_jaw_key_count ++;
-			if(auto_flags -> right_clamp_jaw_key_count == Clamp_Jaw_Close_Filter_Limit_Time){
-				auto_flags -> right_clamp_jaw_key_flag ++;
-				manipulator_right -> clamp_jaw.clamp_jaw_close_flag = auto_flags -> right_clamp_jaw_key_flag % 2;
-			}
+	// if(vT13.key_ctrl_flag == 1 && vT13.key_shift_flag == 0 && vT13.key_G_flag == 1){
+	if((vT13.key_ctrl_flag == 1 && vT13.key_shift_flag == 0 && vT13.key_G_flag == 1)){
+		auto_flags -> right_clamp_jaw_key_count ++;
+		if(auto_flags -> right_clamp_jaw_key_count == Clamp_Jaw_Close_Filter_Limit_Time){
+			auto_flags -> right_clamp_jaw_key_flag ++;
 		}
-		else{
-			auto_flags -> right_clamp_jaw_key_count = 0;
-		}
-	// }
+	}
+	else{
+		auto_flags -> right_clamp_jaw_key_count = 0;
+	}
+	manipulator_right -> clamp_jaw.clamp_jaw_close_flag = auto_flags -> right_clamp_jaw_key_flag % 2;
 
 	/* 左手 */
-	// if(manipulator_left -> controller_mapping_flag % 2 == 1){
-	// 	if(custom -> image_recv.Coordinate.left_thumb_switch == 1 && custom -> image_recv.Coordinate.left_index_switch == 0 && custom -> image_recv.Coordinate.left_middle_switch == 0){
-	// 		manipulator_left -> clamp_jaw.clamp_jaw_close_flag = 1;
-	// 	}
-	// 	else if(custom -> image_recv.Coordinate.left_thumb_switch == 0 && custom -> image_recv.Coordinate.left_index_switch == 0 && custom -> image_recv.Coordinate.left_middle_switch == 0){
-	// 		manipulator_left -> clamp_jaw.clamp_jaw_close_flag = 0;
-	// 	}
-	// }
-	// /* 键位Ctrl+Q控制左臂夹爪 */
-	// else if(manipulator_left -> controller_mapping_flag % 2 == 0){
-		if((rc_Ctrl.key_ctrl_flag == 1 || vT13.key_ctrl_flag == 1) && (rc_Ctrl.key_F_flag == 1 || vT13.key_F_flag == 1) && (rc_Ctrl.key_shift_flag == 0 && vT13.key_shift_flag == 0)){
-			auto_flags -> left_clamp_jaw_key_count ++;
-			if(auto_flags -> left_clamp_jaw_key_count == Clamp_Jaw_Close_Filter_Limit_Time){
-				auto_flags -> left_clamp_jaw_key_flag ++;
-				manipulator_left -> clamp_jaw.clamp_jaw_close_flag = auto_flags -> left_clamp_jaw_key_flag % 2;
-			}
+	// if(vT13.key_ctrl_flag == 1 && vT13.key_shift_flag == 0 && vT13.key_F_flag == 1){
+	if((vT13.key_ctrl_flag == 1 && vT13.key_shift_flag == 0 && vT13.key_F_flag == 1)){
+		auto_flags -> left_clamp_jaw_key_count ++;
+		if(auto_flags -> left_clamp_jaw_key_count == Clamp_Jaw_Close_Filter_Limit_Time){
+			auto_flags -> left_clamp_jaw_key_flag ++;
 		}
-		else{
-			auto_flags -> left_clamp_jaw_key_count = 0;
-		}
-	// }
+	}
+	else{
+		auto_flags -> left_clamp_jaw_key_count = 0;
+	}
+	manipulator_left -> clamp_jaw.clamp_jaw_close_flag = auto_flags -> left_clamp_jaw_key_flag % 2;
 
 	/* 右手夹爪控制 */
 	if(manipulator_right -> clamp_jaw.clamp_jaw_close_flag % 2 == 1){
@@ -304,11 +340,11 @@ void Controller_mode_start(Manipulator_t* manipulator_right, Manipulator_t* mani
 		}
 
 		else if(auto_flags -> pre_mapping_count >= 4000 && auto_flags -> mapping_exit_flag == 0){
-			/* 检测映射模式手势 */
-			// if(custom -> image_recv.Coordinate.right_thumb_switch == 1 && custom -> image_recv.Coordinate.right_index_switch == 1 && custom -> image_recv.Coordinate.right_middle_switch == 1){
-			if(vT13.key_ctrl_flag == 1 && vT13.key_shift_flag == 1 && vT13.key_G_flag == 1){
+			/* 检测映射模式键位 */
+			if((vT13.key_ctrl_flag == 1 && vT13.key_shift_flag == 1 && vT13.key_G_flag == 1) || custom -> image_recv.Coordinate.right_controller_flag == 1){
+			// if(vT13.key_ctrl_flag == 1 && vT13.key_shift_flag == 1 && vT13.key_G_flag == 1){
 				manipulator_right -> controller_mapping_count ++;
-				if(manipulator_right -> controller_mapping_count == Mapping_Filter_Limit_Time){
+				if(manipulator_right -> controller_mapping_count == Mapping_Filter_Limit_Time || custom -> image_recv.Coordinate.right_controller_flag == 1){
 					if(manipulator_right -> controller_mapping_flag % 2 == 0){
 						/* 此时准备进入映射，先进行一次初始化 */
 						Customer_init_image_right(manipulator_right, custom);
@@ -324,10 +360,10 @@ void Controller_mode_start(Manipulator_t* manipulator_right, Manipulator_t* mani
 				manipulator_right -> controller_mapping_count = 0;
 			}
 
-			// if(custom -> image_recv.Coordinate.left_thumb_switch == 1 && custom -> image_recv.Coordinate.left_index_switch == 1 && custom -> image_recv.Coordinate.left_middle_switch == 1){
-			if(vT13.key_ctrl_flag == 1 && vT13.key_shift_flag == 1 && vT13.key_F_flag == 1){
+			if((vT13.key_ctrl_flag == 1 && vT13.key_shift_flag == 1 && vT13.key_F_flag == 1) || (custom -> image_recv.Coordinate.left_controller_flag == 1)){
+			// if(vT13.key_ctrl_flag == 1 && vT13.key_shift_flag == 1 && vT13.key_F_flag == 1){
 				manipulator_left -> controller_mapping_count ++;
-				if(manipulator_left -> controller_mapping_count == Mapping_Filter_Limit_Time){
+				if(manipulator_left -> controller_mapping_count == Mapping_Filter_Limit_Time || custom -> image_recv.Coordinate.left_controller_flag == 1){
 					if(manipulator_left -> controller_mapping_flag % 2 == 0){
 						/* 此时准备进入映射，先进行一次初始化 */
 						Customer_init_image_left(manipulator_left, custom);

@@ -88,7 +88,7 @@ Manipulator_t Manipulator_Right = {
 	.joint2_deg.step_out_point = -0.5,
 
 	.joint3_deg.velocity = 0,
-	.joint3_deg.max_velocity = 0.09 * JOINT_VELOCITY_SENSITIVITY,
+	.joint3_deg.max_velocity = 0.12 * JOINT_VELOCITY_SENSITIVITY,
 	.joint3_deg.min_velocity = 0.04 * JOINT_VELOCITY_SENSITIVITY,
 	.joint3_deg.Accel = 0.006 * JOINT_VELOCITY_SENSITIVITY,
 	.joint3_deg.Accel_sensitivity = 1.0,
@@ -199,7 +199,7 @@ Manipulator_t Manipulator_Left = {
 	.joint2_deg.step_out_point = 1.40,
 
 	.joint3_deg.velocity = 0,
-	.joint3_deg.max_velocity = 0.09 * JOINT_VELOCITY_SENSITIVITY,
+	.joint3_deg.max_velocity = 0.12 * JOINT_VELOCITY_SENSITIVITY,
 	.joint3_deg.min_velocity = 0.04 * JOINT_VELOCITY_SENSITIVITY,
 	.joint3_deg.Accel = 0.006 * JOINT_VELOCITY_SENSITIVITY,
 	.joint3_deg.Accel_sensitivity = 1.0,

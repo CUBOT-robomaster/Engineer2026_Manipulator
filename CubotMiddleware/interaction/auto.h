@@ -9,58 +9,61 @@
 #include "interaction_image.h"
 #include "controllerl.h"
 #include "mit.h"
-#define servo_back_time_limit 200				//舵机转头最大时间
-#define Mapping_Filter_Limit_Time 5			//映射模式按鍵消抖时间
-#define Mapping_Exit_Filter_Limit_Time 5		//退出映射模式按键消抖时间
-#define Clamp_Jaw_Close_Filter_Limit_Time 5	//夹爪闭合按键消抖时间
-#define servo_pitch_sensitivity 5.0f			//舵机pitch轴灵敏度
+#define servo_back_time_limit 200					//舵机转头最大时间
+#define Mapping_Filter_Limit_Time 5					//映射模式按鍵消抖时间
+#define Mapping_Exit_Filter_Limit_Time 5			//退出映射模式按键消抖时间
+#define Clamp_Jaw_Close_Filter_Limit_Time 5			//夹爪闭合按键消抖时间
+#define servo_pitch_sensitivity 5.0f				//舵机pitch轴灵敏度
 
 typedef struct{
-	uint8_t		land_flag;						//登岛初始化标志位
-	uint32_t 	land_count;						//登岛复位计时
+	uint8_t		land_flag;							//登岛初始化标志位
+	uint32_t 	land_count;							//登岛复位计时
 
-	uint8_t 	pre_lift_flag;					//发送给底盘的标志位，让抬升机构抬升，2下降，1抬升
-	uint8_t 	mec_lift_flag;					//底盘抬升标志位，1底盘抬升，0降下
-	uint8_t 	lift_complish_flag;				//底盘抬升成功的标志位，确保电机正常复位
+	uint8_t 	pre_lift_flag;						//发送给底盘的标志位，让抬升机构抬升，2下降，1抬升
+	uint8_t 	mec_lift_flag;						//底盘抬升标志位，1底盘抬升，0降下
+	uint8_t 	lift_complish_flag;					//底盘抬升成功的标志位，确保电机正常复位
 
-	int8_t 		step_down_flag;					//台阶下降标志位
-	int8_t 		servo_back_flag;				//图传转头标志位
-	uint16_t 	servo_back_count;				//图传转头计时
+	int8_t 		step_down_flag;						//台阶下降标志位
+	int8_t 		servo_back_flag;					//图传转头标志位
+	uint16_t 	servo_back_count;					//图传转头计时
 
-	int8_t 		scope_mode_flag;				//倍镜模式标志位
-	uint32_t 	scope_mode_count;				//倍镜模式计时
-	uint32_t 	scope_filter_count;				//倍镜模式按键消抖计时
+	int8_t 		scope_mode_flag;					//倍镜模式标志位
+	uint32_t 	scope_mode_count;					//倍镜模式计时
+	uint32_t 	scope_filter_count;					//倍镜模式按键消抖计时
 
-	uint8_t 	pre_mapping_flag;				//准备进行映射标志位
+	uint8_t 	pre_mapping_flag;					//准备进行映射标志位
 	uint32_t 	pre_mapping_count;
-	uint8_t 	mapping_exit_flag;				//退出映射模式标志位
-	uint16_t 	mapping_exit_count;				//退出映射模式计时
+	uint8_t 	mapping_exit_flag;					//退出映射模式标志位
+	uint16_t 	mapping_exit_count;					//退出映射模式计时
 
-	uint8_t 	zero_reset_flag;				//复位至零点标志位
+	uint8_t 	zero_reset_flag;					//复位至零点标志位
 
-	uint8_t 	right_clamp_jaw_key_flag;		//右夹爪按键标志位
-	uint16_t	right_clamp_jaw_key_count;		//右夹爪按键计时
-	uint8_t 	left_clamp_jaw_key_flag;		//左夹爪按键标志位
-	uint16_t	left_clamp_jaw_key_count;		//左夹爪按键计时
+	uint8_t 	right_clamp_jaw_key_flag;			//右夹爪按键标志位
+	uint16_t	right_clamp_jaw_key_count;			//右夹爪按键计时
+	uint8_t 	left_clamp_jaw_key_flag;			//左夹爪按键标志位
+	uint16_t	left_clamp_jaw_key_count;			//左夹爪按键计时
 
-	uint8_t 	motor_start_mode_flag;			//电机使能标志位
-	uint16_t 	motor_start_mode_count;			//电机使能模式计时
+	uint8_t 	motor_start_mode_flag;				//电机使能标志位
+	uint16_t 	motor_start_mode_count;				//电机使能模式计时
 
-	uint8_t		lifting_auto_flag;				//自动抬升标志位，此时无法手动控制抬升
+	uint8_t		lifting_auto_flag;					//自动抬升标志位，此时无法手动控制抬升
 
-	uint8_t		chassis_lift_flag;				//底盘整体抬升标志位，1抬升，2下降，0保持不变
+	uint8_t		chassis_lift_flag;					//底盘整体抬升标志位，1抬升，2下降，0保持不变
 
 	int8_t		auto_grab_store_flag;
 	uint16_t	auto_grab_store_count;
 
-	int8_t		auto_grab_store_L3_R2_flag;		//自动取矿、存储能量单元标志位
-	uint16_t	auto_grab_store_L3_R2_count;	//自动取矿、存储能量单元计时
+	int8_t		auto_grab_store_L3_R2_flag;			//自动取矿、存储能量单元标志位
+	uint16_t	auto_grab_store_L3_R2_count;		//自动取矿、存储能量单元计时
+	int8_t		auto_grab_store_L3_R2_pause_flag;	//自动取矿、存储能量单元暂停标志位
 
 	int8_t		auto_grab_store_L5_R0_flag;
 	uint16_t	auto_grab_store_L5_R0_count;
+	int8_t		auto_grab_store_L5_R0_pause_flag;
 
 	int8_t		auto_grab_store_L4_R1_flag;
 	uint16_t	auto_grab_store_L4_R1_count;
+	int8_t		auto_grab_store_L4_R1_pause_flag;
 }auto_control_flags;
 
 void angle_value_reset(Manipulator_t* manipulator);

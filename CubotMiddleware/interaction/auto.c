@@ -862,9 +862,6 @@ void Auto_grab_store_L4_R1(Manipulator_t *manipulator_right, Manipulator_t* mani
 				manipulator_left -> joint4_deg.angle_target = -1.003 * RtA - manipulator_left -> joint4_deg.angle_init;
 				manipulator_left -> joint5_deg.angle_target = 0.004 * RtA - manipulator_left -> joint5_deg.angle_init;
 				manipulator_left -> joint6_deg.angle_target = 0.109 * RtA - manipulator_left -> joint6_deg.angle_init;
-				if(auto_flags -> auto_grab_store_L4_R1_count == 8500){
-					auto_flags -> auto_grab_store_L4_R1_pause_flag = 1;
-				}
 			}
 			else if((auto_flags -> auto_grab_store_L4_R1_count > 8500) && (auto_flags -> auto_grab_store_L4_R1_count <= 10000)){
 				/* 右手能量单元放入存矿装置 */
